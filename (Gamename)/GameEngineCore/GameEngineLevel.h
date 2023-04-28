@@ -1,23 +1,20 @@
 #pragma once
-#include <GameEngineCore/GameEngineLevel.h>
 
-// Ό³Έν :
-class EndingLevel : public GameEngineLevel
+class GameEngineLevel
 {
 public:
-	// constrcuter destructer
-	EndingLevel();
-	~EndingLevel();
+	//constructor destructor
+	GameEngineLevel();
+	~GameEngineLevel();
 
-	// delete Function
-	EndingLevel(const EndingLevel& _Other) = delete;
-	EndingLevel(EndingLevel&& _Other) noexcept = delete;
-	EndingLevel& operator=(const EndingLevel& _Other) = delete;
-	EndingLevel& operator=(EndingLevel&& _Other) noexcept = delete;
+	//delete Function
+	GameEngineLevel(const GameEngineLevel& _Other) = delete;
+	GameEngineLevel(GameEngineLevel&& _Other) noexcept = delete;
+	GameEngineLevel& operator=(const GameEngineLevel& _Other) = delete;
+	GameEngineLevel&& operator=(GameEngineLevel&& _Other) noexcept = delete;
 
 protected:
 
 private:
 
-};
-
+};  
