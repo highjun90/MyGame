@@ -42,6 +42,10 @@ void GameEngineWindow::InitInstance()
         return;
     }
 
+    Hdc = ::GetDC(hWnd);
+
+    // CreateDC()
+
     ShowWindow(hWnd, SW_SHOW);
     UpdateWindow(hWnd);
 
