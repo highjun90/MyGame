@@ -39,6 +39,9 @@ private:
 	static HINSTANCE Instance;
 	std::string Title = "";
 	HWND hWnd = nullptr;
+
+	// 2차원 배열 형식의 색깔들의 집합이 존재하고
+	// 거기에 그림을 그리거나 수정할수 있는 권한을 HDC
 	HDC Hdc = nullptr;
 
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
