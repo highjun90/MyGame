@@ -48,8 +48,14 @@ void GameEngineCore::CoreUpdate()
 
 	// TitleLevel
 	CurLevel->ActorUpdate(Delta);
-	CurLevel->Render();
+	GameEngineWindow::MainWindow.ClearBackBuffer();
 	CurLevel->ActorRender();
+	CurLevel->Render();
+	GameEngineWindow::MainWindow.DoubleBuffering();
+
+	// 프레임의 가장 마지막에 Release가 될겁니다.
+	CurLevel->ActorRelease();
+
 }
 
 void GameEngineCore::CoreEnd()

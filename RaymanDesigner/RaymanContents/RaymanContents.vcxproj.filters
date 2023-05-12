@@ -24,7 +24,11 @@
     <ClInclude Include="TitleLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="RaymanCore.h" />
+    <ClInclude Include="ContentCore.h" />
+    <ClInclude Include="ContentsEnum.h" />
+    <ClInclude Include="Bullet.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackGround.cpp">
@@ -42,6 +46,9 @@
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="RaymanCore.cpp" />
+    <ClCompile Include="ContentCore.cpp" />
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

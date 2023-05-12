@@ -19,6 +19,22 @@ GameEngineWindow::~GameEngineWindow()
 		delete BackBuffer;
 		BackBuffer = nullptr;
 	}
+
+	if (nullptr != WindowBuffer)
+	{
+		delete WindowBuffer;
+		WindowBuffer = nullptr;
+	}
+}
+
+void GameEngineWindow::ClearBackBuffer()
+{
+	Rectangle(BackBuffer->GetImageDC(), 0, 0, BackBuffer->GetScale().iX(), BackBuffer->GetScale().iY());
+}
+
+void GameEngineWindow::DoubleBuffering()
+{
+	WindowBuffer->BitCopy(BackBuffer, Scale.Half(), BackBuffer->GetScale());
 }
 
 void GameEngineWindow::Open(const std::string& _Title, HINSTANCE _hInstance)
@@ -51,8 +67,11 @@ void GameEngineWindow::InitInstance()
 
 	Hdc = ::GetDC(hWnd);
 
+	WindowBuffer = new GameEngineWindowTexture();
+	WindowBuffer->ResCreate(Hdc);
+
 	BackBuffer = new GameEngineWindowTexture();
-	BackBuffer->ResCreate(Hdc);
+	BackBuffer->ResCreate(WindowBuffer->GetScale());
 
 	// CreateDC()
 
@@ -155,6 +174,14 @@ void GameEngineWindow::MessageLoop(HINSTANCE _Inst, void(*_Start)(HINSTANCE), vo
 void GameEngineWindow::SetPosAndScale(const float4& _Pos, const float4& _Scale)
 {
 	Scale = _Scale;
+
+	if (nullptr != BackBuffer)
+	{
+		delete BackBuffer;
+		BackBuffer = new GameEngineWindowTexture();
+		BackBuffer->ResCreate(Scale);
+	}
+
 	RECT Rc = { 0, 0, _Scale.iX(), _Scale.iY() };
 	AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW, FALSE);
 	SetWindowPos(hWnd, nullptr, _Pos.iX(), _Pos.iY(), Rc.right - Rc.left, Rc.bottom - Rc.top, SWP_NOZORDER);
@@ -239,3 +266,6 @@ void GameEngineWindow::SetPosAndScale(const float4& _Pos, const float4& _Scale)
 //	[in]           int  cy,                 // y너비
 //	[in]           UINT uFlags              // 창크기조정 및 위치지정 플래그. SWP_NOZORDER: 현재 Z순서 유지.
 //);
+
+
+// void ClearBackBuffer(); - 화면에 잔상 남는거 처리 (이미지 위치가 바뀌면 이전 위치에 남은 그림들 지워주기) 어떻게? 그냥 흰색화면을 통째로 덮어씌우는것임.

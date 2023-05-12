@@ -21,7 +21,10 @@ public:
 	void ResCreate(HDC  _ImageDC)
 	{
 		ImageDC = _ImageDC;
+		ScaleCheck();
 	}
+
+	void ResCreate(const float4& _Scale);
 
 	HDC GetImageDC()
 	{
@@ -30,8 +33,10 @@ public:
 
 	float4 GetScale();
 
-	void BitCopy(GameEngineWindowTexture* _CopyTexture, const float4& Pos);
-	void BitCopy(GameEngineWindowTexture* _CopyTexture, const float4& Pos, const float4& Scale);
+	void BitCopy(GameEngineWindowTexture* _CopyTexture, const float4& _Pos);
+	void BitCopy(GameEngineWindowTexture* _CopyTexture, const float4& _Pos, const float4& _Scale);
+
+	void TransCopy(GameEngineWindowTexture* _CopyTexture, const float4& _Pos, const float4& _Scale, const float4& _OtherPos, const float4& _OtherScale, int _TransColor = RGB(255, 0, 255));
 
 protected:
 
@@ -53,11 +58,11 @@ private:
 //HDC     - 얘도 어쩄든 핸들.  typedef HANDLE HDC;
 //typedef struct tagBITMAP     //BITMAP 구조체
 //{
-//	LONG        bmType;        //비트맵형식
-//	LONG        bmWidth;       //너비
+//	LONG        bmType;        //비트맵형식. 이 값은 항상 0을 대입해야함.
+//	LONG        bmWidth;       //너비 (가로 픽셀수)
 //	LONG        bmHeight;      //높이
-//	LONG        bmWidthBytes;  //(이해안됨) 각 검사 줄의 바이트 수입니다. 시스템에서 비트맵의 비트 값이 단어 정렬 배열을 형성한다고 가정하기 때문에 이 값은 2로 나눌 수 있어야 합니다.
-//	WORD        bmPlanes;      //색평면의 수
-//	WORD        bmBitsPixel;   //픽셀의 색을 나타내는데 필요한 비트수
-//	LPVOID      bmBits;        //(이해안됨) 비트맵의 비트값 위치에 대한 포인터. 
+//	LONG        bmWidthBytes;  //비트맵의 가로 한줄을 표현하는데 필요한 바이트 수. ( bmWidth * (bmBitsPixel / 8) )
+//	WORD        bmPlanes;      //색평면의 수 (보통 다 1. 과거 16비트 색을 사용하는 경우엔 색플랜을 4개쓰는 때도 있었음)
+//	WORD        bmBitsPixel;   //한 픽셀의 색을 나타내는데 필요한 비트수 (32비트 색상을 사용하는 경우 이 변수의 값은 32)
+//	LPVOID      bmBits;        //비트맵 이미지 패턴이 저장되있는 메모리의 시작주소
 //} BITMAP,

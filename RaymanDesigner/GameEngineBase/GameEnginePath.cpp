@@ -71,6 +71,20 @@ void GameEnginePath::MoveChild(const std::string& _ChildPath)
 	Path = CheckPath;
 }
 
+std::string GameEnginePath::PlusFilePath(const std::string& _ChildPath)
+{
+	std::filesystem::path CheckPath = Path;
+
+	CheckPath.append(_ChildPath);
+
+	if (false == std::filesystem::exists(CheckPath))
+	{
+		MsgBoxAssert("존재하지 않는 경로로 이동하려고 했습니다." + CheckPath.string());
+	}
+
+	return CheckPath.string();
+}
+
 
 
 
@@ -86,3 +100,6 @@ void GameEnginePath::MoveChild(const std::string& _ChildPath)
 //       4. path(c:\Test0\FileA\); cout << path.filename()      -> ""
 //       5. path(c:\\Test0\\FileA\..); cout << path.filename()  -> ".."
 //       6. path(c:\\Test0\\FileA.bar); cout << path.filename() -> "FileA.bar"
+
+//MoveChild - 인자로 넣은 경로가 있으면 경로를 그렇게 변경.
+//PlusFilePath - 인자로 넣은 경로가 있으면 경로의 문자열만 리턴.

@@ -159,6 +159,11 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="EndingLevel.h">
       <SubType>
       </SubType>
@@ -171,7 +176,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="RaymanCore.h">
+    <ClInclude Include="ContentCore.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -182,6 +187,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackGround.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -197,7 +206,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="RaymanCore.cpp">
+    <ClCompile Include="ContentCore.cpp">
       <SubType>
       </SubType>
     </ClCompile>

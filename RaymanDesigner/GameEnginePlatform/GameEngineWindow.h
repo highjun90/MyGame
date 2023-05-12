@@ -33,6 +33,11 @@ public:
 		return Scale;
 	}
 
+	GameEngineWindowTexture* GetWindowBuffer()
+	{
+		return WindowBuffer;
+	}
+
 	GameEngineWindowTexture* GetBackBuffer()
 	{
 		return BackBuffer;
@@ -45,6 +50,9 @@ public:
 		IsWindowUpdate = false;
 	}
 
+	void ClearBackBuffer();
+	void DoubleBuffering();
+
 protected:
 
 private:
@@ -53,8 +61,9 @@ private:
 	std::string Title = "";
 	HWND hWnd = nullptr;
 
-
 	float4 Scale;
+
+	GameEngineWindowTexture* WindowBuffer = nullptr;
 	GameEngineWindowTexture* BackBuffer = nullptr;
 
 	HDC Hdc = nullptr;
