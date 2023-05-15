@@ -3,6 +3,7 @@
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineTime.h>
 #include "GameEngineLevel.h"
+#include <GameEnginePlatform/GameEngineInput.h>
 
 std::string GameEngineCore::WindowTitle = "";
 std::map<std::string, class GameEngineLevel*> GameEngineCore::AllLevel;
@@ -22,6 +23,7 @@ void GameEngineCore::CoreStart(HINSTANCE _Inst)
 {
 	// 엔진쪽에 준비를 다 해고
 	GameEngineWindow::MainWindow.Open(WindowTitle, _Inst);
+	GameEngineInput::InputInit();
 
 	// 유저의 준비를 해준다.
 	Process->Start();
@@ -31,7 +33,15 @@ void GameEngineCore::CoreUpdate()
 {
 	if (nullptr != NextLevel)
 	{
+		if (nullptr != CurLevel)
+		{
+			CurLevel->LevelEnd(NextLevel);
+		}
+
+		NextLevel->LevelStart(CurLevel);
+
 		CurLevel = NextLevel;
+
 		NextLevel = nullptr;
 		GameEngineTime::MainTimer.Reset();
 	}
@@ -40,6 +50,14 @@ void GameEngineCore::CoreUpdate()
 	GameEngineTime::MainTimer.Update();
 	float Delta = GameEngineTime::MainTimer.GetDeltaTime();
 
+	if (true == GameEngineWindow::IsFocus())
+	{
+		GameEngineInput::Update(Delta);
+	}
+	else
+	{
+		GameEngineInput::Reset();
+	}
 
 	// 한프레임 동안은 절대로 기본적인 세팅의 
 	// 변화가 없게 하려고 하는 설계의도가 있는것.
@@ -92,3 +110,11 @@ void GameEngineCore::LevelInit(GameEngineLevel* _Level)
 {
 	_Level->Start();
 }
+
+// === 삭제 === 
+
+// EngineStart() - Process에 내 전용 클래스 등록시킴. leck 체크 시작. window loop 돌려줌
+
+//  CoreStart(HINSTANCE _Inst) - 윈도우 Open하고 내 Process 시작
+// CoreUpdate() - CurLevel 즉 현재 Level을 Update 해줌. 단, NextLevel이 null이 아니면 업데이트할 Level을 교체함. Level만 Update 하는게 아니라 그 Level에 속한 Actor들 까지 Update 시켜준다.
+//                타이머도 업데이트하고, 키 입력도 업데이트 한다. 하는일이 많음

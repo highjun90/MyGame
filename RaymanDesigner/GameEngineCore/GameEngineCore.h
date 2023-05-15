@@ -83,3 +83,13 @@ private:
 	GameEngineCore();
 	~GameEngineCore();
 };
+
+
+// ====== 삭제 =====
+
+// CreateLevel() - Level 만들고 자료구조에 등록
+// LevelInit() - 새로 Level 만들때 초기작업도 시켜줌.
+
+// ChangeLevel() - NextLevel 포인터에 다음 Level을 가리키게함
+
+

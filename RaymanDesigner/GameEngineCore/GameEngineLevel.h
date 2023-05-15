@@ -51,6 +51,8 @@ public:
 	}
 
 protected:
+	virtual void LevelStart(GameEngineLevel* _PrevLevel) {}
+	virtual void LevelEnd(GameEngineLevel* _NextLevel) {}
 
 private:
 	GameEngineCamera* MainCamera;
@@ -79,3 +81,11 @@ private:
 
 
 // ============= 최종 삭제 주석 =============
+
+// Level은 플레이단계라는 듯. 각 Level는 화면에 보여질 Actor를 가짐. Camera도 가짐
+
+// CreateActor() - 새 Actor 만들고 Actor 초반작업을 시켜준후, 자료구조에 push_back. 리턴은 만든 Actor의 포인터
+
+// 밑에 두 함수는 각 Level 시작, 끝일때 처리할 일을 자식함수들이 쓰라고 미리만든 비어있는 함수. 인자는 선생님은 사용하지않지만 쓸 사람 있을지도 몰라서 넣어줬다고함
+// virtual void LevelStart(GameEngineLevel* _PrevLevel) {}
+// virtual void LevelEnd(GameEngineLevel* _NextLevel) {}

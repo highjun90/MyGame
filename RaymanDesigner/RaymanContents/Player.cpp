@@ -10,6 +10,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include "Bullet.h"
+#include <GameEnginePlatform/GameEngineInput.h>
 
 Player::Player()
 {
@@ -22,8 +23,6 @@ Player::~Player()
 
 void Player::Start()
 {
-
-
 	if (false == ResourcesManager::GetInst().IsLoadTexture("Test.Bmp"))
 	{
 		GameEnginePath FilePath;
@@ -50,45 +49,44 @@ void Player::Start()
 	}
 
 
-	float4 WinScale = GameEngineWindow::MainWindow.GetScale();
-
-	// GetLevel()->GetMainCamera()->SetPos({ -WinScale.hX(), -WinScale.hY() });
-
-	SetPos(WinScale.Half());
-
 	// GetLevel()->GetMainCamera()->SetPos({ -WinScale.hX(), -WinScale.hY() });
 }
 
 void Player::Update(float _Delta)
 {
+	//if (true == GameEngineInput::IsDown('A'))
+	//{
+	//}
+
+
 	// 아주 어리석은 절대로 아마 안될 계산을 하는것이다.
 	// Player->GetPos() == Monster->GetPos();
 	// float Time = GameEngineTime::MainTimer.GetDeltaTime();
-	float Speed = 200.0f;
+	float Speed = 1000.0f;
 
 	float4 MovePos = float4::ZERO;
 
-	if (0 != GetAsyncKeyState('A'))
+	if (true == GameEngineInput::IsPress('A'))
 	{
 		MovePos = { -Speed * _Delta, 0.0f };
 	}
 
-	if (0 != GetAsyncKeyState('D'))
+	if (true == GameEngineInput::IsPress('D'))
 	{
 		MovePos = { Speed * _Delta, 0.0f };
 	}
 
-	if (0 != GetAsyncKeyState('W'))
+	if (true == GameEngineInput::IsPress('W'))
 	{
 		MovePos = { 0.0f, -Speed * _Delta };
 	}
 
-	if (0 != GetAsyncKeyState('S'))
+	if (true == GameEngineInput::IsPress('S'))
 	{
 		MovePos = { 0.0f, Speed * _Delta };
 	}
 
-	if (0 != GetAsyncKeyState('F'))
+	if (true == GameEngineInput::IsUp(VK_LBUTTON))
 	{
 		Bullet* NewBullet = GetLevel()->CreateActor<Bullet>();
 		NewBullet->Renderer->SetTexture("Test.Bmp");

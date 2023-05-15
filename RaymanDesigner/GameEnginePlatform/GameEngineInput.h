@@ -9,6 +9,8 @@ class GameEngineInput
 private:
 	class GameEngineKey
 	{
+		friend GameEngineInput;
+
 		bool Down = false;
 		bool Press = false;
 		bool Up = false;
@@ -24,7 +26,38 @@ private:
 			return 0 != GetAsyncKeyState(Key);
 		}
 
+		void Reset()
+		{
+			if (true == Press)
+			{
+				Down = false;
+				Press = false;
+				Up = true;
+				Free = true;
+			}
+			else if (true == Up)
+			{
+				Down = false;
+				Press = false;
+				Up = false;
+				Free = true;
+			}
+		}
+
 		void Update(float _DeltaTime);
+
+	public:
+		GameEngineKey()
+			: Key(-1)
+		{
+
+		}
+
+		GameEngineKey(int _Key)
+			: Key(_Key)
+		{
+
+		}
 	};
 
 public:
@@ -38,11 +71,22 @@ public:
 	GameEngineInput& operator=(const GameEngineInput& _Other) = delete;
 	GameEngineInput& operator=(GameEngineInput&& _Other) noexcept = delete;
 
+	static void InputInit();
+	static void Update(float _DeltaTime);
+	static void Reset();
+
+	static bool IsDown(int _Key);
+	static bool IsUp(int _Key);
+	static bool IsPress(int _Key);
+	static bool IsFree(int _Key);
+
 protected:
 
 private:
-	static std::map<std::string, GameEngineKey> AllKeys;
+	static std::map<int, GameEngineKey> AllKeys;
 };
+
+
 
 
 // ========= 최종 삭제 주석 ===========
@@ -53,3 +97,7 @@ private:
 //                        // 2. 이전에는 눌린상태가 아니었지만 지금 막 눌림 (Down) 반환값 0x8000 
 //                        // 3. 이전에도 눌린상태였고 지금도 눌린상태임 (Press) 반환값 0x8001
 //                        // 4. 이전에는 눌린상태지만 지금은 막 떼졌음 (Up) 반환값 1 (0x0001)
+
+//KeyCheck() - 0이다 == 지금 Free 상태임. false 리턴. 0 아니다 == 지금 Down, Press, Up 중 하나의 상태라는거임. true 리턴
+
+//Reset() - Press상태였으면  Up 상태로, Up상태 였으면 Free상태로 바꿔준다. GameEngineInput과 그 내부클래스인 GameEngineKey의 Reset()은 이름도 같고 하는일도 결국 같은거임

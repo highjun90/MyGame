@@ -53,25 +53,35 @@ public:
 	void ClearBackBuffer();
 	void DoubleBuffering();
 
+	static bool IsFocus()
+	{
+		return IsFocusValue;
+	}
+
 protected:
 
 private:
 	static bool IsWindowUpdate;
+	static bool IsFocusValue;
 	static HINSTANCE Instance;
 	std::string Title = "";
 	HWND hWnd = nullptr;
 
-	float4 Scale;
 
+	float4 Scale;
 	GameEngineWindowTexture* WindowBuffer = nullptr;
+
 	GameEngineWindowTexture* BackBuffer = nullptr;
 
+	// 2차원 배열 형식의 색깔들의 집합이 존재하고
+	// 거기에 그림을 그리거나 수정할수 있는 권한을 HDC
 	HDC Hdc = nullptr;
 
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	void InitInstance();
 	void MyRegisterClass();
 };
+
 
 
 
@@ -87,3 +97,5 @@ private:
 
 // 윈도우는 크게 3가지 동적 연결 라이브러리를 구성. Kernel, GDI, User.
 // DC는 GDI 동적 연결 라이브러리에 속해있음. DC(device context)란? 출력에 필요한 모든 정보를 가진 데이터구조체
+
+//IsFocus(), IsFocusValue - 현재 윈도우 창이 최상단에 위치되어서 동작하는지 알려줌. 이걸로 다른 윈도우 창에서 딴짓할때 어떻게 동작할지 조정함
