@@ -5,6 +5,7 @@
 class GameEngineObject
 {
 	friend class GameEngineLevel;
+	friend class GameEngineCore;
 
 public:
 	// constrcuter destructer
@@ -29,7 +30,7 @@ public:
 	// 정리된다.
 	virtual void Release() {}
 
-	void On()
+	void On() 
 	{
 		IsUpdateValue = true;
 	}
@@ -44,7 +45,7 @@ public:
 		this->IsDeathValue = true;
 	}
 
-	bool IsUpdate()
+	bool IsUpdate() 
 	{
 		return true == IsUpdateValue && false == IsDeathValue;
 	}
@@ -59,12 +60,12 @@ public:
 		Order = _Order;
 	}
 
-	float GetLiveTime()
+	float GetLiveTime() 
 	{
 		return LiveTime;
 	}
 
-	void ResetLiveTime()
+	void ResetLiveTime() 
 	{
 		LiveTime = 0.0f;
 	}
@@ -78,24 +79,9 @@ private:
 	bool IsUpdateValue = true; // 이걸 false로 만들면 됩니다.
 	bool IsDeathValue = false; // 아예 메모리에서 날려버리고 싶어.
 
-	void AddLiveTime(float _DeltaTime)
+	void AddLiveTime(float _DeltaTime) 
 	{
 		LiveTime += _DeltaTime;
 	}
 };
 
-
-
-
-
-
-
-// ========= 최종 삭제 주석 ===========
-
-// int Order => 오브젝트 우선순위. 런더러한테는 이게 어느 Actor에 속한 렌더러인지 알려주는 역할.
-
-
-//총알 같은 Object가 일정 시간 지나면 사라지게 하고 싶을테니 이 오브젝트가 얼마동안 살아있었는지에 관한 delta time
-// float LiveTime = 0.0f;
-//float GetLiveTime()
-//void ResetLiveTime()

@@ -1,17 +1,18 @@
 #include "GameEnginePath.h"
 #include "GameEngineDebug.h"
 
-GameEnginePath::GameEnginePath()
+GameEnginePath::GameEnginePath() 
 {
+	SetCurrentPath();
 }
 
-GameEnginePath::GameEnginePath(const std::string& _path)
+GameEnginePath::GameEnginePath(const std::string& _path) 
 	: Path(_path)
 {
 
 }
 
-GameEnginePath::~GameEnginePath()
+GameEnginePath::~GameEnginePath() 
 {
 }
 
@@ -20,13 +21,13 @@ std::string GameEnginePath::GetFileName()
 	return Path.filename().string();
 }
 
-void GameEnginePath::GetCurrentPath()
+void GameEnginePath::SetCurrentPath() 
 {
 	Path = std::filesystem::current_path();
 }
 
 
-void GameEnginePath::MoveParent()
+void GameEnginePath::MoveParent() 
 {
 	Path = Path.parent_path();
 }
@@ -43,7 +44,7 @@ void GameEnginePath::MoveParentToExistsChild(const std::string& _ChildPath)
 		{
 			MoveParent();
 		}
-		else
+		else 
 		{
 			break;
 		}
@@ -69,6 +70,7 @@ void GameEnginePath::MoveChild(const std::string& _ChildPath)
 	}
 
 	Path = CheckPath;
+	// Path.append(_ChildPath);
 }
 
 std::string GameEnginePath::PlusFilePath(const std::string& _ChildPath)
@@ -85,21 +87,32 @@ std::string GameEnginePath::PlusFilePath(const std::string& _ChildPath)
 	return CheckPath.string();
 }
 
+bool GameEnginePath::IsDirectory()
+{
+	return std::filesystem::is_directory(Path);
+}
 
+std::string GameEnginePath::GetParentString(const std::string& _ChildPath)
+{
+	int CountBeforeBackSlash = 0;
 
+	while (true)
+	{
+		if ('\\' == _ChildPath[CountBeforeBackSlash])
+		{
+			break;
+		}
 
+		++CountBeforeBackSlash;
+	}
 
+	std::string ChildPath = "";
+	ChildPath.reserve(CountBeforeBackSlash);
 
+	for (size_t i = 0; i < CountBeforeBackSlash; i++)
+	{
+		ChildPath.push_back(_ChildPath[i]);
+	}
 
-//============= 최종 삭제 주석 =============
-
-//std::filesystem::path::filename() 함수 - path 클래스에서 저장된 경로의 마지막 파일이름을 반환. (정확히는 오른쪽부터 역슬래시 \ 한개를 만나기 전까지)
-// 예시) 1. path(c:\Test0\FileA); cout << path.filename()       -> "FileA" 
-//       2. path(C:); cout << path.filename()                   -> "C:"
-//       3. path(c:\\Test0\\FileA\\); cout << path.filename()   -> ""
-//       4. path(c:\Test0\FileA\); cout << path.filename()      -> ""
-//       5. path(c:\\Test0\\FileA\..); cout << path.filename()  -> ".."
-//       6. path(c:\\Test0\\FileA.bar); cout << path.filename() -> "FileA.bar"
-
-//MoveChild - 인자로 넣은 경로가 있으면 경로를 그렇게 변경.
-//PlusFilePath - 인자로 넣은 경로가 있으면 경로의 문자열만 리턴.
+	return ChildPath;
+}

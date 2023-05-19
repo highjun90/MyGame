@@ -26,19 +26,40 @@ void Player::Start()
 	if (false == ResourcesManager::GetInst().IsLoadTexture("Test.Bmp"))
 	{
 		GameEnginePath FilePath;
-		FilePath.GetCurrentPath();
+		FilePath.SetCurrentPath();
 		FilePath.MoveParentToExistsChild("ContentsResources");
+
+		GameEnginePath FolderPath = FilePath;
+
 		FilePath.MoveChild("ContentsResources\\Texture\\Player\\");
 
+		// ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Left_Player.bmp"));
+
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_Player.bmp"), 5, 17);
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_Player.bmp"), 5, 17);
+
+
+		FolderPath.MoveChild("ContentsResources\\Texture\\");
+		ResourcesManager::GetInst().CreateSpriteFolder("FolderPlayer", FolderPath.PlusFilePath("FolderPlayer"));
 
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Test.bmp"));
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HPBar.bmp"));
 	}
 
 	{
-		GameEngineRenderer* Ptr = CreateRenderer("Test.Bmp", RenderOrder::Play);
-		Ptr->SetRenderScale({ 200, 200 });
-		Ptr->SetTexture("Test.Bmp");
+		MainRenderer = CreateRenderer(RenderOrder::Play);
+		// MainRenderer->SetRenderScale({ 200, 200 });
+		// MainRenderer->SetSprite("Left_Player.bmp");
+
+
+		MainRenderer->CreateAnimation("Left_Idle", "Left_Player.bmp", 0, 2, 0.1f, true);
+		MainRenderer->CreateAnimation("Right_Idle", "Right_Player.bmp", 0, 2, 0.1f, true);
+
+		MainRenderer->CreateAnimation("Left_Run", "Left_Player.bmp", 3, 6, 0.1f, true);
+		MainRenderer->CreateAnimation("Right_Run", "Right_Player.bmp", 3, 6, 0.1f, true);
+
+		MainRenderer->ChangeAnimation("Left_Idle");
+		MainRenderer->SetRenderScaleToTexture();
 	}
 
 	{
@@ -48,72 +69,54 @@ void Player::Start()
 		Ptr->SetTexture("HPBar.bmp");
 	}
 
+	// State = PlayerState::Idle;
+
+	ChanageState(PlayerState::Idle);
 
 	// GetLevel()->GetMainCamera()->SetPos({ -WinScale.hX(), -WinScale.hY() });
 }
 
 void Player::Update(float _Delta)
 {
-	//if (true == GameEngineInput::IsDown('A'))
-	//{
-	//}
-
-
-	// 아주 어리석은 절대로 아마 안될 계산을 하는것이다.
-	// Player->GetPos() == Monster->GetPos();
-	// float Time = GameEngineTime::MainTimer.GetDeltaTime();
-	float Speed = 1000.0f;
-
-	float4 MovePos = float4::ZERO;
-
-	if (true == GameEngineInput::IsPress('A'))
-	{
-		MovePos = { -Speed * _Delta, 0.0f };
-	}
-
-	if (true == GameEngineInput::IsPress('D'))
-	{
-		MovePos = { Speed * _Delta, 0.0f };
-	}
-
-	if (true == GameEngineInput::IsPress('W'))
-	{
-		MovePos = { 0.0f, -Speed * _Delta };
-	}
-
-	if (true == GameEngineInput::IsPress('S'))
-	{
-		MovePos = { 0.0f, Speed * _Delta };
-	}
-
-	if (true == GameEngineInput::IsUp(VK_LBUTTON))
-	{
-		Bullet* NewBullet = GetLevel()->CreateActor<Bullet>();
-		NewBullet->Renderer->SetTexture("Test.Bmp");
-		// 방향을 표현하는 xy는 크기가 1이어야 합니다.
-		NewBullet->SetDir(float4::RIGHT);
-		NewBullet->SetPos(GetPos());
-	}
-
-	AddPos(MovePos);
-	GetLevel()->GetMainCamera()->AddPos(MovePos);
-
+	StateUpdate(_Delta);
 }
 
-void Player::Render()
+void Player::StateUpdate(float _Delta)
 {
-	//SetPos({ 200, 200 });
-	//SetScale({ 100, 100 });
-
-	// 그렸을때 화면에 나오는건 언제나 window에 있는 BackBuffer에다가 그려야만 한다.
-	// 모든건 다 Texture고 
-	//GameEngineWindowTexture* BackBuffer = GameEngineWindow::MainWindow.GetBackBuffer();
-	//GameEngineWindowTexture* FindTexture = ResourcesManager::GetInst().FindTexture("Test.Bmp");
-	//BackBuffer->TransCopy(FindTexture, GetPos(), { 100, 100 }, {0,0}, FindTexture->GetScale());
+	switch (State)
+	{
+	case PlayerState::Idle:
+		return IdleUpdate(_Delta);
+	case PlayerState::Run:
+		return RunUpdate(_Delta);
+	default:
+		break;
+	}
 
 }
 
-void Player::Release()
+void Player::ChanageState(PlayerState _State)
 {
+	if (_State != State)
+	{
+		switch (_State)
+		{
+		case PlayerState::Idle:
+			IdleStart();
+			break;
+		case PlayerState::Run:
+			RunStart();
+			break;
+		default:
+			break;
+		}
+	}
 
+	State = _State;
 }
+
+
+
+// ==삭제 ==
+
+// FilePath는 말그대로 이미지 한장(파일하나) 경로.  FolderPath는 이미지 폴더(파일여러개)경로

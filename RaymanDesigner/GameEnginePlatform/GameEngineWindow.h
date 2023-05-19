@@ -23,7 +23,7 @@ public:
 
 	static void MessageLoop(HINSTANCE _Inst, void(*_Start)(HINSTANCE), void(*_Update)(), void(*_End)());
 
-	HDC GetHDC()
+	HDC GetHDC() 
 	{
 		return Hdc;
 	}
@@ -43,9 +43,11 @@ public:
 		return BackBuffer;
 	}
 
+	float4 GetMousePos();
+
 	void SetPosAndScale(const float4& _Pos, const float4& _Scale);
 
-	static void WindowLoopOff()
+	static void WindowLoopOff() 
 	{
 		IsWindowUpdate = false;
 	}
@@ -53,7 +55,7 @@ public:
 	void ClearBackBuffer();
 	void DoubleBuffering();
 
-	static bool IsFocus()
+	static bool IsFocus() 
 	{
 		return IsFocusValue;
 	}
@@ -82,20 +84,3 @@ private:
 	void MyRegisterClass();
 };
 
-
-
-
-// =========== 최종 삭제 주석 ========
-
-// WndProc()
-// LRESULT == LONG_PTR == __int64, CALLBACK == __stdcall
-// WndProc는 WinMain이 아닌 운영체제가 호출하는 콜백(callback) 함수.
-// WPARAM LPARAM - message의 부가정보. 예를들어 message가 WM_CHAR 였다면 어떤 키가 입력되었는지 추가 정보가 필요한데 이럴떄 쓰이는 인자.
-// https://hellowoori.tistory.com/9
-
-// HDC - handle device context.
-
-// 윈도우는 크게 3가지 동적 연결 라이브러리를 구성. Kernel, GDI, User.
-// DC는 GDI 동적 연결 라이브러리에 속해있음. DC(device context)란? 출력에 필요한 모든 정보를 가진 데이터구조체
-
-//IsFocus(), IsFocusValue - 현재 윈도우 창이 최상단에 위치되어서 동작하는지 알려줌. 이걸로 다른 윈도우 창에서 딴짓할때 어떻게 동작할지 조정함

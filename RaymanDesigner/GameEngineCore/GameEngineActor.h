@@ -33,7 +33,7 @@ public:
 	}
 
 
-	float4 GetPos()
+	float4 GetPos() 
 	{
 		return Pos;
 	}
@@ -57,12 +57,14 @@ public:
 
 	GameEngineRenderer* CreateRenderer(const std::string& _ImageName, int _Order);
 
-	GameEngineLevel* GetLevel()
+	GameEngineLevel* GetLevel() 
 	{
 		return Level;
 	}
 
 protected:
+	virtual void LevelStart() {}
+	virtual void LevelEnd() {}
 
 private:
 	GameEngineLevel* Level;

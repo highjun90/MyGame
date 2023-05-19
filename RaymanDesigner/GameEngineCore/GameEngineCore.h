@@ -23,16 +23,17 @@ public:
 	GameEngineCore& operator=(GameEngineCore&& _Other) noexcept = delete;
 
 	template<typename CoreProcessType>
-	static void EngineStart(const std::string& _Title, HINSTANCE _Inst)
+	static void EngineStart(const std::string& _Title, HINSTANCE _Inst) 
 	{
 		EngineStart(_Title, _Inst, new CoreProcessType());
 	}
 
 	template<typename LevelType>
-	static void CreateLevel(const std::string& _Name)
+	static void CreateLevel(const std::string& _Name) 
 	{
 		std::string Upper = GameEngineString::ToUpperReturn(_Name);
 
+		// 이미 내부에 TitleLevel이 존재한다.
 		if (AllLevel.end() != AllLevel.find(Upper))
 		{
 			MsgBoxAssert(Upper + "의 이름을 가진 GameEngineLevel은 이미 존재합니다.");
@@ -45,6 +46,14 @@ public:
 
 		AllLevel.insert(std::make_pair(Upper, NewLevel));
 
+		//std::pair<std::map<std::string, class GameEngineLevel*>::iterator, bool> Pair 
+		//	= AllLevel.insert(std::make_pair(_Title, nullptr));
+
+		//if (false == Pair.second)
+		//{
+		//	MsgBoxAssert("이미 존재하는 이름의 레벨을 또 만들려고 했습니다" + _Title);
+		//	return;
+		//}
 	}
 
 	static void ChangeLevel(const std::string& _Name)
@@ -52,6 +61,8 @@ public:
 		std::string Upper = GameEngineString::ToUpperReturn(_Name);
 
 		std::map<std::string, GameEngineLevel*>::iterator Finditer = AllLevel.find(Upper);
+
+		// 이미 내부에 TitleLevel이 존재한다.
 		if (AllLevel.end() == Finditer)
 		{
 			MsgBoxAssert(Upper + "의 이름을 가진 GameEngineLevel은 존재하지 않습니다.");
@@ -83,13 +94,3 @@ private:
 	GameEngineCore();
 	~GameEngineCore();
 };
-
-
-// ====== 삭제 =====
-
-// CreateLevel() - Level 만들고 자료구조에 등록
-// LevelInit() - 새로 Level 만들때 초기작업도 시켜줌.
-
-// ChangeLevel() - NextLevel 포인터에 다음 Level을 가리키게함
-
-

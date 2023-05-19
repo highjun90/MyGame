@@ -2,8 +2,11 @@
 #include "GameEngineObject.h"
 #include <GameEngineBase/GameEngineMath.h>
 #include <string>
+#include <map>
+#include <vector>
 
 // 설명 :
+class GameEngineSprite;
 class GameEngineActor;
 class GameEngineWindowTexture;
 class GameEngineRenderer : public GameEngineObject
@@ -21,6 +24,8 @@ public:
 	GameEngineRenderer(GameEngineRenderer&& _Other) noexcept = delete;
 	GameEngineRenderer& operator=(const GameEngineRenderer& _Other) = delete;
 	GameEngineRenderer& operator=(GameEngineRenderer&& _Other) noexcept = delete;
+
+	void SetSprite(const std::string& _Name, size_t _Index = 0);
 
 	void SetTexture(const std::string& _Name);
 
@@ -46,6 +51,12 @@ public:
 		CopyScale = _Value;
 	}
 
+	void SetScaleRatio(const float& _Scale)
+	{
+		ScaleRatio = _Scale;
+	}
+
+
 	void SetRenderScaleToTexture();
 
 	bool IsDeath() override;
@@ -55,9 +66,11 @@ protected:
 private:
 	GameEngineActor* Master = nullptr;
 	GameEngineWindowTexture* Texture = nullptr;
+	GameEngineSprite* Sprite = nullptr;
+
+	float ScaleRatio = 1.0f;
 
 	bool ScaleCheck = false;
-
 
 	float4 RenderPos;
 	float4 RenderScale;
@@ -65,23 +78,44 @@ private:
 	float4 CopyPos;
 	float4 CopyScale;
 
-	void Render(class GameEngineCamera* _Camera);
+	void Render(class GameEngineCamera* _Camera, float _DeltaTime);
+
+private:
+	class Animation
+	{
+	public:
+		GameEngineSprite* Sprite = nullptr;
+		size_t CurFrame = 0;
+		size_t StartFrame = -1;
+		size_t EndFrame = -1;
+		float CurInter = 0.0f;
+		std::vector<float> Inters;
+		bool Loop = true;
+	};
+
+public:
+	Animation* FindAnimation(const std::string& _AniamtionName);
+
+	/// <summary>
+	/// 애니메이션 생성함수
+	/// </summary>
+	/// <param name="_AniamtionName">애니메이션 이름</param>
+	/// <param name="_SpriteName">스프라이트 이름</param>
+	/// <param name="_Start">시작 프레임</param>
+	/// <param name="_End">끝 프레임</param>
+	/// <param name="_Inter">애니메이션 시간</param>
+	/// <param name="_Loop">애니메이션 반복</param>
+	void CreateAnimation(
+		const std::string& _AniamtionName, 
+		const std::string& _SpriteName, 
+		size_t _Start = -1, size_t _End = -1,
+		float _Inter = 0.1f, 
+		bool _Loop = true);
+
+	void ChangeAnimation(const std::string& _AniamtionName, bool _ForceChange = false);
+
+
+	std::map<std::string, Animation> AllAnimation;
+	Animation* CurAnimation = nullptr;
 };
 
-
-
-//
-//// ============ 최종 삭제 주석 ================
-//
-//// class GameEngineWindowTexture* Texture;      //렌더러가 가진 이미지 
-//GameEngineActor* Master;                        //렌더러의 주인 (GameEngineActor)
-//bool ScaleCheck;
-//
-//
-//float4 RenderPos;                               //이 변수는 Actor의 위치가 변할때 더할 변화값.
-//float4 RenderScale;                             //화면에 그려질 이미지 자체(copyscale과 다르면 비율이 달라지겠지)
-//
-//float4 CopyPos;                                 //내가 불러올 이미지(texture)자체의 위치와 스케일
-//float4 CopyScale;
-//
-//void Render(class GameEngineCamera* _Camera);

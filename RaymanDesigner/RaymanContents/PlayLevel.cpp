@@ -33,7 +33,7 @@ void PlayLevel::Start()
 	// Player* NewPlayer = new Player();
 
 	BackGround* Back = CreateActor<BackGround>();
-	Back->Init("CandyChateau.bmp");
+	Back->Init("StageTest.bmp");
 
 	LevelPlayer = CreateActor<Player>();
 }

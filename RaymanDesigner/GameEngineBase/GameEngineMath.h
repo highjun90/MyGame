@@ -1,11 +1,12 @@
 #pragma once
+#include "GameEngineDebug.h"
 
 // 설명 :
 class GameEngineMath
 {
 };
 
-class float4
+class float4 
 {
 public:
 	static const float4 ZERO;
@@ -56,10 +57,10 @@ public:
 
 	inline float4 Half() const
 	{
-		return { hX(), hY(), Z, W };
+		return {hX(), hY(), Z, W};
 	}
 
-	float4 operator-()
+	float4 operator-() const
 	{
 		float4 ReturnValue = *this;
 
@@ -69,7 +70,7 @@ public:
 		return ReturnValue;
 	}
 
-	float4 operator-(const float4& _Other)
+	float4 operator-(const float4& _Other) const
 	{
 		float4 ReturnValue;
 
@@ -82,7 +83,7 @@ public:
 
 
 
-	float4 operator+(const float4& _Other)
+	float4 operator+(const float4& _Other) const
 	{
 		float4 ReturnValue;
 
@@ -93,7 +94,7 @@ public:
 		return ReturnValue;
 	}
 
-	float4 operator*(const float4& _Other)
+	float4 operator*(const float4& _Other) const 
 	{
 		float4 ReturnValue;
 
@@ -105,7 +106,7 @@ public:
 	}
 
 
-	float4 operator*(const float _Value)
+	float4 operator*(const float _Value) const
 	{
 		float4 ReturnValue;
 
@@ -116,7 +117,7 @@ public:
 		return ReturnValue;
 	}
 
-	float4& operator+=(const float4& _Other)
+	float4& operator+=(const float4& _Other) 
 	{
 		X += _Other.X;
 		Y += _Other.Y;
@@ -153,6 +154,46 @@ public:
 		return *this;
 	}
 
+	bool operator==(const float4 _Value) const
+	{
+		return X == _Value.X &&
+		Y == _Value.Y &&
+		Z == _Value.Z;
+	}
+
+	inline void Normalize() 
+	{
+		// 길이를 1로 만드는 함수입니다.
+		float Len = Size();
+
+		if (0.0f == Len)
+		{
+			// MsgBoxAssert("0으로 나누려고 했습니다.");
+			return;
+		}
+
+		X /= Len;
+		Y /= Len;
+		Z /= Len;
+	}
+
+	inline float4 NormalizeReturn()
+	{
+		float4 Result = *this;
+		Result.Normalize();
+		return Result;
+	}
+
+	inline float Size() 
+	{
+		float Value = X* X + Y * Y; // == 빗변 * 빗변
+
+		// 제곱수이다.
+		// 제곱을 풀어서 제곱근이라고 합니다.
+		Value; // 빗변 * 빗변 => 빗변
+
+		return sqrtf(Value);
+	}
 
 };
 

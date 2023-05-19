@@ -229,14 +229,3 @@ bool GameEngineInput::IsFree(int _Key)
 	return AllKeys[_Key].Free;
 }
 
-
-// == 최종삭제주석 ==
-
-
-//InputInit() - 윈도우에서 인지하는 기본 키들을 Map 자료구조인 AllKeys에 저장해놈. 'A' ~ 'Z', '0' ~ '1' 은 key값과 value 값이 같은거임. 소문자 없는이유는 처음부터 어떤문자건 무조건 대문자로 바꿔서 쓰겠다고 했기 때문임. 
-// ** 키보드 뿐만아니라 마우스 같은 입력도 등록한다 키보드만 등록하는게 아님 **
-
-//Update() - KeyCheck()가 true 면 내상태는 지금 Down 또는 Press 상태로 업데이트 되는 것이다.
-//                        false면 내상태는 지금 Up 또는 Free 상태로 업데이트.
-
-//IsDown(), ...IsFree() -  자료구조에 있는 key인지 확인하고 해당 key의 한가지 상태 리턴. 

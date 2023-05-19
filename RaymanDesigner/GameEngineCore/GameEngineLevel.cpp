@@ -2,13 +2,13 @@
 #include "GameEngineCamera.h"
 #include <GameEngineBase/GameEngineDebug.h>
 
-GameEngineLevel::GameEngineLevel()
+GameEngineLevel::GameEngineLevel() 
 {
 	MainCamera = new GameEngineCamera();
 	UICamera = new GameEngineCamera();
 }
 
-GameEngineLevel::~GameEngineLevel()
+GameEngineLevel::~GameEngineLevel() 
 {
 	if (nullptr != MainCamera)
 	{
@@ -26,7 +26,7 @@ GameEngineLevel::~GameEngineLevel()
 	{
 		const std::list<GameEngineActor*>& Group = _Pair.second;
 
-		for (GameEngineActor* _Actor : Group)
+		for (GameEngineActor* _Actor: Group)
 		{
 			if (nullptr != _Actor)
 			{
@@ -38,7 +38,7 @@ GameEngineLevel::~GameEngineLevel()
 }
 
 
-void GameEngineLevel::ActorInit(GameEngineActor* _Actor, int _Order)
+void GameEngineLevel::ActorInit(GameEngineActor* _Actor, int _Order) 
 {
 	_Actor->Level = this;
 	_Actor->SetOrder(_Order);
@@ -63,9 +63,9 @@ void GameEngineLevel::ActorUpdate(float _Delta)
 		}
 	}
 }
-void GameEngineLevel::ActorRender()
+void GameEngineLevel::ActorRender(float _Delta)
 {
-	MainCamera->Render();
+	MainCamera->Render(_Delta);
 
 	// for문을 돌리고 있습니다.
 	for (const std::pair<int, std::list<GameEngineActor*>>& _Pair : AllActors)
@@ -128,4 +128,28 @@ void GameEngineLevel::ActorRelease()
 		}
 	}
 
+}
+
+void GameEngineLevel::ActorLevelEnd()
+{
+	for (const std::pair<int, std::list<GameEngineActor*>>& _Pair : AllActors)
+	{
+		const std::list<GameEngineActor*>& Group = _Pair.second;
+
+		for (GameEngineActor* _Actor : Group)
+		{
+			_Actor->LevelEnd();
+		}
+	}
+}
+void GameEngineLevel::ActorLevelStart() {
+	for (const std::pair<int, std::list<GameEngineActor*>>& _Pair : AllActors)
+	{
+		const std::list<GameEngineActor*>& Group = _Pair.second;
+
+		for (GameEngineActor* _Actor : Group)
+		{
+			_Actor->LevelStart();
+		}
+	}
 }

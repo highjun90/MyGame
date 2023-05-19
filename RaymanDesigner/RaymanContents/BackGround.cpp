@@ -65,7 +65,7 @@ void BackGround::Init(const std::string& _FileName)
 		// 도착위치 D:\Project\AR47\Winapi\AR47WinApi\ContentsResources\Texture\Player
 		GameEnginePath FilePath;
 		// 시작위치 D:\Project\AR47\Winapi\AR47WinApi\GameEngineApp
-		FilePath.GetCurrentPath();
+		FilePath.SetCurrentPath();
 		// 시작위치 D:\Project\AR47\Winapi\AR47WinApi
 
 		// ContentsResources

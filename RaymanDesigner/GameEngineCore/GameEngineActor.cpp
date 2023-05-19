@@ -4,11 +4,11 @@
 #include "GameEngineCamera.h"
 #include <GameEngineBase/GameEngineDebug.h>
 
-GameEngineActor::GameEngineActor()
+GameEngineActor::GameEngineActor() 
 {
 }
 
-GameEngineActor::~GameEngineActor()
+GameEngineActor::~GameEngineActor() 
 {
 	for (GameEngineRenderer* Render : AllRenderer)
 	{
@@ -47,7 +47,7 @@ void GameEngineActor::ActorRelease()
 	}
 }
 
-GameEngineRenderer* GameEngineActor::CreateRenderer(const std::string& _ImageName, int _Order)
+GameEngineRenderer* GameEngineActor::CreateRenderer(const std::string& _ImageName, int _Order) 
 {
 	GameEngineRenderer* NewRenderer = new GameEngineRenderer();
 

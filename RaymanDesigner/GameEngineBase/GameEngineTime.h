@@ -17,7 +17,7 @@ public:
 	GameEngineTime& operator=(const GameEngineTime& _Other) = delete;
 	GameEngineTime& operator=(GameEngineTime&& _Other) noexcept = delete;
 
-	float GetDeltaTime()
+	float GetDeltaTime() 
 	{
 		return FloatDelta;
 	}
@@ -37,21 +37,3 @@ private:
 	float FloatDelta;
 };
 
-
-
-
-// =============== 최종 삭제 주석 =============
-
-// LARGE_INTEGER는 일단 공용체임. 
-// 
-//typedef union _LARGE_INTEGER {
-//	struct {
-//		DWORD LowPart;      //DWORD 는 그냥 unsigned long임
-//		LONG HighPart;      //LONG 은 말그대로 long
-//	} DUMMYSTRUCTNAME;
-//	struct {
-//		DWORD LowPart;
-//		LONG HighPart;
-//	} u;
-//	LONGLONG QuadPart;       //LONGLONG 은 __int64임.
-//} LARGE_INTEGER;

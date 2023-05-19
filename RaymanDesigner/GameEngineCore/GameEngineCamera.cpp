@@ -1,15 +1,15 @@
 #include "GameEngineCamera.h"
 #include <GameEngineBase/GameEngineDebug.h>
 
-GameEngineCamera::GameEngineCamera()
+GameEngineCamera::GameEngineCamera() 
 {
 }
 
-GameEngineCamera::~GameEngineCamera()
+GameEngineCamera::~GameEngineCamera() 
 {
 }
 
-void GameEngineCamera::Render()
+void GameEngineCamera::Render(float _Delta)
 {
 	//for (const std::pair<int, std::list<GameEngineRenderer*>>& Pair : Renderers)
 	//{
@@ -35,7 +35,7 @@ void GameEngineCamera::Render()
 				continue;
 			}
 
-			Render->Render(this);
+			Render->Render(this, _Delta);
 		}
 	}
 }

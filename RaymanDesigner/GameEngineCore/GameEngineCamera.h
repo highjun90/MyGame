@@ -26,7 +26,7 @@ public:
 		return Pos;
 	}
 
-	void SetPos(const float4& _Value)
+	void SetPos(const float4& _Value) 
 	{
 		Pos = _Value;
 	}
@@ -47,6 +47,6 @@ private:
 
 	void Release();
 
-	void Render();
+	void Render(float _Delta);
 };
 
