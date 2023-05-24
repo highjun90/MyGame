@@ -1,5 +1,6 @@
 #include "Monster.h"
 #include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineCollision.h>
 #include "ContentsEnum.h"
 #include <GameEngineCore/ResourcesManager.h>
 #include "Player.h"
@@ -57,4 +58,8 @@ void Monster::Start()
 		Ptr->SetRenderScale({ 150, 150 });
 		Ptr->SetTexture("HPBar.bmp");
 	}
+
+	GameEngineCollision* BodyCollsion = CreateCollision(CollisionOrder::MonsterBody);
+	BodyCollsion->SetCollisionScale({ 100, 100 });
+	BodyCollsion->SetCollisionType(CollisionType::CirCle);
 }

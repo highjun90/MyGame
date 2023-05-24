@@ -25,7 +25,7 @@ public:
 	virtual void Update(float _Delta) {}
 
 	// 그려지고.
-	virtual void Render() {}
+	virtual void Render(float _Delta) {}
 
 	// 정리된다.
 	virtual void Release() {}
@@ -55,7 +55,12 @@ public:
 		return IsDeathValue;
 	}
 
-	void SetOrder(int _Order)
+	int GetOrder()
+	{
+		return Order;
+	}
+
+	virtual void SetOrder(int _Order)
 	{
 		Order = _Order;
 	}

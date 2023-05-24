@@ -22,9 +22,12 @@ protected:
 private:
 	void Start() override;
 	void Update(float _Delta) override;
-	void Render() override;
 	void Release() override;
 
+	class BackGround* BackGroundPtr;
 	class Player* LevelPlayer = nullptr;
+
+	//임의로 추가한 멤버변수
+	bool DarkMonsterCreate = true;
 };
 

@@ -5,6 +5,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include "Monster.h"
+#include "PlayUIManager.h"
 
 
 // Contents
@@ -48,10 +49,14 @@ void PlayLevel::Start()
 	// 자기 임의대로 만들겠다는 것이고 xxxxx
 	// Player* NewPlayer = new Player();
 
-	BackGround* Back = CreateActor<BackGround>();
-	Back->Init("CandyChateau.Bmp");
+	BackGroundPtr = CreateActor<BackGround>();
+	BackGroundPtr->Init("StageTest.Bmp", "StageTestPixel.bmp");
 
 	LevelPlayer = CreateActor<Player>();
+	LevelPlayer->SetGroundTexture("StageTestPixel.bmp");
+
+	CreateActor<PlayUIManager>();
+
 }
 
 
@@ -62,16 +67,27 @@ void PlayLevel::Update(float _Delta)
 		GameEngineCore::ChangeLevel("TitleLevel");
 	}
 
-	if (1.0f <= GetLiveTime())
+	if (true == GameEngineInput::IsDown('J'))
+	{
+		BackGroundPtr->SwitchRender();
+	}
+
+	//원본 선생님 몬스터 만들기
+	/*if (3.0f <= GetLiveTime() )
 	{
 		Monster* NewMonster = CreateActor<Monster>();
 		ResetLiveTime();
+	}*/
+
+	//임의로 만든 몬스터 1개 만들기, 3초뒤 1마리 나오게
+	if (3.0f <= GetLiveTime() && true == DarkMonsterCreate)
+	{
+		Monster* NewMonster = CreateActor<Monster>();
+		DarkMonsterCreate = false;
 	}
 
+
 	// GameEngineCore::ChangeLevel("TitleLevel");
-}
-void PlayLevel::Render() 
-{
 }
 void PlayLevel::Release() 
 {

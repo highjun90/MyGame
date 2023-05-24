@@ -164,6 +164,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentsEnum.h" />
+    <ClInclude Include="DefaultHeader.h" />
     <ClInclude Include="EndingLevel.h">
       <SubType>
       </SubType>
@@ -185,6 +186,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayUIManager.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -224,6 +229,10 @@
     </ClCompile>
     <ClCompile Include="Player_State.cpp" />
     <ClCompile Include="PlayLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayUIManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>

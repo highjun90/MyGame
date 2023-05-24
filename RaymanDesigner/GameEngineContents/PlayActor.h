@@ -19,12 +19,21 @@ public:
 
 	void CameraFocus();
 
+	void GravityReset() 
+	{
+		GravityVector = float4::ZERO;
+	}
+
+
 	void GravityOff() 
 	{
 		IsGravity = false;
 	}
 
 	void SetGroundTexture(const std::string& _GroundTextureName);
+
+	// 내 위치에서 
+	int GetGroundColor(unsigned int _DefaultColor, float4 _Pos = float4::ZERO);
 
 protected:
 
@@ -33,7 +42,7 @@ private:
 
 	bool IsGravity = true;
 
-	float GravityPower = 10.0f;
+	float GravityPower = 1.0f;
 	float4 GravityVector = float4::ZERO;
 
 };
