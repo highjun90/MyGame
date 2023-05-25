@@ -49,12 +49,14 @@ void BackGround::Init(const std::string& _FileName, const std::string& _DebugFil
 	}
 
 	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture(_FileName);
-	float4 Scale = { 1920, 1200 };
+	float4 Scale = { Texture->GetScale() };
 	Renderer->SetTexture(_FileName);
 	Renderer->SetRenderScale(Scale);
 	DebugRenderer->SetTexture(_DebugFileName);
 	DebugRenderer->SetRenderScale(Scale);
-	SetPos({ 0, 0});
+	//SetPos({ 0, 0});
+	SetPos({ Scale.hX(), Scale.hY() });
+
 
 
 }

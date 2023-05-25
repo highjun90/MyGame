@@ -71,7 +71,7 @@ void Player::Start()
 		MainRenderer = CreateRenderer(200);
 
 		// MainRenderer->SetRenderScale({ 200, 200 });
-		// MainRenderer->SetSprite("Left_Player.bmp");
+		// MainRenderer->SetSrite("Left_Player.bmp");
 
 		MainRenderer->CreateAnimation("Test", "FolderPlayer");
 
@@ -83,8 +83,8 @@ void Player::Start()
 		// MainRenderer->CreateAnimation("Right_Idle", "FolderPlayer");
 
 		//걷기 애니메이션 등록
-		MainRenderer->CreateAnimation("Left_Run", "Left_Player.bmp", 0, 31, 0.015f, true);
-		MainRenderer->CreateAnimation("Right_Run", "Right_Player.bmp", 0, 31, 0.015f, true);
+		MainRenderer->CreateAnimation("Left_Run", "Left_Player.bmp", 0, 31, 0.02f, true);
+		MainRenderer->CreateAnimation("Right_Run", "Right_Player.bmp", 0, 31, 0.02f, true);
 
 
 		MainRenderer->ChangeAnimation("Test");
@@ -108,8 +108,8 @@ void Player::Start()
 
 	{
 		BodyCollsion = CreateCollision(CollisionOrder::PlayerBody);
-		BodyCollsion->SetCollisionScale({100, 100});
-		BodyCollsion->SetCollisionType(CollisionType::CirCle);
+		BodyCollsion->SetCollisionScale( {120, 240});
+		BodyCollsion->SetCollisionType(CollisionType::Rect);
 	}
 
 
@@ -302,5 +302,5 @@ void Player::Render(float _Delta)
 
 	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
 
-	TextOutA(dc, 2, 3, Text.c_str(), Text.size());
+	//TextOutA(dc, 2, 3, Text.c_str(), Text.size());
 }

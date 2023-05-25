@@ -32,7 +32,7 @@ void PlayLevel::Start()
 		GameEnginePath FolderPath = FilePath;
 
 		FilePath.MoveChild("ContentsResources\\Texture\\");
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("StageTestPixel.bmp"));
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("CandyChateauDebug.bmp"));
 	}
 
 
@@ -50,10 +50,10 @@ void PlayLevel::Start()
 	// Player* NewPlayer = new Player();
 
 	BackGroundPtr = CreateActor<BackGround>();
-	BackGroundPtr->Init("StageTest.Bmp", "StageTestPixel.bmp");
+	BackGroundPtr->Init("CandyChateau.Bmp", "CandyChateauDebug.bmp");
 
 	LevelPlayer = CreateActor<Player>();
-	LevelPlayer->SetGroundTexture("StageTestPixel.bmp");
+	LevelPlayer->SetGroundTexture("CandyChateauDebug.bmp");
 
 	CreateActor<PlayUIManager>();
 
@@ -100,7 +100,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다");
 	}
 
-	LevelPlayer->SetGroundTexture("StageTestPixel.bmp");
+	LevelPlayer->SetGroundTexture("CandyChateauDebug.bmp");
 
 	//float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	////LevelPlayer->SetPos(WinScale.Half());

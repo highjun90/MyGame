@@ -38,28 +38,27 @@ void Monster::Update(float _Delta)
 
 	// Dir *= 0.1f;
 
-	AddPos(Dir * _Delta * 100.0f);
+	AddPos(Dir * _Delta * 300.0f);
 }
 
 void Monster::Start() 
 {
-	if (false == ResourcesManager::GetInst().IsLoadTexture("Test.Bmp"))
+	if (false == ResourcesManager::GetInst().IsLoadTexture("DarkRayman_LeftIdle.bmp"))
 	{
 		GameEnginePath FilePath;
 		FilePath.SetCurrentPath();
 		FilePath.MoveParentToExistsChild("ContentsResources");
 		FilePath.MoveChild("ContentsResources\\Texture\\Player\\");
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Test.bmp"));
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HPBar.bmp"));
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("DarkRayman_LeftIdle.bmp"));
 	}
 
 	{
-		GameEngineRenderer* Ptr = CreateRenderer("HPBar.bmp", RenderOrder::Play);
-		Ptr->SetRenderScale({ 150, 150 });
-		Ptr->SetTexture("HPBar.bmp");
+		GameEngineRenderer* Ptr = CreateRenderer("DarkRayman_LeftIdle.bmp", RenderOrder::Play);
+		Ptr->SetRenderScale({ 160, 340 });
+		Ptr->SetTexture("DarkRayman_LeftIdle.bmp");
 	}
 
 	GameEngineCollision* BodyCollsion = CreateCollision(CollisionOrder::MonsterBody);
-	BodyCollsion->SetCollisionScale({ 100, 100 });
-	BodyCollsion->SetCollisionType(CollisionType::CirCle);
+	BodyCollsion->SetCollisionScale({ 120, 240 });
+	BodyCollsion->SetCollisionType(CollisionType::Rect);
 }
