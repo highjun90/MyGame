@@ -27,7 +27,7 @@ void Player::IdleUpdate(float _Delta)
 	}
 
 	{
-		unsigned int Color = GetGroundColor(RGB(255, 255, 255));
+		unsigned int Color = GetGroundColor(RGB(255, 255, 255), DownCheck);
 		if (RGB(255, 255, 255) == Color)
 		{
 			Gravity(_Delta);
@@ -71,13 +71,14 @@ void Player::RunUpdate(float _Delta)
 {
 	// 중력 적용 
 	{
-		unsigned int Color = GetGroundColor(RGB(255, 255, 255));
+		unsigned int Color = GetGroundColor(RGB(255, 255, 255), DownCheck);
 		if (RGB(255, 255, 255) == Color)
 		{
 			Gravity(_Delta);
 		}
 		else
 		{
+			int a = 0;
 			unsigned int CheckColor = GetGroundColor(RGB(255, 255, 255), float4::UP);
 
 			while (CheckColor != RGB(255, 255, 255))

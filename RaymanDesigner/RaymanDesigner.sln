@@ -14,9 +14,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEnginePlatform", "GameE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DOC", "DOC", "{80E519FA-0954-4228-A656-32C6C79BCE3C}"
 	ProjectSection(SolutionItems) = preProject
-		DC에 대한 이해.txt = DC에 대한 이해.txt
-		Input.txt = Input.txt
-		델타타임.txt = 델타타임.txt
 		프로젝트 구성.txt = 프로젝트 구성.txt
 	EndProjectSection
 EndProject

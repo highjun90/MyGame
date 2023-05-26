@@ -36,6 +36,8 @@ void Player::Start()
 {
 	if (false == ResourcesManager::GetInst().IsLoadTexture("Test.Bmp"))
 	{
+		SetPos({ 960,400 });
+
 		GameEnginePath FilePath;
 		FilePath.SetCurrentPath();
 		FilePath.MoveParentToExistsChild("ContentsResources");
@@ -301,6 +303,38 @@ void Player::Render(float _Delta)
 	Text += std::to_string(TestValue);
 
 	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
-
 	//TextOutA(dc, 2, 3, Text.c_str(), Text.size());
+
+	
+
+
+	
+
+	//디버그용 하얀점 만들기
+	
+	//디버그용 수치확인 변수
+	float4 a = GetPos();
+	float4 b = GetLevel()->GetMainCamera()->GetPos();
+	float4 c = GetPos() - GetLevel()->GetMainCamera()->GetPos();
+	//하얀점 만들때 그냥 Actor의 Pos인 GetPos()만 하면 되는거 아닌가? 왜 굳이 카메라 위치를 빼나? 그러면 하얀점이 Actor의 pos보다 카메라 pos만큼 더 멀리 떨어지게 되는거 아냐?
+	// -> 
+
+
+	CollisionData Data;
+
+	Data.Pos = ActorCameraPos();
+	Data.Scale = { 5,5 };
+	Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+	//왼쪽점
+	Data.Pos = ActorCameraPos() + LeftCheck;
+	Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+	//오른쪽점
+	Data.Pos = ActorCameraPos() + RightCheck;
+	Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+	//아래점
+	Data.Pos = ActorCameraPos() + DownCheck;
+	Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 }

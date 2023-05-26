@@ -35,6 +35,9 @@ public:
 	// 내 위치에서 
 	int GetGroundColor(unsigned int _DefaultColor, float4 _Pos = float4::ZERO);
 
+	// 디버깅 박스 만드는데 사용하고있음
+	float4 ActorCameraPos();
+
 protected:
 
 private:

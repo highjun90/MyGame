@@ -54,3 +54,10 @@ int PlayActor::GetGroundColor(unsigned int _DefaultColor, float4 _Pos)
 
 	return GroundTexture->GetColor(_DefaultColor, GetPos() + _Pos);
 }
+
+
+// Actor 위치에서 카메라 위치를 빼는 백터 ==  
+float4 PlayActor::ActorCameraPos()
+{
+	return GetPos() - GetLevel()->GetMainCamera()->GetPos();
+}
