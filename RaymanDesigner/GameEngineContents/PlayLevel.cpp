@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/GameEngineCamera.h>
+#include <GameEngineCore/TileMap.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include "Monster.h"
@@ -23,7 +24,7 @@ PlayLevel::~PlayLevel()
 void PlayLevel::Start() 
 {
 
-	if (false == ResourcesManager::GetInst().IsLoadTexture("Test.Bmp"))
+	if (false == ResourcesManager::GetInst().IsLoadTexture("CandyChateauDebug.Bmp"))
 	{
 		GameEnginePath FilePath;
 		FilePath.SetCurrentPath();
@@ -33,6 +34,10 @@ void PlayLevel::Start()
 
 		FilePath.MoveChild("ContentsResources\\Texture\\");
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("CandyChateauDebug.bmp"));
+
+		//배경이 타일맵 일때
+		//ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Tile.bmp"));
+		//ResourcesManager::GetInst().CreateSpriteSheet("Tile.bmp", 24, 40);
 	}
 
 
@@ -51,6 +56,18 @@ void PlayLevel::Start()
 
 	BackGroundPtr = CreateActor<BackGround>();
 	BackGroundPtr->Init("CandyChateau.Bmp", "CandyChateauDebug.bmp");
+
+	//배경이 타일 맵일때
+	/*TileMap* TileObject = CreateActor<TileMap>();
+
+	TileObject->CreateTileMap("Tile.bmp", 20, 20, { 50, 50 }, 0);
+	for (size_t y = 0; y < 20; y++)
+	{
+		for (size_t x = 0; x < 20; x++)
+		{
+			TileObject->SetTile(x, y, 0);
+		}
+	}*/
 
 	LevelPlayer = CreateActor<Player>();
 	LevelPlayer->SetGroundTexture("CandyChateauDebug.bmp");

@@ -5,6 +5,7 @@
 #include <GameEngineBase/GameEnginePath.h>
 #include <string>
 
+#include "BackGround.h"
 
 TitleLevel::TitleLevel()
 {
@@ -16,41 +17,21 @@ TitleLevel::~TitleLevel()
 
 void TitleLevel::Start()
 {
-	//{
-	//	GameEnginePath FilePath;
-	//	FilePath.SetCurrentPath();
-	//	FilePath.MoveParentToExistsChild("ContentsResources");
-	//	FilePath.MoveChild("ContentsResources\\Texture\\");
+	if (false == ResourcesManager::GetInst().IsLoadTexture("CandyChateauDebug.Bmp"))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
 
-	//	const std::string FileString = FilePath.GetStringPath() + "UbiSoftLogo.bmp";
+		GameEnginePath FolderPath = FilePath;
 
-	//	//*(TitleLevel::TitleTexture).ResLoad(FileString);
-	//	TitleTexture->ResLoad(FileString);
-	//}
+		FilePath.MoveChild("ContentsResources\\Texture\\");
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("CandyChateauDebug.bmp"));
 
-	//GameEngineWindowTexture* BackBuffer = GameEngineWindow::MainWindow.GetBackBuffer();
+	}
 
-	//BackBuffer->BitCopy(TitleTexture, { 0, 0 }, TitleTexture->GetScale());
-}
-
-void TitleLevel::LevelStart(GameEngineLevel* _PrevLevel)
-{
-	//{
-	//	GameEnginePath FilePath;
-	//	FilePath.SetCurrentPath();
-	//	FilePath.MoveParentToExistsChild("ContentsResources");
-	//	FilePath.MoveChild("ContentsResources\\Texture\\");
-
-	//	const std::string FileString = FilePath.GetStringPath() + "UbiSoftLogo.bmp";
-
-	//	//*(TitleLevel::TitleTexture).ResLoad(FileString);
-	//	TitleTexture.ResLoad(FileString);
-
-
-	//	const float4 Pos = float4::ZERO;
-	//	GameEngineWindow::MainWindow.GetWindowBuffer()->BitCopy(&TitleTexture, Pos);
-	//}
-
+	BackGroundPtr = CreateActor<BackGround>();
+	BackGroundPtr->Init("UbiSoftLogo.Bmp", "CandyChateauDebug.bmp");
 }
 
 
@@ -60,6 +41,12 @@ void TitleLevel::Update(float _DeltaTime)
 
 	if (true == GameEngineInput::IsDown('P'))
 	{
-		GameEngineCore::ChangeLevel("PlayLevel");
+		GameEngineCore::ChangeLevel("TitleLevel2");
 	}
 }
+
+void TitleLevel::Release()
+{
+
+}
+

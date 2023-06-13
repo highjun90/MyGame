@@ -1,8 +1,5 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
-#include <GameEnginePlatform/GameEngineWindow.h>
-#include <GameEnginePlatform/GameEngineWindowTexture.h>
-#include <GameEngineCore/GameEngineRenderer.h>
 
 
 // Ό³Έν :
@@ -21,12 +18,15 @@ public:
 	TitleLevel& operator=(TitleLevel&& _Other) noexcept = delete;
 
 protected:
-	void LevelStart(GameEngineLevel* _PrevLevel) override;
-	void Update(float _DeltaTime) override;
+
 
 private:
 	void Start() override;
-	GameEngineWindowTexture* TitleTexture;
+	void Update(float _Delta) override;
+	void Release() override;
+
+
+	class BackGround* BackGroundPtr = nullptr;
 	
 	
 

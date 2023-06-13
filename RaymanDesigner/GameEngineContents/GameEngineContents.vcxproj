@@ -197,6 +197,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TitleLevel2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BackGround.cpp">
@@ -240,6 +241,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TitleLevel2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngineBase\GameEngineBase.vcxproj">

@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include <GameEngineBase/GameEnginePath.h>
+#include <GameEngineBase/GameEngineMath.h>
 
 // ¼³¸í : ¼±»ı´ÔÀÌ ¸¶Áö¸·À¸·Î ¾Ë·ÁÁÖ´Â ½Ì±ÛÅæ
 // ½Ì±ÛÅæÀÌ ¹¹Áö?
@@ -62,6 +63,8 @@ public:
 		return TextureLoad(LoadPath.GetFileName(), _Path);
 	}
 
+	GameEngineWindowTexture* TextureCreate(const std::string& _Name, float4 _Scale);
+
 	GameEngineWindowTexture* TextureLoad(const std::string& _Name, const std::string& _Path);
 
 	GameEngineWindowTexture* FindTexture(const std::string& _Name);
@@ -91,10 +94,6 @@ public:
 	GameEngineSprite* CreateSpriteSheet(const std::string& _SpriteName, const std::string& _TexturePath, int _XCount, int _YCount);
 
 	bool IsLoadTexture(const std::string& _Image);
-
-	void TextureFileLoad(const std::string& _FileName, const std::string& _Path);
-	void SpriteFileLoad(const std::string& _FileName, const std::string& _Path, int _XCount, int _YCount);
-
 
 protected:
 

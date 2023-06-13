@@ -25,7 +25,7 @@ void GameEngineCore::CoreStart(HINSTANCE _Inst)
 	// 엔진쪽에 준비를 다 해고
 	GameEngineWindow::MainWindow.Open(WindowTitle, _Inst);
 	GameEngineInput::InputInit();
-	//GameEngineSound::Init();
+	// GameEngineSound::Init();
 
 	// 유저의 준비를 해준다.
 	Process->Start();
@@ -41,6 +41,8 @@ void GameEngineCore::CoreUpdate()
 			CurLevel->ActorLevelEnd();
 		}
 
+		NextLevel->OverCheck(CurLevel);
+
 		NextLevel->LevelStart(CurLevel);
 		NextLevel->ActorLevelStart();
 
@@ -51,6 +53,7 @@ void GameEngineCore::CoreUpdate()
 	}
 
 	// 업데이트를 
+	GameEngineSound::Update();
 	GameEngineTime::MainTimer.Update();
 	float Delta = GameEngineTime::MainTimer.GetDeltaTime();
 
@@ -83,6 +86,8 @@ void GameEngineCore::CoreUpdate()
 
 void GameEngineCore::CoreEnd() 
 {
+	GameEngineSound::Release();
+
 	Process->Release();
 
 	if (nullptr != Process)

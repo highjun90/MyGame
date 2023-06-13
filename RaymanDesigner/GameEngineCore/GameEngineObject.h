@@ -30,12 +30,12 @@ public:
 	// 정리된다.
 	virtual void Release() {}
 
-	void On() 
+	virtual void On()
 	{
 		IsUpdateValue = true;
 	}
 
-	void Off()
+	virtual void Off()
 	{
 		IsUpdateValue = false;
 	}
@@ -45,7 +45,7 @@ public:
 		this->IsDeathValue = true;
 	}
 
-	bool IsUpdate() 
+	virtual bool IsUpdate() 
 	{
 		return true == IsUpdateValue && false == IsDeathValue;
 	}
@@ -58,6 +58,12 @@ public:
 	int GetOrder()
 	{
 		return Order;
+	}
+
+	template<typename EnumType>
+	void SetOrder(EnumType _Order)
+	{
+		SetOrder(static_cast<int>(_Order));
 	}
 
 	virtual void SetOrder(int _Order)

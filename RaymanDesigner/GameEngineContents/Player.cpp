@@ -196,6 +196,9 @@ void Player::ChanageState(PlayerState _State)
 		case PlayerState::Run:
 			RunStart();
 			break;
+		case PlayerState::Jump:
+			JumpStart();
+			break;
 		default:
 			break;
 		}

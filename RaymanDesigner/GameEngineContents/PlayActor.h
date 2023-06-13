@@ -38,6 +38,11 @@ public:
 	// 디버깅 박스 만드는데 사용하고있음
 	float4 ActorCameraPos();
 
+	void SetGravityVector(float4 _GravityVector)
+	{
+		GravityVector = _GravityVector;
+	}
+
 protected:
 
 private:
@@ -45,7 +50,7 @@ private:
 
 	bool IsGravity = true;
 
-	float GravityPower = 1.0f;
+	float GravityPower = 1000.0f;
 	float4 GravityVector = float4::ZERO;
 
 };

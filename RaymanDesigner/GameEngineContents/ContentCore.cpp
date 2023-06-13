@@ -1,5 +1,6 @@
 #include "ContentCore.h"
 #include "TitleLevel.h"
+#include "TitleLevel2.h"
 #include "PlayLevel.h"
 #include "EndingLevel.h"
 #include <GameEnginePlatform/GameEngineWindow.h>
@@ -17,11 +18,12 @@ void ContentCore::Start()
 	GameEngineWindow::MainWindow.SetPosAndScale({100, 100}, { 1920, 1200 });
 
 	GameEngineCore::CreateLevel<TitleLevel>("TitleLevel");
+	GameEngineCore::CreateLevel<TitleLevel2>("TitleLevel2");
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::CreateLevel<EndingLevel>("EndingLevel");
 
 	// 이 레벨이 화면에 보여라.
-	GameEngineCore::ChangeLevel("PlayLevel");
+	GameEngineCore::ChangeLevel("TitleLevel");
 }
 
 // 행동한고.

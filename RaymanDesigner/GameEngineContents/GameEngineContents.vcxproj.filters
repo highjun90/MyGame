@@ -31,6 +31,9 @@
     <ClInclude Include="PlayUIManager.h">
       <Filter>Play</Filter>
     </ClInclude>
+    <ClInclude Include="TitleLevel2.h">
+      <Filter>Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -61,6 +64,9 @@
     <ClCompile Include="PlayActor.cpp" />
     <ClCompile Include="PlayUIManager.cpp">
       <Filter>Play</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel2.cpp">
+      <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
