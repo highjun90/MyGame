@@ -55,17 +55,18 @@ void Player::Start()
 		//걷기 스프라이트 등록
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_Player.bmp"), 5, 7);
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_Player.bmp"), 5, 7);
-		
-		
-		FolderPath.MoveChild("ContentsResources\\Texture\\");
-		ResourcesManager::GetInst().CreateSpriteFolder("FolderPlayer", FolderPath.PlusFilePath("FolderPlayer"));
-
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Test.bmp"));
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HPBar.bmp"));
-
+	
 		//UI 등록
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("UI_LifeAndHp.bmp"));
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("UI_LeftDownMarble.bmp"));
+
+
+		//선생님코드
+	/*	FolderPath.MoveChild("ContentsResources\\Texture\\");
+		ResourcesManager::GetInst().CreateSpriteFolder("FolderPlayer", FolderPath.PlusFilePath("FolderPlayer"));
+
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Test.bmp"));
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HPBar.bmp"));*/
 	}
 
 	{
@@ -74,8 +75,7 @@ void Player::Start()
 
 		// MainRenderer->SetRenderScale({ 200, 200 });
 		// MainRenderer->SetSrite("Left_Player.bmp");
-
-		MainRenderer->CreateAnimation("Test", "FolderPlayer");
+		//MainRenderer->CreateAnimation("Test", "FolderPlayer");
 
 
 		//가만히 있기 애니메이션 등록
@@ -89,7 +89,7 @@ void Player::Start()
 		MainRenderer->CreateAnimation("Right_Run", "Right_Player.bmp", 0, 31, 0.02f, true);
 
 
-		MainRenderer->ChangeAnimation("Test");
+		//MainRenderer->ChangeAnimation("Test");
 		MainRenderer->SetRenderScaleToTexture();
 	}
 
@@ -127,6 +127,16 @@ void Player::Start()
 
 void Player::Update(float _Delta)
 {
+
+	// 애니메이션 한 싸이클 끝나면 다른 행동을 하게하는 코드
+	/*if (true == MainRenderer->IsAnimation("Left_Idle")
+		&& true == MainRenderer->IsAnimationEnd())
+	{
+		
+		Dir = PlayerDir::Right;
+		ChangeAnimationState(CurState);
+	}*/
+	//예시는 왼쪽가만히 있는 애니메이션 끝나면 오른쪽 가만히 애니메이션으로 바꾸게 해논것
 
 	std::vector<GameEngineCollision*> _Col;
 	if (true == BodyCollsion->Collision(CollisionOrder::MonsterBody, _Col

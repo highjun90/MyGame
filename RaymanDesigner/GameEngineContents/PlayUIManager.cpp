@@ -23,10 +23,10 @@ void PlayUIManager::Start()
 	//UI ¸ñ¼û°ú HP 
 	{
 		float4 UISCale = { 70,30 };
-		UISCale *= 4.0f;
+		UISCale *= 3.0f;
 
 		GameEngineRenderer* Ptr = CreateUIRenderer("UI_LifeAndHp.bmp", RenderOrder::Play);
-		Ptr->SetRenderPos({ 200, 100 });
+		Ptr->SetRenderPos({ 140, 70 });
 		Ptr->SetRenderScale(UISCale);
 		Ptr->SetTexture("UI_LifeAndHp.bmp");
 	}
@@ -35,10 +35,10 @@ void PlayUIManager::Start()
 	//UI ÁÂÇÏ´Ü±¸½½
 	{
 		float4 UISCale = { 63,22 };
-		UISCale *= 4.0f;
+		UISCale *= 3.0f;
 
 		GameEngineRenderer* Ptr = CreateUIRenderer("UI_LeftDownMarble.bmp", RenderOrder::Play);
-		Ptr->SetRenderPos({ 200, 1100 });
+		Ptr->SetRenderPos({ 140, 720 });
 		Ptr->SetRenderScale(UISCale);
 		Ptr->SetTexture("UI_LeftDownMarble.bmp");
 	}

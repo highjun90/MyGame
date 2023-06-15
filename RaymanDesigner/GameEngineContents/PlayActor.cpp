@@ -28,7 +28,7 @@ void PlayActor::Gravity(float _Delta)
 void PlayActor::CameraFocus() 
 {
 	float4 WindowScale = GameEngineWindow::MainWindow.GetScale();
-	GetLevel()->GetMainCamera()->SetPos(GetPos() + float4{ -WindowScale.hX(), -WindowScale.hY() -300.0f });
+	GetLevel()->GetMainCamera()->SetPos(GetPos() + float4{ -WindowScale.hX(), -WindowScale.hY() -100.0f });
 	//GetLevel()->GetMainCamera()->SetPos(GetPos());
 	//GetLevel()->GetMainCamera()->SetPos(GetPos() + float4{ static_cast<float>(-WindowScale.iX()), static_cast<float>(-WindowScale.iY()) });
 	

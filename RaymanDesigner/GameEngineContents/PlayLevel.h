@@ -28,6 +28,7 @@ private:
 	class Player* LevelPlayer = nullptr;
 
 	//임의로 추가한 멤버변수
-	bool DarkMonsterCreate = true;
+	bool CreateDarkRayman = true;
+	bool CreateMrDark = true;
 };
 

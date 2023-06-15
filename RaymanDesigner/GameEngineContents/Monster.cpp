@@ -54,11 +54,11 @@ void Monster::Start()
 
 	{
 		GameEngineRenderer* Ptr = CreateRenderer("DarkRayman_LeftIdle.bmp", RenderOrder::Play);
-		Ptr->SetRenderScale({ 160, 340 });
+		Ptr->SetRenderScale({ 90, 190 });
 		Ptr->SetTexture("DarkRayman_LeftIdle.bmp");
 	}
 
 	GameEngineCollision* BodyCollsion = CreateCollision(CollisionOrder::MonsterBody);
-	BodyCollsion->SetCollisionScale({ 120, 240 });
+	BodyCollsion->SetCollisionScale({ 60, 120 });
 	BodyCollsion->SetCollisionType(CollisionType::Rect);
 }

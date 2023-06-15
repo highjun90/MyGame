@@ -5,7 +5,9 @@
 #include <GameEngineCore/TileMap.h>
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 #include "Monster.h"
+#include "MrDark.h"
 #include "PlayUIManager.h"
 
 
@@ -41,6 +43,17 @@ void PlayLevel::Start()
 	}
 
 
+	if (nullptr == GameEngineSound::FindSound("CandyChateauBGM.ogg"))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\");
+
+		GameEngineSound::SoundLoad(FilePath.PlusFilePath("CandyChateauBGM.ogg"));
+	}
+
+
 
 	// ResourcesManager::GetInst().TextureLoad("AAA.Png", 경로);
 
@@ -73,7 +86,7 @@ void PlayLevel::Start()
 	LevelPlayer->SetGroundTexture("CandyChateauDebug.bmp");
 
 	CreateActor<PlayUIManager>();
-
+	CreateActor<MrDark>();
 }
 
 
@@ -97,14 +110,12 @@ void PlayLevel::Update(float _Delta)
 	}*/
 
 	//임의로 만든 몬스터 1개 만들기, 3초뒤 1마리 나오게
-	if (3.0f <= GetLiveTime() && true == DarkMonsterCreate)
+	if (3.0f <= GetLiveTime() && true == CreateDarkRayman)
 	{
 		Monster* NewMonster = CreateActor<Monster>();
-		DarkMonsterCreate = false;
+		CreateDarkRayman = false;
 	}
 
-
-	// GameEngineCore::ChangeLevel("TitleLevel");
 }
 void PlayLevel::Release() 
 {
@@ -116,6 +127,8 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 	{
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다");
 	}
+
+	GameEngineSound::SoundPlay("CandyChateauBGM.ogg");
 
 	LevelPlayer->SetGroundTexture("CandyChateauDebug.bmp");
 

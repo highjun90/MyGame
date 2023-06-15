@@ -34,6 +34,9 @@
     <ClInclude Include="TitleLevel2.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="MrDark.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -67,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="TitleLevel2.cpp">
       <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="MrDark.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
