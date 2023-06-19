@@ -55,11 +55,14 @@ void Player::Start()
 		//걷기 스프라이트 등록
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_Player.bmp"), 5, 7);
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_Player.bmp"), 5, 7);
+
+		//스프린트 스프라이트 등록
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_RaymanSprint.bmp"), 20, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_RaymanSprint.bmp"), 31, 1);
 	
 		//UI 등록
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("UI_LifeAndHp.bmp"));
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("UI_LeftDownMarble.bmp"));
-
 
 		//선생님코드
 	/*	FolderPath.MoveChild("ContentsResources\\Texture\\");
@@ -88,16 +91,21 @@ void Player::Start()
 		MainRenderer->CreateAnimation("Left_Run", "Left_Player.bmp", 0, 31, 0.02f, true);
 		MainRenderer->CreateAnimation("Right_Run", "Right_Player.bmp", 0, 31, 0.02f, true);
 
+		//스프린트 애니메이션 등록
+		MainRenderer->CreateAnimation("Left_RaymanSprint", "Left_RaymanSprint.bmp", 0, 19, 0.025f, true);
+		MainRenderer->CreateAnimation("Right_RaymanSprint", "Right_RaymanSprint.bmp", 0, 26, 0.035f, true);
 
 		//MainRenderer->ChangeAnimation("Test");
 		MainRenderer->SetRenderScaleToTexture();
 	}
 
+	//hp바 선생님코드
 	//{
-	//	GameEngineRenderer* Ptr = CreateUIRenderer(200);
-	//	Ptr->SetRenderPos({ 100, -300 });
-	//	Ptr->SetRenderScale({ 200, 40 });
-	//	Ptr->SetTexture("HPBar.bmp");
+	//	HPRender = CreateRenderer("HPBar.bmp", RenderOrder::Play);
+	//	HPRender->SetRenderPos({ 0, -200 });
+	//	HPRender->SetRenderScale({ 40, 40 });
+	//	HPRender->SetTexture("HPBar.bmp");
+	//	// Ptr->SetText("ㄻ오너ㅏㅣㄻㅇ노ㅓㅏㅣㄻㅇ노ㅓㅏㅣㄻㅇ노ㅓㅏ림ㅇ노러ㅏㅣㅇㅁㄴ로ㅓ마닝", 40);
 	//}
 
 	/*{
@@ -188,6 +196,8 @@ void Player::StateUpdate(float _Delta)
 		return IdleUpdate(_Delta);
 	case PlayerState::Run:
 		return RunUpdate(_Delta);
+	case PlayerState::Sprint:
+		return SprintUpdate(_Delta);
 	default:
 		break;
 	}
@@ -208,6 +218,9 @@ void Player::ChanageState(PlayerState _State)
 			break;
 		case PlayerState::Jump:
 			JumpStart();
+			break;
+		case PlayerState::Sprint:
+			SprintStart();
 			break;
 		default:
 			break;

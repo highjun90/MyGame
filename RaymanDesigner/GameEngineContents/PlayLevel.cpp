@@ -68,7 +68,7 @@ void PlayLevel::Start()
 	// Player* NewPlayer = new Player();
 
 	BackGroundPtr = CreateActor<BackGround>();
-	BackGroundPtr->Init("CandyChateau.Bmp", "CandyChateauDebug.bmp");
+	BackGroundPtr->Init("CandyChateauExtended01.Bmp", "CandyChateauDebug.bmp");
 
 	//배경이 타일 맵일때
 	/*TileMap* TileObject = CreateActor<TileMap>();
@@ -97,7 +97,7 @@ void PlayLevel::Update(float _Delta)
 		GameEngineCore::ChangeLevel("TitleLevel");
 	}
 
-	if (true == GameEngineInput::IsDown('J'))
+	if (true == GameEngineInput::IsDown(VK_F1))
 	{
 		BackGroundPtr->SwitchRender();
 	}

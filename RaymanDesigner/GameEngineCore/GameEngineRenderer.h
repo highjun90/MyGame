@@ -66,6 +66,7 @@ public:
 		return CameraTypeValue;
 	}
 
+	void SetAngle(float _Angle);
 
 	void SetSprite(const std::string& _Name, size_t _Index = 0);
 
@@ -82,6 +83,8 @@ protected:
 private:
 	GameEngineCamera* Camera = nullptr;
 	GameEngineWindowTexture* Texture = nullptr;
+	GameEngineWindowTexture* MaskTexture = nullptr;
+
 	GameEngineSprite* Sprite = nullptr;
 	float ScaleRatio = 1.0f;
 	bool ScaleCheck = false;
@@ -91,6 +94,8 @@ private:
 	float4 CopyScale;
 	CameraType CameraTypeValue = CameraType::MAIN;
 	std::string Text;
+
+	float Angle = 0.0f;
 
 	void TextRender(float _DeltaTime);
 
