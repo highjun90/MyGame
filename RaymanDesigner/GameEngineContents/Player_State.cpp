@@ -5,6 +5,7 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
+#include <GameEnginePlatform/GameEngineWindow.h>
 
 void Player::IdleStart()
 {
@@ -72,6 +73,12 @@ void Player::IdleUpdate(float _Delta)
 		return;
 	}
 
+	if (true == GameEngineInput::IsPress(VK_SPACE))
+	{
+		ChanageState(PlayerState::Jump);
+		return;
+	}
+
 	// 줄줄이 사탕으로 
 	//if (true)
 	//{
@@ -110,7 +117,7 @@ void Player::RunUpdate(float _Delta)
 
 	DirCheck();
 
-	float Speed = 400.0f;
+	float Speed = 300.0f;
 
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
@@ -223,7 +230,7 @@ void Player::SprintUpdate(float _Delta)
 
 	DirCheck();
 
-	float Speed = 400.0f;
+	float Speed = 600.0f;
 
 	float4 MovePos = float4::ZERO;
 	float4 CheckPos = float4::ZERO;
@@ -245,7 +252,14 @@ void Player::SprintUpdate(float _Delta)
 		MovePos = { Speed * _Delta, 0.0f };
 	}
 
+	if (true == GameEngineInput::IsUp('J') )
+	{
+		DirCheck();
+		ChanageState(PlayerState::Run);
 
+		// unsigned int Color = GetGroundColor(RGB(255, 255, 255));
+
+	}
 
 	//if (true == GameEngineInput::IsPress('W'))
 	//{
@@ -271,5 +285,95 @@ void Player::SprintUpdate(float _Delta)
 			GetLevel()->GetMainCamera()->AddPos(MovePos);
 		}
 	}
+
+}
+
+void Player::DebugmodeStart()
+{
+	ChangeAnimationState("Idle");
+	DebugMode = true;
+}
+
+void Player::DebugmodeUpdate(float _Delta)
+{
+	
+
+	DirCheck();
+
+
+
+	float4 MovePos = float4::ZERO;
+
+
+	if (true == GameEngineInput::IsPress('W') && true == GameEngineInput::IsPress('A') )
+	{
+		MovePos = { -DebugSpeed * _Delta, -DebugSpeed * _Delta };
+	}
+	else if (true == GameEngineInput::IsPress('W') && true == GameEngineInput::IsPress('D') )
+	{
+		MovePos = { DebugSpeed * _Delta, -DebugSpeed * _Delta };
+	}
+	else if (true == GameEngineInput::IsPress('S') && true == GameEngineInput::IsPress('A'))
+	{
+		MovePos = { -DebugSpeed * _Delta, DebugSpeed * _Delta };
+	}
+	else if (true == GameEngineInput::IsPress('S') && true == GameEngineInput::IsPress('D'))
+	{
+		MovePos = { DebugSpeed * _Delta, DebugSpeed * _Delta };
+	}
+	else if (true == GameEngineInput::IsPress('A') && Dir == PlayerDir::Left)
+	{
+		MovePos = { -DebugSpeed * _Delta, 0.0f };
+	}
+	else if (true == GameEngineInput::IsPress('D') && Dir == PlayerDir::Right)
+	{
+		MovePos = { DebugSpeed * _Delta, 0.0f };
+	}
+	else if (true == GameEngineInput::IsPress('W'))
+	{
+		MovePos = { 0.0f, -DebugSpeed * _Delta };
+	}
+	else if (true == GameEngineInput::IsPress('S'))
+	{
+		MovePos = { 0.0f, DebugSpeed * _Delta };
+	}
+
+	if (true == GameEngineInput::IsDown('1'))
+	{
+		DebugSpeed -= 100.0f;
+	}
+	else if (true == GameEngineInput::IsDown('2'))
+	{
+		DebugSpeed += 100.0f;
+	}
+	if (DebugSpeed < 0)
+	{
+		DebugSpeed = 0;
+	}
+
+	
+	/*if (true == GameEngineInput::IsPress('W') && true == GameEngineInput::IsPress('A'))
+	{
+		MovePos = { -Speed * _Delta, -Speed * _Delta };
+	}
+	else if (true == GameEngineInput::IsPress('W') && true == GameEngineInput::IsPress('D'))
+	{
+		MovePos = { Speed * _Delta, -Speed * _Delta };
+	}*/
+
+	AddPos(MovePos);
+	GetLevel()->GetMainCamera()->AddPos(MovePos);
+
+	if (true == GameEngineInput::IsPress(VK_SPACE))
+	{
+		return;
+	}
+
+
+	// 줄줄이 사탕으로 
+	//if (true)
+	//{
+	//	ChanageState(PlayerState::Idle);
+	//}
 
 }

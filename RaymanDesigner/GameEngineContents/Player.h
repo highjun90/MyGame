@@ -7,6 +7,7 @@ enum class PlayerState
 	Run,
 	Jump,
 	Sprint,
+	Debugmode,
 	Max, // 일반적으로 사용하지 않는 값.
 };
 
@@ -44,6 +45,8 @@ public:
 	Player& operator=(Player&& _Other) noexcept = delete;
 
 	GameEngineRenderer* MainRenderer = nullptr;
+	float DebugSpeed = 300.0f;
+	bool DebugMode = false;
 
 protected:
 	void StateUpdate(float _Delta);
@@ -57,12 +60,12 @@ protected:
 
 	void SprintStart();
 	void SprintUpdate(float _Delta);
-	// 클래스로 만들어도 되고.
-	
-	
 
 	void JumpStart();
 	void JumpUpdate(float _Delta);
+
+	void DebugmodeStart();
+	void DebugmodeUpdate(float _Delta);
 
 	void ChanageState(PlayerState State);
 
@@ -87,8 +90,8 @@ private:
 	void Render(float _Delta) override;
 
 	////////////////////// DebugValue
-	float4 LeftCheck = { -100.0f, -50.0f };
-	float4 RightCheck = { 100.0f, -50.0f };
-	float4 DownCheck = { 0, 100.0f };
+	float4 LeftCheck = { -50.0f, -50.0f };
+	float4 RightCheck = { 50.0f, -50.0f };
+	float4 DownCheck = { 0, 90.0f };
 };
 

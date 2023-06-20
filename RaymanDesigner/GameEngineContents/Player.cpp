@@ -181,6 +181,19 @@ void Player::Update(float _Delta)
 		GameEngineLevel::CollisionDebugRenderSwitch();
 	}
 
+	if (true == GameEngineInput::IsDown('C'))
+	{
+		// GameEngineWindow::MainWindow.AddDoubleBufferingCopyScaleRatio(-1.0f * _Delta);
+		ChanageState(PlayerState::Debugmode);
+	}
+
+	if (true == GameEngineInput::IsDown('V'))
+	{
+		// GameEngineWindow::MainWindow.AddDoubleBufferingCopyScaleRatio(-1.0f * _Delta);
+		DebugMode = false;
+		ChanageState(PlayerState::Idle);
+	}
+
 	StateUpdate(_Delta);
 
 	CameraFocus();
@@ -196,8 +209,12 @@ void Player::StateUpdate(float _Delta)
 		return IdleUpdate(_Delta);
 	case PlayerState::Run:
 		return RunUpdate(_Delta);
+	case PlayerState::Jump:
+		return JumpUpdate(_Delta);
 	case PlayerState::Sprint:
 		return SprintUpdate(_Delta);
+	case PlayerState::Debugmode:
+		return DebugmodeUpdate(_Delta);
 	default:
 		break;
 	}
@@ -221,6 +238,9 @@ void Player::ChanageState(PlayerState _State)
 			break;
 		case PlayerState::Sprint:
 			SprintStart();
+			break;
+		case PlayerState::Debugmode:
+			DebugmodeStart();
 			break;
 		default:
 			break;
@@ -260,6 +280,19 @@ void Player::DirCheck()
 		return;
 	}
 
+	if (true == GameEngineInput::IsDown('W') || true == GameEngineInput::IsFree('S'))
+	{
+		Dir = PlayerDir::Up;
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown('S') || true == GameEngineInput::IsFree('W'))
+	{
+		Dir = PlayerDir::Down;
+		return;
+	}
+
+	
 
 	// 원래 있던 코드.
 	/*PlayerDir CheckDir = PlayerDir::Left;
@@ -323,44 +356,70 @@ void Player::LevelStart()
 
 void Player::Render(float _Delta)
 {
-	std::string Text = "";
-
-	Text += "플레이어 테스트 값 : ";
-	Text += std::to_string(TestValue);
 
 	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
-	//TextOutA(dc, 2, 3, Text.c_str(), Text.size());
+	
+	if (DebugMode == true)
+	{
+		std::string Text1 = "";
+		Text1 += "테스트";
+		TextOutA(dc, 2, 3, Text1.c_str(), Text1.size());
+
+		std::string Text2 = "";
+		Text2 += "(키입력)";
+		TextOutA(dc, 2, 120, Text2.c_str(), Text2.size());
+
+		std::string Text3 = "";
+		Text3 += "테스트끄기: V";
+		TextOutA(dc, 2, 140, Text3.c_str(), Text3.size());
+
+		std::string Text4 = "";
+		Text4 += "1: 속도-100 / 2: 속도+100 (지금속도 ";
+		Text4 += std::to_string((int)DebugSpeed);
+		Text4 += ")";
+		TextOutA(dc, 2, 160, Text4.c_str(), Text4.size());
+
+
+		//디버그용 하얀점 만들기
+
+		//디버그용 수치확인 변수
+		float4 a = GetPos();
+		float4 b = GetLevel()->GetMainCamera()->GetPos();
+		float4 c = GetPos() - GetLevel()->GetMainCamera()->GetPos();
+		//하얀점 만들때 그냥 Actor의 Pos인 GetPos()만 하면 되는거 아닌가? 왜 굳이 카메라 위치를 빼나? 그러면 하얀점이 Actor의 pos보다 카메라 pos만큼 더 멀리 떨어지게 되는거 아냐?
+		// -> 
+
+
+		CollisionData Data;
+
+		Data.Pos = ActorCameraPos();
+		Data.Scale = { 5,5 };
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		//왼쪽점
+		Data.Pos = ActorCameraPos() + LeftCheck;
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		//오른쪽점
+		Data.Pos = ActorCameraPos() + RightCheck;
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		//아래점
+		Data.Pos = ActorCameraPos() + DownCheck;
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+	}
+	/*else
+	{
+		std::string Text1 = "";
+		Text1 += "";
+		TextOutA(dc, 2, 120, Text1.c_str(), Text1.size());
+
+		std::string Text2 = "";
+		Text2 += "글자off: 0";
+		TextOutA(dc, 2, 140, Text2.c_str(), Text2.size());
+	}*/
 
 	
 
-
 	
-
-	//디버그용 하얀점 만들기
-	
-	//디버그용 수치확인 변수
-	float4 a = GetPos();
-	float4 b = GetLevel()->GetMainCamera()->GetPos();
-	float4 c = GetPos() - GetLevel()->GetMainCamera()->GetPos();
-	//하얀점 만들때 그냥 Actor의 Pos인 GetPos()만 하면 되는거 아닌가? 왜 굳이 카메라 위치를 빼나? 그러면 하얀점이 Actor의 pos보다 카메라 pos만큼 더 멀리 떨어지게 되는거 아냐?
-	// -> 
-
-
-	CollisionData Data;
-
-	Data.Pos = ActorCameraPos();
-	Data.Scale = { 5,5 };
-	Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-
-	//왼쪽점
-	Data.Pos = ActorCameraPos() + LeftCheck;
-	Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-
-	//오른쪽점
-	Data.Pos = ActorCameraPos() + RightCheck;
-	Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
-
-	//아래점
-	Data.Pos = ActorCameraPos() + DownCheck;
-	Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 }

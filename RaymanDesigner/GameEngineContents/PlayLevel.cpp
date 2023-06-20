@@ -67,8 +67,11 @@ void PlayLevel::Start()
 	// 자기 임의대로 만들겠다는 것이고 xxxxx
 	// Player* NewPlayer = new Player();
 
+	/*BackGroundPtr = CreateActor<BackGround>();
+	BackGroundPtr->Init("CandyChateauExtended01.Bmp", "CandyChateauDebug.bmp");*/
+
 	BackGroundPtr = CreateActor<BackGround>();
-	BackGroundPtr->Init("CandyChateauExtended01.Bmp", "CandyChateauDebug.bmp");
+	BackGroundPtr->Init("testnow.Bmp", "CandyChateauDebug.bmp");
 
 	//배경이 타일 맵일때
 	/*TileMap* TileObject = CreateActor<TileMap>();
