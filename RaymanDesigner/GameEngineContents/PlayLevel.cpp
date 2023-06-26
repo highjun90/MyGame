@@ -29,7 +29,7 @@ PlayLevel::~PlayLevel()
 void PlayLevel::Start() 
 {
 
-	if (false == ResourcesManager::GetInst().IsLoadTexture("MapRedColorDownSize.Bmp"))
+	if (false == ResourcesManager::GetInst().IsLoadTexture("MapRedColor.Bmp"))
 	{
 		GameEnginePath FilePath;
 		FilePath.SetCurrentPath();
@@ -38,7 +38,7 @@ void PlayLevel::Start()
 		GameEnginePath FolderPath = FilePath;
 
 		FilePath.MoveChild("ContentsResources\\Texture\\");
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("MapRedColorDownSize.bmp"));
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("MapRedColor.bmp"));
 
 		//배경이 타일맵 일때
 		//ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Tile.bmp"));
@@ -77,10 +77,10 @@ void PlayLevel::Start()
 	BackGroundImagePtr->Init("CandyChateau1200x800.Bmp");
 
 	BackGroundPtr = CreateActor<BackGround>();
-	BackGroundPtr->Init("Test1DownSize.Bmp", "MapRedColorDownSize.bmp");
+	BackGroundPtr->Init("Test1.Bmp", "MapRedColor.bmp");
 
 	// 카메라 오버 막는데 필요한 데이터인 맵스케일 등록. 맵을 바꾸면 그 맵에 맞춰서 카메라가 나가지 않음
-	GameEngineWindowTexture* Ptr = ResourcesManager::GetInst().FindTexture("Test1DownSize.Bmp");
+	GameEngineWindowTexture* Ptr = ResourcesManager::GetInst().FindTexture("Test1.Bmp");
 	if (nullptr == Ptr)
 	{
 		MsgBoxAssert("맵 텍스처를 알수가 없습니다.");
@@ -100,7 +100,7 @@ void PlayLevel::Start()
 	}*/
 
 	LevelPlayer = CreateActor<Player>();
-	LevelPlayer->SetGroundTexture("MapRedColorDownSize.bmp");
+	LevelPlayer->SetGroundTexture("MapRedColor.bmp");
 
 	CreateActor<PlayUIManager>();
 	CreateActor<MrDark>();
@@ -127,6 +127,8 @@ void PlayLevel::Update(float _Delta)
 	}*/
 
 	//임의로 만든 몬스터 1개 만들기, 3초뒤 1마리 나오게
+
+
 	if (3.0f <= GetLiveTime() && true == CreateDarkRayman)
 	{
 		Monster* NewMonster = CreateActor<Monster>();
@@ -147,7 +149,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 	GameEngineSound::SoundPlay("CandyChateauBGM.ogg");
 
-	LevelPlayer->SetGroundTexture("MapRedColorDownSize.bmp");
+	LevelPlayer->SetGroundTexture("MapRedColor.bmp");
 
 	//float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	////LevelPlayer->SetPos(WinScale.Half());

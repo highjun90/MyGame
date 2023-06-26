@@ -16,10 +16,12 @@ public:
 	MrDark& operator=(const MrDark& _Other) = delete;
 	MrDark&& operator=(MrDark&& _Other) noexcept = delete;
 
+	GameEngineRenderer* MainRenderer = nullptr;
 
 protected:
 
 private:
+
 	void Start() override;
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
