@@ -28,64 +28,59 @@ PlayLevel::~PlayLevel()
 
 void PlayLevel::Start() 
 {
+	//원본 
 
-	if (false == ResourcesManager::GetInst().IsLoadTexture("MapRedColor.Bmp"))
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("ContentsResources");
+	////사운드세팅
+	//if (nullptr == GameEngineSound::FindSound("CandyChateauBGM.ogg"))
+	//{
+	//	GameEnginePath FilePath;
+	//	FilePath.SetCurrentPath();
+	//	FilePath.MoveParentToExistsChild("ContentsResources");
+	//	FilePath.MoveChild("ContentsResources\\Sound\\");
 
-		GameEnginePath FolderPath = FilePath;
+	//	GameEngineSound::SoundLoad(FilePath.PlusFilePath("CandyChateauBGM.ogg"));
+	//}
 
-		FilePath.MoveChild("ContentsResources\\Texture\\");
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("MapRedColor.bmp"));
+	////레드컬러맵세팅
+	//if (false == ResourcesManager::GetInst().IsLoadTexture("MapRedColor.Bmp"))
+	//{
+	//	GameEnginePath FilePath;
+	//	FilePath.SetCurrentPath();
+	//	FilePath.MoveParentToExistsChild("ContentsResources");
 
-		//배경이 타일맵 일때
-		//ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Tile.bmp"));
-		//ResourcesManager::GetInst().CreateSpriteSheet("Tile.bmp", 24, 40);
-	}
+	//	GameEnginePath FolderPath = FilePath;
 
+	//	FilePath.MoveChild("ContentsResources\\Texture\\");
+	//	ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("MapRedColor.bmp"));
 
-	if (nullptr == GameEngineSound::FindSound("CandyChateauBGM.ogg"))
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("ContentsResources");
-		FilePath.MoveChild("ContentsResources\\Sound\\");
+	//	//배경이 타일맵 일때
+	//	//ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Tile.bmp"));
+	//	//ResourcesManager::GetInst().CreateSpriteSheet("Tile.bmp", 24, 40);
+	//}
 
-		GameEngineSound::SoundLoad(FilePath.PlusFilePath("CandyChateauBGM.ogg"));
-	}
+	////배경이미지
+	//BackGroundImagePtr = CreateActor<BackGroundImage>();
+	//BackGroundImagePtr->Init("CandyChateau1200x800.Bmp");
 
+	////배경맵
+	//BackGroundPtr = CreateActor<BackGround>();
+	//BackGroundPtr->Init("Test1.Bmp", "MapRedColor.bmp");
 
+	//// 카메라 오버 막는데 필요한 데이터인 맵스케일 등록. 맵을 바꾸면 그 맵에 맞춰서 카메라가 나가지 않음
+	//GameEngineWindowTexture* Ptr = ResourcesManager::GetInst().FindTexture("Test1.Bmp");
+	//if (nullptr == Ptr)
+	//{
+	//	MsgBoxAssert("맵 텍스처를 알수가 없습니다.");
+	//}
+	//GlobalValue::MapScale = Ptr->GetScale();
 
-	// ResourcesManager::GetInst().TextureLoad("AAA.Png", 경로);
+	//
+	//LevelPlayer = CreateActor<Player>();
+	//LevelPlayer->SetGroundTexture("MapRedColor.bmp");
 
-	// 플레이 레벨이 만들어졌다.
-	// 이 레벨에는 뭐가 있어야지?
-	// 플레이어 만들고
-	// 맵만들고
-	// 몬스터 만들고
-	// 액터
+	//CreateActor<PlayUIManager>();
+	//CreateActor<MrDark>();
 
-	// 자기 임의대로 만들겠다는 것이고 xxxxx
-	// Player* NewPlayer = new Player();
-
-	/*BackGroundPtr = CreateActor<BackGround>();
-	BackGroundPtr->Init("CandyChateauExtended01.Bmp", "CandyChateauDebug.bmp");*/
-
-	BackGroundImagePtr = CreateActor<BackGroundImage>();
-	BackGroundImagePtr->Init("CandyChateau1200x800.Bmp");
-
-	BackGroundPtr = CreateActor<BackGround>();
-	BackGroundPtr->Init("Test1.Bmp", "MapRedColor.bmp");
-
-	// 카메라 오버 막는데 필요한 데이터인 맵스케일 등록. 맵을 바꾸면 그 맵에 맞춰서 카메라가 나가지 않음
-	GameEngineWindowTexture* Ptr = ResourcesManager::GetInst().FindTexture("Test1.Bmp");
-	if (nullptr == Ptr)
-	{
-		MsgBoxAssert("맵 텍스처를 알수가 없습니다.");
-	}
-	GlobalValue::MapScale = Ptr->GetScale();
 
 	//배경이 타일 맵일때
 	/*TileMap* TileObject = CreateActor<TileMap>();
@@ -99,11 +94,57 @@ void PlayLevel::Start()
 		}
 	}*/
 
+
+
+	//================================================= 여기서부터 맵사이즈 줄인파일 이용한 임시소스코드. 사이즈 늘리면 렉이 너무 걸린다 ==========================================
+
+	//사운드세팅
+	if (nullptr == GameEngineSound::FindSound("CandyChateauBGM.ogg"))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\");
+
+		GameEngineSound::SoundLoad(FilePath.PlusFilePath("CandyChateauBGM.ogg"));
+	}
+
+	//레드컬러맵세팅
+	if (false == ResourcesManager::GetInst().IsLoadTexture("MapRedColorDownSize.Bmp"))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+
+		GameEnginePath FolderPath = FilePath;
+
+		FilePath.MoveChild("ContentsResources\\Texture\\");
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("MapRedColorDownSize.bmp"));
+	}
+
+	//배경이미지
+	BackGroundImagePtr = CreateActor<BackGroundImage>();
+	BackGroundImagePtr->Init("CandyChateau1200x800.Bmp");
+
+	//배경맵
+	BackGroundPtr = CreateActor<BackGround>();
+	BackGroundPtr->Init("Test1DownSize.Bmp", "MapRedColorDownSize.bmp");
+
+	// 카메라 오버 막는데 필요한 데이터인 맵스케일 등록. 맵을 바꾸면 그 맵에 맞춰서 카메라가 나가지 않음
+	GameEngineWindowTexture* Ptr = ResourcesManager::GetInst().FindTexture("Test1DownSize.Bmp");
+	if (nullptr == Ptr)
+	{
+		MsgBoxAssert("맵 텍스처를 알수가 없습니다.");
+	}
+	GlobalValue::MapScale = Ptr->GetScale()*4.0f;
+
 	LevelPlayer = CreateActor<Player>();
-	LevelPlayer->SetGroundTexture("MapRedColor.bmp");
+	LevelPlayer->SetGroundTexture("MapRedColorDownSize.bmp");
 
 	CreateActor<PlayUIManager>();
 	CreateActor<MrDark>();
+
+	// ===================================================================================================================================================================================
 }
 
 
@@ -126,9 +167,8 @@ void PlayLevel::Update(float _Delta)
 		ResetLiveTime();
 	}*/
 
+
 	//임의로 만든 몬스터 1개 만들기, 3초뒤 1마리 나오게
-
-
 	if (3.0f <= GetLiveTime() && true == CreateDarkRayman)
 	{
 		Monster* NewMonster = CreateActor<Monster>();
@@ -149,8 +189,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 	GameEngineSound::SoundPlay("CandyChateauBGM.ogg");
 
-	LevelPlayer->SetGroundTexture("MapRedColor.bmp");
-
+	//LevelPlayer->SetGroundTexture("MapRedColor.bmp");
 	//float4 WinScale = GameEngineWindow::MainWindow.GetScale();
 	////LevelPlayer->SetPos(WinScale.Half());
 	//// 0 0

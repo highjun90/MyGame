@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 // 설명 : 모든 기본적인 행동을 제안하는 클래스
 // 제안하는 클래스
@@ -81,10 +82,22 @@ public:
 		LiveTime = 0.0f;
 	}
 
+	void SetName(const std::string& _Name)
+	{
+		Name = _Name;
+	}
+
+	std::string GetName()
+	{
+		return Name;
+	}
+
 protected:
 
 
 private:
+	std::string Name;
+
 	float LiveTime = 0.0f;
 	int Order = 0;
 	bool IsUpdateValue = true; // 이걸 false로 만들면 됩니다.

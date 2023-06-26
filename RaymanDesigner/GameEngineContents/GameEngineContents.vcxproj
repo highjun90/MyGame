@@ -168,6 +168,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentsEnum.h" />
+    <ClInclude Include="DarkRayman.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="DefaultHeader.h" />
     <ClInclude Include="EndingLevel.h">
       <SubType>
@@ -221,6 +225,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ContentCore.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="DarkRayman.cpp">
       <SubType>
       </SubType>
     </ClCompile>

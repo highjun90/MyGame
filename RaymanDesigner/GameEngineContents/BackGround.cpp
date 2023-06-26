@@ -50,20 +50,22 @@ void BackGround::Init(const std::string& _FileName, const std::string& _DebugFil
 
 	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture(_FileName);
 	float4 Scale = { Texture->GetScale() };
-	Renderer->SetTexture(_FileName);
+
+	//원본코드 
+	/*Renderer->SetTexture(_FileName);
 	Renderer->SetRenderScale(Scale);
 	DebugRenderer->SetTexture(_DebugFileName);
 	DebugRenderer->SetRenderScale(Scale);
-	SetPos({ Scale.hX(), Scale.hY() });
+	SetPos({ Scale.hX(), Scale.hY() });*/
 
 	
-	//스케일 수정 한거
-	/*float4 TestScale = { Scale.X * 2.0f , Scale.Y * 2.0f};
+	//스케일 확대해주는 임시코드
+	float4 TestScale = { Scale.X * 4.0f , Scale.Y * 4.0f};
 	Renderer->SetTexture(_FileName);
 	Renderer->SetRenderScale(TestScale);
 	DebugRenderer->SetTexture(_DebugFileName);
 	DebugRenderer->SetRenderScale(TestScale);
-	SetPos({ TestScale.hX(), TestScale.hY() });*/
+	SetPos({ TestScale.hX(), TestScale.hY() });
 }
 
 void BackGround::Init(const std::string& _FileName)
