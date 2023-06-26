@@ -48,7 +48,7 @@ void MrDark::Update(float _Delta)
 
 void MrDark::Start()
 {
-	SetPos({ 1750 , 2670 });
+	SetPos({ 1750 , 2690 });
 	
 
 	if (false == ResourcesManager::GetInst().IsLoadTexture("MrDark.bmp"))
@@ -67,7 +67,7 @@ void MrDark::Start()
 		MainRenderer = CreateRenderer(100);
 
 		//미스터 다크 애니메이션 등록
-		MainRenderer->CreateAnimation("MrDarkAnimation", "MrDark.bmp", 0, 18, 0.04f, false);
+		MainRenderer->CreateAnimation("MrDarkAnimation", "MrDark.bmp", 0, 18, 0.05f, false);
 		//MainRenderer->SetRenderScaleToTexture();
 
 		MainRenderer->ChangeAnimation("MrDarkAnimation");

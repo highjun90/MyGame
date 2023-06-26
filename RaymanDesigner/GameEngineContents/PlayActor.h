@@ -50,7 +50,7 @@ private:
 
 	bool IsGravity = true;
 
-	float GravityPower = 1200.0f;
+	float GravityPower = 3000.0f;
 	float4 GravityVector = float4::ZERO;
 
 };

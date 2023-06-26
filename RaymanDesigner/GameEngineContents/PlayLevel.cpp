@@ -9,6 +9,7 @@
 #include "Monster.h"
 #include "MrDark.h"
 #include "PlayUIManager.h"
+#include "FadeObject.h"
 
 
 
@@ -30,56 +31,60 @@ void PlayLevel::Start()
 {
 	//원본 
 
-	////사운드세팅
-	//if (nullptr == GameEngineSound::FindSound("CandyChateauBGM.ogg"))
-	//{
-	//	GameEnginePath FilePath;
-	//	FilePath.SetCurrentPath();
-	//	FilePath.MoveParentToExistsChild("ContentsResources");
-	//	FilePath.MoveChild("ContentsResources\\Sound\\");
+	//사운드세팅
+	if (nullptr == GameEngineSound::FindSound("CandyChateauBGM.ogg"))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\");
 
-	//	GameEngineSound::SoundLoad(FilePath.PlusFilePath("CandyChateauBGM.ogg"));
-	//}
+		GameEngineSound::SoundLoad(FilePath.PlusFilePath("CandyChateauBGM.ogg"));
+	}
 
-	////레드컬러맵세팅
-	//if (false == ResourcesManager::GetInst().IsLoadTexture("MapRedColor.Bmp"))
-	//{
-	//	GameEnginePath FilePath;
-	//	FilePath.SetCurrentPath();
-	//	FilePath.MoveParentToExistsChild("ContentsResources");
+	//레드컬러맵세팅
+	if (false == ResourcesManager::GetInst().IsLoadTexture("MapRedColor.Bmp"))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
 
-	//	GameEnginePath FolderPath = FilePath;
+		GameEnginePath FolderPath = FilePath;
 
-	//	FilePath.MoveChild("ContentsResources\\Texture\\");
-	//	ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("MapRedColor.bmp"));
+		FilePath.MoveChild("ContentsResources\\Texture\\");
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("MapRedColor.bmp"));
 
-	//	//배경이 타일맵 일때
-	//	//ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Tile.bmp"));
-	//	//ResourcesManager::GetInst().CreateSpriteSheet("Tile.bmp", 24, 40);
-	//}
+		//배경이 타일맵 일때
+		//ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Tile.bmp"));
+		//ResourcesManager::GetInst().CreateSpriteSheet("Tile.bmp", 24, 40);
+	}
 
-	////배경이미지
-	//BackGroundImagePtr = CreateActor<BackGroundImage>();
-	//BackGroundImagePtr->Init("CandyChateau1200x800.Bmp");
+	//배경이미지
+	BackGroundImagePtr = CreateActor<BackGroundImage>();
+	BackGroundImagePtr->Init("CandyChateau1200x800.Bmp");
 
-	////배경맵
-	//BackGroundPtr = CreateActor<BackGround>();
-	//BackGroundPtr->Init("Test1.Bmp", "MapRedColor.bmp");
+	//배경맵
+	BackGroundPtr = CreateActor<BackGround>();
+	BackGroundPtr->Init("Test1.Bmp", "MapRedColor.bmp");
 
-	//// 카메라 오버 막는데 필요한 데이터인 맵스케일 등록. 맵을 바꾸면 그 맵에 맞춰서 카메라가 나가지 않음
-	//GameEngineWindowTexture* Ptr = ResourcesManager::GetInst().FindTexture("Test1.Bmp");
-	//if (nullptr == Ptr)
-	//{
-	//	MsgBoxAssert("맵 텍스처를 알수가 없습니다.");
-	//}
-	//GlobalValue::MapScale = Ptr->GetScale();
+	// 카메라 오버 막는데 필요한 데이터인 맵스케일 등록. 맵을 바꾸면 그 맵에 맞춰서 카메라가 나가지 않음
+	GameEngineWindowTexture* Ptr = ResourcesManager::GetInst().FindTexture("Test1.Bmp");
+	if (nullptr == Ptr)
+	{
+		MsgBoxAssert("맵 텍스처를 알수가 없습니다.");
+	}
+	GlobalValue::MapScale = Ptr->GetScale();
 
-	//
-	//LevelPlayer = CreateActor<Player>();
-	//LevelPlayer->SetGroundTexture("MapRedColor.bmp");
+	
+	LevelPlayer = CreateActor<Player>();
+	LevelPlayer->SetGroundTexture("MapRedColor.bmp");
 
-	//CreateActor<PlayUIManager>();
-	//CreateActor<MrDark>();
+	{
+		FadeObject* FObject = CreateActor<FadeObject>();
+	}
+
+	CreateActor<PlayUIManager>();
+	CreateActor<MrDark>();
 
 
 	//배경이 타일 맵일때
@@ -98,51 +103,51 @@ void PlayLevel::Start()
 
 	//================================================= 여기서부터 맵사이즈 줄인파일 이용한 임시소스코드. 사이즈 늘리면 렉이 너무 걸린다 ==========================================
 
-	//사운드세팅
-	if (nullptr == GameEngineSound::FindSound("CandyChateauBGM.ogg"))
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("ContentsResources");
-		FilePath.MoveChild("ContentsResources\\Sound\\");
+	////사운드세팅
+	//if (nullptr == GameEngineSound::FindSound("CandyChateauBGM.ogg"))
+	//{
+	//	GameEnginePath FilePath;
+	//	FilePath.SetCurrentPath();
+	//	FilePath.MoveParentToExistsChild("ContentsResources");
+	//	FilePath.MoveChild("ContentsResources\\Sound\\");
 
-		GameEngineSound::SoundLoad(FilePath.PlusFilePath("CandyChateauBGM.ogg"));
-	}
+	//	GameEngineSound::SoundLoad(FilePath.PlusFilePath("CandyChateauBGM.ogg"));
+	//}
 
-	//레드컬러맵세팅
-	if (false == ResourcesManager::GetInst().IsLoadTexture("MapRedColorDownSize.Bmp"))
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("ContentsResources");
+	////레드컬러맵세팅
+	//if (false == ResourcesManager::GetInst().IsLoadTexture("MapRedColorDownSize.Bmp"))
+	//{
+	//	GameEnginePath FilePath;
+	//	FilePath.SetCurrentPath();
+	//	FilePath.MoveParentToExistsChild("ContentsResources");
 
-		GameEnginePath FolderPath = FilePath;
+	//	GameEnginePath FolderPath = FilePath;
 
-		FilePath.MoveChild("ContentsResources\\Texture\\");
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("MapRedColorDownSize.bmp"));
-	}
+	//	FilePath.MoveChild("ContentsResources\\Texture\\");
+	//	ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("MapRedColorDownSize.bmp"));
+	//}
 
-	//배경이미지
-	BackGroundImagePtr = CreateActor<BackGroundImage>();
-	BackGroundImagePtr->Init("CandyChateau1200x800.Bmp");
+	////배경이미지
+	//BackGroundImagePtr = CreateActor<BackGroundImage>();
+	//BackGroundImagePtr->Init("CandyChateau1200x800.Bmp");
 
-	//배경맵
-	BackGroundPtr = CreateActor<BackGround>();
-	BackGroundPtr->Init("Test1DownSize.Bmp", "MapRedColorDownSize.bmp");
+	////배경맵
+	//BackGroundPtr = CreateActor<BackGround>();
+	//BackGroundPtr->Init("Test1DownSize.Bmp", "MapRedColorDownSize.bmp");
 
-	// 카메라 오버 막는데 필요한 데이터인 맵스케일 등록. 맵을 바꾸면 그 맵에 맞춰서 카메라가 나가지 않음
-	GameEngineWindowTexture* Ptr = ResourcesManager::GetInst().FindTexture("Test1DownSize.Bmp");
-	if (nullptr == Ptr)
-	{
-		MsgBoxAssert("맵 텍스처를 알수가 없습니다.");
-	}
-	GlobalValue::MapScale = Ptr->GetScale()*4.0f;
+	//// 카메라 오버 막는데 필요한 데이터인 맵스케일 등록. 맵을 바꾸면 그 맵에 맞춰서 카메라가 나가지 않음
+	//GameEngineWindowTexture* Ptr = ResourcesManager::GetInst().FindTexture("Test1DownSize.Bmp");
+	//if (nullptr == Ptr)
+	//{
+	//	MsgBoxAssert("맵 텍스처를 알수가 없습니다.");
+	//}
+	//GlobalValue::MapScale = Ptr->GetScale()*4.0f;
 
-	LevelPlayer = CreateActor<Player>();
-	LevelPlayer->SetGroundTexture("MapRedColorDownSize.bmp");
+	//LevelPlayer = CreateActor<Player>();
+	//LevelPlayer->SetGroundTexture("MapRedColorDownSize.bmp");
 
-	CreateActor<PlayUIManager>();
-	CreateActor<MrDark>();
+	//CreateActor<PlayUIManager>();
+	//CreateActor<MrDark>();
 
 	// ===================================================================================================================================================================================
 }

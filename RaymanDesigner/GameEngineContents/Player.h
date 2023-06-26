@@ -6,6 +6,7 @@ enum class PlayerState
 	Idle,
 	Run,
 	Jump,
+	JumpHold,
 	Sprint,
 	Debugmode,
 	Max, // 일반적으로 사용하지 않는 값.
@@ -78,6 +79,9 @@ protected:
 
 	void JumpStart();
 	void JumpUpdate(float _Delta);
+
+	void JumpHoldStart();
+	void JumpHoldUpdate(float _Delta);
 
 	void DebugmodeStart();
 	void DebugmodeUpdate(float _Delta);

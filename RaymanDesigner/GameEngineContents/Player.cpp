@@ -36,7 +36,7 @@ void Player::Start()
 {
 	if (false == ResourcesManager::GetInst().IsLoadTexture("Idle_RIght.bmp"))
 	{
-		DebugStartPoint = { 1300,2500 };
+		DebugStartPoint = { 1300,2600 };
 		//DebugStartPoint = { 0,0 };
 		SetPos(DebugStartPoint);
 
@@ -61,6 +61,11 @@ void Player::Start()
 		//스프린트 스프라이트 등록
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_RaymanSprint.bmp"), 31, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_RaymanSprint.bmp"), 31, 1);
+
+		//점프 스프라이트 등록
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_RaymanJump.bmp"), 42, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_RaymanJump.bmp"), 42, 1);
+		
 	
 		//UI 등록
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("UI_LifeAndHp.bmp"));
@@ -97,6 +102,13 @@ void Player::Start()
 		MainRenderer->CreateAnimation("Left_RaymanSprint", "Left_RaymanSprint.bmp", 26, 0, 0.035f, true);
 		MainRenderer->CreateAnimation("Right_RaymanSprint", "Right_RaymanSprint.bmp", 0, 26, 0.035f, true);
 
+		//점프 애니메이션 등록
+		MainRenderer->CreateAnimation("Left_RaymanJump", "Left_RaymanJump.bmp", 0, 29, 0.025f, false);
+		MainRenderer->CreateAnimation("Right_RaymanJump", "Right_RaymanJump.bmp", 0, 29, 0.025f, false);
+		//점프 하강유지 애니메이션 등록
+		MainRenderer->CreateAnimation("Left_RaymanJumpHold", "Left_RaymanJump.bmp", 30, 41, 0.04f, true);
+		MainRenderer->CreateAnimation("Right_RaymanJumpHold", "Right_RaymanJump.bmp", 30, 41, 0.04f, true);
+
 		//MainRenderer->ChangeAnimation("Test");
 		MainRenderer->SetRenderScaleToTexture();
 	}
@@ -125,13 +137,8 @@ void Player::Start()
 	}
 
 
-	// SetGroundTexture("StageTestPixel.bmp");
-
-	
-
-	// State = PlayerState::Idle;
-
-	ChanageState(PlayerState::Idle);
+	//ChanageState(PlayerState::Idle);
+	ChanageState(PlayerState::JumpHold);
 	Dir = PlayerDir::Right;
 }
 
@@ -214,6 +221,8 @@ void Player::StateUpdate(float _Delta)
 		return RunUpdate(_Delta);
 	case PlayerState::Jump:
 		return JumpUpdate(_Delta);
+	case PlayerState::JumpHold:
+		return JumpHoldUpdate(_Delta);
 	case PlayerState::Sprint:
 		return SprintUpdate(_Delta);
 	case PlayerState::Debugmode:
@@ -238,6 +247,9 @@ void Player::ChanageState(PlayerState _State)
 			break;
 		case PlayerState::Jump:
 			JumpStart();
+			break;
+		case PlayerState::JumpHold:
+			JumpHoldStart();
 			break;
 		case PlayerState::Sprint:
 			SprintStart();
@@ -402,6 +414,19 @@ void Player::Render(float _Delta)
 		std::string Text9 = "";
 		Text9 += "Space: 점프 ";
 		TextOutA(dc, 200, 240, Text9.c_str(), (int)Text9.size());
+
+
+
+
+
+		std::string F1_Key = "";
+		F1_Key += "F1: 맵전환 ";
+		TextOutA(dc, 1130, 30, F1_Key.c_str(), (int)F1_Key.size());
+
+		std::string Y_Key = "";
+		Y_Key += "Y: 충돌표시 ";
+		TextOutA(dc, 1130, 50, Y_Key.c_str(), (int)Y_Key.size());
+
 
 		//디버그용 하얀점 만들기
 

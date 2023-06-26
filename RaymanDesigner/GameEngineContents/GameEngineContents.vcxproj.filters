@@ -46,6 +46,9 @@
     <ClInclude Include="DarkRayman.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="FadeObject.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -90,6 +93,9 @@
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="DarkRayman.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeObject.cpp">
       <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>

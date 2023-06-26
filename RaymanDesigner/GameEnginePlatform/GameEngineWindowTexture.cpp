@@ -280,3 +280,34 @@ void GameEngineWindowTexture::PlgCopy(GameEngineWindowTexture* _CopyTexture
 	);
 
 }
+
+void GameEngineWindowTexture::AlphaCopy(GameEngineWindowTexture* _CopyTexture, const float4& _Pos, const float4& _Scale, const float4& _OtherPos, const float4& _OtherScale, unsigned char _Alpha)
+{
+	if (nullptr == _CopyTexture)
+	{
+		MsgBoxAssert("카피할 텍스처가 세팅되지 않았습니다.");
+	}
+
+	HDC CopyImageDC = _CopyTexture->GetImageDC();
+
+	BLENDFUNCTION Function;  //BLENDFUNCTION 구조체로, AlphaBlend함수 인자로 쓰이며 이미지의 투명도와 투명 방식을 설정합니다.
+
+	Function.BlendOp = AC_SRC_OVER;          //BlendOp 멤버는 원본 이미지와 대상 이미지를 섞는다는 의미인 AC_SRC_OVER만 존재하므로 이 값을 사용해야함
+	Function.BlendFlags = 0;                 //사용되지 않으므로 무조건 0
+	Function.SourceConstantAlpha = _Alpha;   //불투명도. 0부터 255까지 지정
+	Function.AlphaFormat = AC_SRC_ALPHA;     //AlphaFormat 멤버는 32비트 비트맵의 경우 AC_SRC_ALPHA로 설정하고 그외에는 0으로 설정합니다.
+
+	AlphaBlend(
+		ImageDC,                    //윈도우 DC
+		_Pos.iX() - _Scale.ihX(),   //카메라 화면 정중앙에 검은화면(fade파일)이 위치할테니 위치를 scale의 반반씩 마이너쓰 해주면 위치가 왼쪽위로 갈것임
+		_Pos.iY() - _Scale.ihY(),
+		_Scale.iX(),
+		_Scale.iY(),
+		CopyImageDC,                //Fade파일 DC
+		_OtherPos.iX(), // 카피하려는 이미지의 왼쪽위 x
+		_OtherPos.iY(), // 카피하려는 이미지의 왼쪽위 y
+		_OtherScale.iX(), // 그부분부터 사이즈  x
+		_OtherScale.iY(), // 그부분부터 사이즈  y
+		Function
+	);
+}
