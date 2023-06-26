@@ -34,9 +34,11 @@ Player::~Player()
 
 void Player::Start()
 {
-	if (false == ResourcesManager::GetInst().IsLoadTexture("Test.Bmp"))
+	if (false == ResourcesManager::GetInst().IsLoadTexture("Idle_RIght.bmp"))
 	{
-		SetPos({ 960,400 });
+		DebugStartPoint = { 1300,2500 };
+		//DebugStartPoint = { 0,0 };
+		SetPos(DebugStartPoint);
 
 		GameEnginePath FilePath;
 		FilePath.SetCurrentPath();
@@ -57,7 +59,7 @@ void Player::Start()
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_Player.bmp"), 5, 7);
 
 		//스프린트 스프라이트 등록
-		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_RaymanSprint.bmp"), 20, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_RaymanSprint.bmp"), 31, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_RaymanSprint.bmp"), 31, 1);
 	
 		//UI 등록
@@ -92,7 +94,7 @@ void Player::Start()
 		MainRenderer->CreateAnimation("Right_Run", "Right_Player.bmp", 0, 31, 0.02f, true);
 
 		//스프린트 애니메이션 등록
-		MainRenderer->CreateAnimation("Left_RaymanSprint", "Left_RaymanSprint.bmp", 0, 19, 0.025f, true);
+		MainRenderer->CreateAnimation("Left_RaymanSprint", "Left_RaymanSprint.bmp", 26, 0, 0.035f, true);
 		MainRenderer->CreateAnimation("Right_RaymanSprint", "Right_RaymanSprint.bmp", 0, 26, 0.035f, true);
 
 		//MainRenderer->ChangeAnimation("Test");
@@ -191,6 +193,7 @@ void Player::Update(float _Delta)
 	{
 		// GameEngineWindow::MainWindow.AddDoubleBufferingCopyScaleRatio(-1.0f * _Delta);
 		DebugMode = false;
+		GravityReset();
 		ChanageState(PlayerState::Idle);
 	}
 
@@ -362,23 +365,43 @@ void Player::Render(float _Delta)
 	if (DebugMode == true)
 	{
 		std::string Text1 = "";
-		Text1 += "테스트";
-		TextOutA(dc, 2, 3, Text1.c_str(), Text1.size());
+		Text1 += "테스트모드";
+		TextOutA(dc, 2, 3, Text1.c_str(), (int)Text1.size());
 
+		
 		std::string Text2 = "";
 		Text2 += "(키입력)";
-		TextOutA(dc, 2, 120, Text2.c_str(), Text2.size());
+		TextOutA(dc, 2, 120, Text2.c_str(), (int)Text2.size());
 
 		std::string Text3 = "";
-		Text3 += "테스트끄기: V";
-		TextOutA(dc, 2, 140, Text3.c_str(), Text3.size());
+		Text3 += "테스트 끄기: V";
+		TextOutA(dc, 2, 140, Text3.c_str(), (int)Text3.size());
 
 		std::string Text4 = "";
-		Text4 += "1: 속도-100 / 2: 속도+100 (지금속도 ";
+		Text4 += "테스트 이속 Q: -100, E: +100 (속도:  ";
 		Text4 += std::to_string((int)DebugSpeed);
 		Text4 += ")";
-		TextOutA(dc, 2, 160, Text4.c_str(), Text4.size());
+		TextOutA(dc, 2, 160, Text4.c_str(), (int)Text4.size());
 
+		std::string Text5 = "";
+		Text5 += "3: 종료지점이동 ";
+		TextOutA(dc, 2, 180, Text5.c_str(), (int)Text5.size());
+
+		std::string Text6 = "";
+		Text6 += "4: 시작지점이동 ";
+		TextOutA(dc, 2, 200, Text6.c_str(), (int)Text6.size());
+
+		std::string Text7 = "";
+		Text7 += "WASD: 이동 ";
+		TextOutA(dc, 200, 200, Text7.c_str(), (int)Text7.size());
+
+		std::string Text8 = "";
+		Text8 += "J: 달리기 ";
+		TextOutA(dc, 200, 220, Text8.c_str(), (int)Text8.size());
+
+		std::string Text9 = "";
+		Text9 += "Space: 점프 ";
+		TextOutA(dc, 200, 240, Text9.c_str(), (int)Text9.size());
 
 		//디버그용 하얀점 만들기
 

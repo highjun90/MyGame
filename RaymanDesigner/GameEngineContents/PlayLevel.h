@@ -24,7 +24,9 @@ private:
 	void Update(float _Delta) override;
 	void Release() override;
 
+	class BackGroundImage* BackGroundImagePtr = nullptr;
 	class BackGround* BackGroundPtr = nullptr;
+	
 	class Player* LevelPlayer = nullptr;
 
 	//임의로 추가한 멤버변수

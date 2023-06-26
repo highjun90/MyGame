@@ -121,11 +121,28 @@ public:
 		, CollisionType _ThisType = CollisionType::CirCle
 		, CollisionType _OtherType = CollisionType::CirCle);
 
+	template<typename EnumType>
+	bool CollisionNext(const float4& _NextPos, EnumType _Order, std::vector<GameEngineCollision*>& _Result
+		, CollisionType _ThisType = CollisionType::CirCle
+		, CollisionType _OtherType = CollisionType::CirCle)
+	{
+		return CollisionNext(static_cast<int>(_Order), _Result, _ThisType, _OtherType);
+	}
+
+	bool CollisionNext(const float4& _NextPos, int _Order, std::vector<GameEngineCollision*>& _Result
+		, CollisionType _ThisType = CollisionType::CirCle
+		, CollisionType _OtherType = CollisionType::CirCle);
+
 	void SetOrder(int _Order) override;
 
 	bool CollisonCheck(GameEngineCollision* _Other
 		, CollisionType _ThisType
 		, CollisionType _OtherType);
+
+	bool CollisonCheckNext(const CollisionData& _Next, GameEngineCollision* _Other
+		, CollisionType _ThisType
+		, CollisionType _OtherType);
+
 
 	float4 GetActorPivotPos();
 
@@ -159,9 +176,16 @@ public:
 		CollisionRenderValue = false;
 	}
 
+	void IsUIOn()
+	{
+		IsUI = true;
+	}
+
 protected:
 
 private:
+	bool IsUI = false;
+
 	CollisionType ColType = CollisionType::Rect;
 
 	bool CollisionRenderValue = true;

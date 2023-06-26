@@ -37,6 +37,12 @@
     <ClInclude Include="MrDark.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="BackGroundImage.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -72,6 +78,12 @@
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="MrDark.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGroundImage.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalValue.cpp">
       <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>

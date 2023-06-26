@@ -8,6 +8,7 @@ enum class UpdateOrder
 
 enum class RenderOrder
 {
+	BackGroundImage,
 	BackGround,
 	Play,
 	PlayUI,

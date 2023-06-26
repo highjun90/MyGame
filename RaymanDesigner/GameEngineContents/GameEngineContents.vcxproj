@@ -159,6 +159,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BackGroundImage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentCore.h">
       <SubType>
       </SubType>
@@ -166,6 +170,10 @@
     <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="DefaultHeader.h" />
     <ClInclude Include="EndingLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -208,11 +216,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BackGroundImage.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentCore.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="EndingLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GlobalValue.cpp">
       <SubType>
       </SubType>
     </ClCompile>

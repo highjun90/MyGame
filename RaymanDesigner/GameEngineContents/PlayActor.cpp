@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/ResourcesManager.h>
+#include "GlobalValue.h"
 
 PlayActor::PlayActor() 
 {
@@ -10,6 +11,7 @@ PlayActor::PlayActor()
 
 PlayActor::~PlayActor() 
 {
+	
 }
 
 void PlayActor::Gravity(float _Delta) 
@@ -29,10 +31,32 @@ void PlayActor::CameraFocus()
 {
 	float4 WindowScale = GameEngineWindow::MainWindow.GetScale();
 	GetLevel()->GetMainCamera()->SetPos(GetPos() + float4{ -WindowScale.hX(), -WindowScale.hY() -100.0f });
-	//GetLevel()->GetMainCamera()->SetPos(GetPos());
-	//GetLevel()->GetMainCamera()->SetPos(GetPos() + float4{ static_cast<float>(-WindowScale.iX()), static_cast<float>(-WindowScale.iY()) });
+	
+
+
+
+	//카메라 이동하는 기능있고 카메라 오버기능 막는것도 있음. 원래는 Player_State에 있었음
+	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
+	if (0 >= CameraPos.X)
+	{
+		CameraPos.X = 0.0f;
+	}
+	if (0 >= CameraPos.Y)
+	{
+		CameraPos.Y = 0.0f;
+	}
+	if (GlobalValue::MapScale.X <= CameraPos.X + WindowScale.X)
+	{
+		CameraPos.X = GlobalValue::MapScale.X - WindowScale.X;
+	}
+	if (GlobalValue::MapScale.Y <= CameraPos.Y + WindowScale.Y)
+	{
+		CameraPos.Y = GlobalValue::MapScale.Y - WindowScale.Y;
+	}
+	GetLevel()->GetMainCamera()->SetPos(CameraPos);
 	
 }
+
 
 void PlayActor::SetGroundTexture(const std::string& _GroundTextureName)
 {

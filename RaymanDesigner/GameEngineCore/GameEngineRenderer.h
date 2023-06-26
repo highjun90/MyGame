@@ -72,9 +72,13 @@ public:
 
 	void SetTexture(const std::string& _Name);
 
+	void SetMaskTexture(const std::string& _Name);
+
 	void SetRenderScaleToTexture();
 
 	void SetOrder(int _Order) override; 
+
+	float GetActorYPivot();
 
 protected:
 	void Start() override;
@@ -94,6 +98,8 @@ private:
 	float4 CopyScale;
 	CameraType CameraTypeValue = CameraType::MAIN;
 	std::string Text;
+
+	float YPivot = 0.0f;
 
 	float Angle = 0.0f;
 
@@ -140,6 +146,8 @@ public:
 
 	void MainCameraSetting();
 	void UICameraSetting();
+
+	void Update(float _Delta) override;
 
 	size_t GetCurFrame() 
 	{

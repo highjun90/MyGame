@@ -258,6 +258,16 @@ public:
 		return Rot;
 	}
 
+	static float4 LerpClimp(const float4& Start, const float4& _End, float _Ratio)
+	{
+
+		if (1.0f <= _Ratio)
+		{
+			_Ratio = 1.0f;
+		}
+
+		return (Start * (1.0f - _Ratio)) + (_End * _Ratio);
+	}
 	// GetUnitVectorFromDeg(45)
 
 	static float4 GetUnitVectorFromDeg(const float _Degree)

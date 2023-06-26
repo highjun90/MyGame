@@ -10,4 +10,5 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 { 
 	GameEngineCore::EngineStart<ContentCore>("RaymanDesigner", hInstance);
 	return 0; 
+	//int a = 0;
 }

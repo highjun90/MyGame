@@ -37,12 +37,29 @@ public:
 		Pos += _Value;
 	}
 
+	void SetYSort(int _Order, bool _Sort)
+	{
+		YSort[_Order] = _Sort;
+	}
+
+	bool GetYSort(int _Order)
+	{
+		if (YSort.end() == YSort.find(_Order))
+		{
+			YSort[_Order] = false;
+		}
+
+		return YSort[_Order];
+	}
+
 protected:
 
 private:
 	float4 Pos = float4::ZERO;
 
 	std::map<int, std::list<GameEngineRenderer*>> Renderers;
+
+	std::map<int, bool> YSort;
 
 	void PushRenderer(GameEngineRenderer* _Renderer, int _Order);
 

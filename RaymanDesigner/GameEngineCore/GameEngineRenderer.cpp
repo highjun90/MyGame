@@ -30,6 +30,7 @@ void GameEngineRenderer::SetSprite(const std::string& _Name, size_t _Index/* = 0
 	const GameEngineSprite::Sprite& SpriteInfo = Sprite->GetSprite(_Index);
 
 	Texture = SpriteInfo.BaseTexture;
+	MaskTexture = SpriteInfo.MaskTexture;
 
 	SetCopyPos(SpriteInfo.RenderPos);
 	SetCopyScale(SpriteInfo.RenderScale);
@@ -51,6 +52,16 @@ void GameEngineRenderer::SetTexture(const std::string& _Name)
 	if (false == ScaleCheck)
 	{
 		SetRenderScaleToTexture();
+	}
+}
+
+void GameEngineRenderer::SetMaskTexture(const std::string& _Name)
+{
+	MaskTexture = ResourcesManager::GetInst().FindTexture(_Name);
+
+	if (nullptr == MaskTexture)
+	{
+		MsgBoxAssert("존재하지 않는 마스크 텍스처를 세팅하려고 했습니다." + _Name);
 	}
 }
 
@@ -111,13 +122,9 @@ void GameEngineRenderer::TextRender(float _DeltaTime)
 	return;
 }
 
-void GameEngineRenderer::Render(float _DeltaTime) 
+void GameEngineRenderer::Update(float _Delta)
 {
-	if ("" != Text)
-	{
-		TextRender(_DeltaTime);
-		return;
-	}
+
 
 	if (nullptr != CurAnimation)
 	{
@@ -126,7 +133,8 @@ void GameEngineRenderer::Render(float _DeltaTime)
 			CurAnimation->IsEnd = false;
 		}
 
-		CurAnimation->CurInter -= _DeltaTime;
+		CurAnimation->CurInter -= _Delta;
+
 		if (0.0f >= CurAnimation->CurInter)
 		{
 			++CurAnimation->CurFrame;
@@ -140,7 +148,7 @@ void GameEngineRenderer::Render(float _DeltaTime)
 				{
 					CurAnimation->CurFrame = 0;
 				}
-				else 
+				else
 				{
 					--CurAnimation->CurFrame;
 				}
@@ -149,6 +157,14 @@ void GameEngineRenderer::Render(float _DeltaTime)
 			CurAnimation->CurInter
 				= CurAnimation->Inters[CurAnimation->CurFrame];
 		}
+
+	}
+}
+
+void GameEngineRenderer::Render(float _DeltaTime)
+{
+	if (nullptr != CurAnimation)
+	{
 
 		size_t Frame = CurAnimation->Frames[CurAnimation->CurFrame];
 
@@ -164,6 +180,13 @@ void GameEngineRenderer::Render(float _DeltaTime)
 			SetRenderScale(SpriteInfo.RenderScale * ScaleRatio);
 		}
 	}
+
+	if ("" != Text)
+	{
+		TextRender(_DeltaTime);
+		return;
+	}
+
 
 	if (nullptr == Texture)
 	{
@@ -382,4 +405,11 @@ void GameEngineRenderer::SetOrder(int _Order)
 	std::list<GameEngineRenderer*>& NextRenders = Camera->Renderers[GetOrder()];
 	NextRenders.push_back(this);
 
+}
+
+float GameEngineRenderer::GetActorYPivot()
+{
+	float4 ActorPos = GetActor()->GetPos() + RenderPos;
+
+	return ActorPos.Y + YPivot;
 }

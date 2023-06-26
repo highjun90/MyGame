@@ -17,21 +17,9 @@ TitleLevel::~TitleLevel()
 
 void TitleLevel::Start()
 {
-	if (false == ResourcesManager::GetInst().IsLoadTexture("CandyChateauDebug.Bmp"))
-	{
-		GameEnginePath FilePath;
-		FilePath.SetCurrentPath();
-		FilePath.MoveParentToExistsChild("ContentsResources");
-
-		GameEnginePath FolderPath = FilePath;
-
-		FilePath.MoveChild("ContentsResources\\Texture\\");
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("CandyChateauDebug.bmp"));
-
-	}
 
 	BackGroundPtr = CreateActor<BackGround>();
-	BackGroundPtr->Init("UbiSoftLogo.Bmp", "CandyChateauDebug.bmp");
+	BackGroundPtr->Init("UbiSoftLogo.Bmp");
 }
 
 

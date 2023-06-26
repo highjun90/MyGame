@@ -45,8 +45,23 @@ public:
 	Player& operator=(Player&& _Other) noexcept = delete;
 
 	GameEngineRenderer* MainRenderer = nullptr;
+
+	void SetJumpSpeed(float _Speed)
+	{
+		JumpSpeed = _Speed;
+	}
+
+	float GetJumpSpeed()
+	{
+		return JumpSpeed;
+	}
+
 	float DebugSpeed = 300.0f;
 	bool DebugMode = false;
+	float4 DebugStartPoint = float4::ZERO;
+
+
+	
 
 protected:
 	void StateUpdate(float _Delta);
@@ -89,9 +104,13 @@ private:
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
+	float JumpSpeed = 300.0f;
+
 	////////////////////// DebugValue
 	float4 LeftCheck = { -50.0f, -50.0f };
 	float4 RightCheck = { 50.0f, -50.0f };
 	float4 DownCheck = { 0, 90.0f };
+
+
 };
 
