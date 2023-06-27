@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/GameEngineCollision.h>
 
 class GoalPoint : public GameEngineActor
 {
@@ -21,11 +22,39 @@ public:
 		return GoalRenderer;
 	}
 
+	static void ChangeGoalPointRenderTrue()
+	{
+		GoalPointIsRender = true;
+	}
+	static void ChangeGoalPointRenderFalse()
+	{
+		GoalPointIsRender = false;
+	}
+	static bool GetGoalPointIsRender()
+	{
+		return GoalPointIsRender;
+	}
+
+	static GameEngineCollision* GetGoalPointCollision()
+	{
+		return GoalPointCollision;
+	}
+
+	float4 GetGoalPointPos()
+	{
+		return GoalPointPos;
+	}
+
+
 protected:
 
 private:
 	void Start() override;
 	void Update(float _Delta) override;
 
+	static GoalPoint* MainGoalPoint;
+    static bool GoalPointIsRender;
+	static GameEngineCollision* GoalPointCollision;
 
+	float4 GoalPointPos = { 12883, 2854 };
 };  

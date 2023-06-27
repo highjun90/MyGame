@@ -14,10 +14,12 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/GameEngineCore.h>
+#include <GameEngineCore/GameEngineCollision.h>
 #include "Bullet.h"
 #include "Monster.h"
 #include "PlayUIManager.h"
 #include "PlayLevel.h"
+#include "GoalPoint.h"
 #include <GameEnginePlatform/GameEngineInput.h>
 
 #pragma endregion
@@ -114,8 +116,8 @@ void Player::Start()
 		MainRenderer->CreateAnimation("Right_RaymanJumpHold", "Right_RaymanJump.bmp", 30, 41, 0.04f, true);
 
 		//승리모션 애니메이션 등록
-		MainRenderer->CreateAnimation("Left_RaymanVictory", "Left_RaymanVictory.bmp", 0, 38, 0.025f, false);
-		MainRenderer->CreateAnimation("Right_RaymanVictory", "Right_RaymanVictory.bmp", 0, 38, 0.025f, false);
+		MainRenderer->CreateAnimation("Left_RaymanVictory", "Left_RaymanVictory.bmp", 0, 38, 0.06f, false);
+		MainRenderer->CreateAnimation("Right_RaymanVictory", "Right_RaymanVictory.bmp", 0, 38, 0.06f, false);
 
 		//MainRenderer->ChangeAnimation("Test");
 		MainRenderer->SetRenderScaleToTexture();
@@ -219,6 +221,7 @@ void Player::Update(float _Delta)
 		GameEngineLevel::CollisionDebugRenderSwitch();
 	}
 
+
 	//디버그 모드
 	if (true == GameEngineInput::IsDown('C'))
 	{
@@ -229,19 +232,35 @@ void Player::Update(float _Delta)
 	//사운드 끄고 키기
 	if (true == GameEngineInput::IsDown(VK_F2))
 	{
+		if (SoundPlaying == false)
+		{
+			*(BGMPlayerToPlayer) = GameEngineSound::SoundPlay("CandyChateauBGM.ogg");
+			SoundPlaying = true;
+		}
+	}
+	if (true == GameEngineInput::IsDown(VK_F3))
+	{
 		if (SoundPlaying == true)
 		{
 			BGMPlayerToPlayer->Stop();
 			SoundPlaying = false;
 		}
 	}
-	if (true == GameEngineInput::IsDown(VK_F3))
+
+	//골포인트 키고 끄기
+	if (true == GameEngineInput::IsDown(VK_F4))
 	{
-		if (SoundPlaying == false)
-		{
-			*(BGMPlayerToPlayer) = GameEngineSound::SoundPlay("CandyChateauBGM.ogg");
-			SoundPlaying = true;
-		}
+		GoalPoint::ChangeGoalPointRenderTrue();
+
+		GameEngineCollision* GoalCollision = GoalPoint::GetGoalPointCollision();
+		GoalCollision->On();
+	}
+	if (true == GameEngineInput::IsDown(VK_F5))
+	{
+		GoalPoint::ChangeGoalPointRenderFalse();
+
+		GameEngineCollision* GoalCollision = GoalPoint::GetGoalPointCollision();
+		GoalCollision->Off();
 	}
 
 	//무적모드
@@ -300,6 +319,9 @@ void Player::ChanageState(PlayerState _State)
 			break;
 		case PlayerState::Sprint:
 			SprintStart();
+			break;
+		case PlayerState::Victory:
+			VictoryStart();
 			break;
 		case PlayerState::Debugmode:
 			DebugmodeStart();
@@ -444,31 +466,37 @@ void Player::Render(float _Delta)
 		Text3 += "테스트 끄기: V";
 		TextOutA(dc, 2, 140, Text3.c_str(), (int)Text3.size());
 
-		std::string Text4 = "";
-		Text4 += "테스트 이속 Q: -100, E: +100 (속도:  ";
-		Text4 += std::to_string((int)DebugSpeed);
-		Text4 += ")";
-		TextOutA(dc, 2, 160, Text4.c_str(), (int)Text4.size());
+		std::string One_key = "";
+		One_key += "1: 이속 +100 (속도:  ";
+		One_key += std::to_string((int)DebugSpeed);
+		One_key += ")";
+		TextOutA(dc, 2, 160, One_key.c_str(), (int)One_key.size());
+
+		std::string Two_key = "";
+		Two_key += "2: 이속 -100";
+		TextOutA(dc, 2, 180, Two_key.c_str(), (int)Two_key.size());
 
 		std::string Text5 = "";
-		Text5 += "3: 종료지점이동 ";
-		TextOutA(dc, 2, 180, Text5.c_str(), (int)Text5.size());
+		Text5 += "3: 시작지점이동 ";
+		TextOutA(dc, 2, 200, Text5.c_str(), (int)Text5.size());
 
 		std::string Text6 = "";
-		Text6 += "4: 시작지점이동 ";
-		TextOutA(dc, 2, 200, Text6.c_str(), (int)Text6.size());
+		Text6 += "4: 종료지점이동 ";
+		TextOutA(dc, 2, 220, Text6.c_str(), (int)Text6.size());
 
+
+		//조작법
 		std::string Text7 = "";
 		Text7 += "WASD: 이동 ";
-		TextOutA(dc, 200, 200, Text7.c_str(), (int)Text7.size());
+		TextOutA(dc, 2, 260, Text7.c_str(), (int)Text7.size());
 
 		std::string Text8 = "";
 		Text8 += "J: 달리기 ";
-		TextOutA(dc, 200, 220, Text8.c_str(), (int)Text8.size());
+		TextOutA(dc, 2, 280, Text8.c_str(), (int)Text8.size());
 
 		std::string Text9 = "";
 		Text9 += "Space: 점프 ";
-		TextOutA(dc, 200, 240, Text9.c_str(), (int)Text9.size());
+		TextOutA(dc, 2, 300, Text9.c_str(), (int)Text9.size());
 
 
 
@@ -479,16 +507,24 @@ void Player::Render(float _Delta)
 		TextOutA(dc, 1130, 30, F1_Key.c_str(), (int)F1_Key.size());
 
 		std::string F2_Key = "";
-		F2_Key += "F2: BGM 끄기 ";
+		F2_Key += "F2: BGM 시작 ";
 		TextOutA(dc, 1130, 50, F2_Key.c_str(), (int)F2_Key.size());
 
 		std::string F3_Key = "";
-		F3_Key += "F3: BGM 시작 ";
+		F3_Key += "F3: BGM 끄기 ";
 		TextOutA(dc, 1130, 70, F3_Key.c_str(), (int)F3_Key.size());
+
+		std::string F4_Key = "";
+		F4_Key += "F4: 도착지 표시 ";
+		TextOutA(dc, 1130, 90, F4_Key.c_str(), (int)F4_Key.size());
+
+		std::string F5_Key = "";
+		F5_Key += "F5: 도착지 삭제 ";
+		TextOutA(dc, 1130, 110, F5_Key.c_str(), (int)F5_Key.size());
 
 		std::string Y_Key = "";
 		Y_Key += "Y: 충돌표시 ";
-		TextOutA(dc, 1130, 90, Y_Key.c_str(), (int)Y_Key.size());
+		TextOutA(dc, 1130, 130, Y_Key.c_str(), (int)Y_Key.size());
 
 
 		//디버그용 하얀점 만들기

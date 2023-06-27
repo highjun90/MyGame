@@ -63,12 +63,12 @@ void PlayLevel::Start()
 	BackGroundImagePtr = CreateActor<BackGroundImage>();
 	BackGroundImagePtr->Init("CandyChateau1200x800.Bmp");
 
-	//배경맵
+	//배경타일
 	BackGroundPtr = CreateActor<BackGround>();
-	BackGroundPtr->Init("Test1.Bmp", "MapRedColor.bmp");
+	BackGroundPtr->Init("CandyChateauTile.Bmp", "MapRedColor.bmp");
 
 	// 카메라 오버 막는데 필요한 데이터인 맵스케일 등록. 맵을 바꾸면 그 맵에 맞춰서 카메라가 나가지 않음
-	GameEngineWindowTexture* Ptr = ResourcesManager::GetInst().FindTexture("Test1.Bmp");
+	GameEngineWindowTexture* Ptr = ResourcesManager::GetInst().FindTexture("CandyChateauTile.Bmp");
 	if (nullptr == Ptr)
 	{
 		MsgBoxAssert("맵 텍스처를 알수가 없습니다.");

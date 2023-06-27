@@ -530,6 +530,11 @@ void Player::SprintUpdate(float _Delta)
 
 }
 
+void VIctoryUpdate(float _Delta) 
+{
+
+}
+
 void Player::DebugmodeStart()
 {
 	ChangeAnimationState("Idle");
@@ -578,13 +583,13 @@ void Player::DebugmodeUpdate(float _Delta)
 	}
 
 	//이동속도 늘이고 줄이기
-	if (true == GameEngineInput::IsDown('Q'))
-	{
-		DebugSpeed -= 100.0f;
-	}
-	else if (true == GameEngineInput::IsDown('E'))
+	if (true == GameEngineInput::IsDown('1'))
 	{
 		DebugSpeed += 100.0f;
+	}
+	else if (true == GameEngineInput::IsDown('2'))
+	{
+		DebugSpeed -= 100.0f;
 	}
 	if (DebugSpeed < 0)
 	{
@@ -594,12 +599,12 @@ void Player::DebugmodeUpdate(float _Delta)
 	//위치 순간이동
 	if (true == GameEngineInput::IsDown('3'))
 	{
-		float4 EndPoint = {13200, 2850 };
-		SetPos(EndPoint);
+		SetPos(DebugStartPoint);
 	}
 	if (true == GameEngineInput::IsDown('4'))
 	{
-		SetPos(DebugStartPoint);
+		float4 EndPoint = { 13200, 2850 };
+		SetPos(EndPoint);
 	}
 
 	
