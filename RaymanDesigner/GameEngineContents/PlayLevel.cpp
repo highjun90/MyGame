@@ -11,13 +11,12 @@
 #include "PlayUIManager.h"
 #include "FadeObject.h"
 
-
-
 // Contents
 #include "Player.h"
 #include "BackGround.h"
 #include "BackGroundImage.h"
 #include "GlobalValue.h"
+
 
 PlayLevel::PlayLevel()
 {
@@ -155,7 +154,7 @@ void PlayLevel::Start()
 
 void PlayLevel::Update(float _Delta)
 {
-	if (true == GameEngineInput::IsDown(VK_F2))
+	if (true == GameEngineInput::IsDown(VK_F10))
 	{
 		GameEngineCore::ChangeLevel("TitleLevel");
 	}
@@ -164,6 +163,7 @@ void PlayLevel::Update(float _Delta)
 	{
 		BackGroundPtr->SwitchRender();
 	}
+
 
 	//원본 선생님 몬스터 만들기
 	/*if (3.0f <= GetLiveTime() )
@@ -192,7 +192,8 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 		MsgBoxAssert("플레이어를 세팅해주지 않았습니다");
 	}
 
-	GameEngineSound::SoundPlay("CandyChateauBGM.ogg");
+	//사운드 플레이어 전역변수 초기화 + 동시에 음악재생
+	BGMPlayerToPlayLevel = GameEngineSound::SoundPlay("CandyChateauBGM.ogg");
 
 	//LevelPlayer->SetGroundTexture("MapRedColor.bmp");
 	//float4 WinScale = GameEngineWindow::MainWindow.GetScale();

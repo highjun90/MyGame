@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
+#include <GameEnginePlatform/GameEngineSound.h>
 
 // 설명 :
 class PlayLevel : public GameEngineLevel
@@ -15,6 +16,17 @@ public:
 	PlayLevel& operator=(const PlayLevel& _Other) = delete;
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
 
+	GameEngineSoundPlayer* GetBGMPlayerToPlayLevel()
+	{
+		return &BGMPlayerToPlayLevel;
+	}
+
+	void TestLevelFunction()
+	{
+
+	}
+	
+
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
@@ -28,6 +40,8 @@ private:
 	class BackGround* BackGroundPtr = nullptr;
 	
 	class Player* LevelPlayer = nullptr;
+
+	GameEngineSoundPlayer BGMPlayerToPlayLevel;
 
 	//임의로 추가한 멤버변수
 	bool CreateDarkRayman = true;

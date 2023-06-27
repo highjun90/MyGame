@@ -24,6 +24,11 @@ void PlayActor::Gravity(float _Delta)
 	// 가장기본적인 물리는 모든힘이 다 +진게 나의 이동 방햐이 된다.
 	GravityVector += float4::DOWN * GravityPower * _Delta;
 
+	if (GravityVector.Y > 1200)
+	{
+		GravityVector -= float4::DOWN * GravityPower * _Delta;
+	}
+
 	AddPos(GravityVector * _Delta);
 }
 

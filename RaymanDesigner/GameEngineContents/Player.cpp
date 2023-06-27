@@ -17,6 +17,7 @@
 #include "Bullet.h"
 #include "Monster.h"
 #include "PlayUIManager.h"
+#include "PlayLevel.h"
 #include <GameEnginePlatform/GameEngineInput.h>
 
 #pragma endregion
@@ -36,7 +37,7 @@ void Player::Start()
 {
 	if (false == ResourcesManager::GetInst().IsLoadTexture("Idle_RIght.bmp"))
 	{
-		DebugStartPoint = { 1300,2600 };
+		DebugStartPoint = { 1300,2500 };
 		//DebugStartPoint = { 0,0 };
 		SetPos(DebugStartPoint);
 
@@ -65,8 +66,8 @@ void Player::Start()
 		//점프 스프라이트 등록
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_RaymanJump.bmp"), 42, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_RaymanJump.bmp"), 42, 1);
-		
-	
+
+
 		//UI 등록
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("UI_LifeAndHp.bmp"));
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("UI_LeftDownMarble.bmp"));
@@ -130,16 +131,22 @@ void Player::Start()
 
 	}*/
 
+	//충돌체하나 가리키는 포인터
 	{
 		BodyCollsion = CreateCollision(CollisionOrder::PlayerBody);
-		BodyCollsion->SetCollisionScale( {120, 240});
+		BodyCollsion->SetCollisionScale({ 120, 240 });
 		BodyCollsion->SetCollisionType(CollisionType::Rect);
 	}
-
 
 	//ChanageState(PlayerState::Idle);
 	ChanageState(PlayerState::JumpHold);
 	Dir = PlayerDir::Right;
+
+
+	//BGM 플레이어를 Level에서 가져오기
+	PlayLevel* MyLevel = dynamic_cast<PlayLevel*>(GetLevel());
+	MyLevel->GetBGMPlayerToPlayLevel();
+	BGMPlayerToPlayer = MyLevel->GetBGMPlayerToPlayLevel();
 }
 
 void Player::Update(float _Delta)
@@ -154,6 +161,9 @@ void Player::Update(float _Delta)
 		ChangeAnimationState(CurState);
 	}*/
 	//예시는 왼쪽가만히 있는 애니메이션 끝나면 오른쪽 가만히 애니메이션으로 바꾸게 해논것
+
+
+	void CameraPosToDir();
 
 	std::vector<GameEngineCollision*> _Col;
 	if (true == BodyCollsion->Collision(CollisionOrder::MonsterBody, _Col
@@ -184,24 +194,36 @@ void Player::Update(float _Delta)
 		// Monster::AllMonsterDeath();
 	}
 
+	// 충돌체 표시
 	if (true == GameEngineInput::IsPress('Y'))
 	{
 		//GameEngineWindow::MainWindow.AddDoubleBufferingCopyScaleRatio(-1.0f * _Delta);
 		GameEngineLevel::CollisionDebugRenderSwitch();
 	}
 
+	//디버그 모드
 	if (true == GameEngineInput::IsDown('C'))
 	{
 		// GameEngineWindow::MainWindow.AddDoubleBufferingCopyScaleRatio(-1.0f * _Delta);
 		ChanageState(PlayerState::Debugmode);
 	}
 
-	if (true == GameEngineInput::IsDown('V'))
+	//사운드 끄고 키기
+	if (true == GameEngineInput::IsDown(VK_F2))
 	{
-		// GameEngineWindow::MainWindow.AddDoubleBufferingCopyScaleRatio(-1.0f * _Delta);
-		DebugMode = false;
-		GravityReset();
-		ChanageState(PlayerState::Idle);
+		if (SoundPlaying == true)
+		{
+			BGMPlayerToPlayer->Stop();
+			SoundPlaying = false;
+		}
+	}
+	if (true == GameEngineInput::IsDown(VK_F3))
+	{
+		if (SoundPlaying == false)
+		{
+			*(BGMPlayerToPlayer) = GameEngineSound::SoundPlay("CandyChateauBGM.ogg");
+			SoundPlaying = true;
+		}
 	}
 
 	StateUpdate(_Delta);
@@ -209,6 +231,11 @@ void Player::Update(float _Delta)
 	CameraFocus();
 
 	// Gravity();
+}
+
+void CameraPosToDir()
+{
+	
 }
 
 void Player::StateUpdate(float _Delta)
@@ -295,7 +322,7 @@ void Player::DirCheck()
 		return;
 	}
 
-	if (true == GameEngineInput::IsDown('W') || true == GameEngineInput::IsFree('S'))
+	/*if (true == GameEngineInput::IsDown('W') || true == GameEngineInput::IsFree('S'))
 	{
 		Dir = PlayerDir::Up;
 		return;
@@ -305,7 +332,7 @@ void Player::DirCheck()
 	{
 		Dir = PlayerDir::Down;
 		return;
-	}
+	}*/
 
 	
 
@@ -343,6 +370,7 @@ void Player::ChangeAnimationState(const std::string& _StateName)
 
 	std::string AnimationName;
 
+
 	switch (Dir)
 	{
 	case PlayerDir::Right:
@@ -351,6 +379,12 @@ void Player::ChangeAnimationState(const std::string& _StateName)
 	case PlayerDir::Left:
 		AnimationName = "Left_";
 		break;
+	//case PlayerDir::Up:
+	//	AnimationName = "Right_";
+	//	break;
+	//case PlayerDir::Down:
+	//	AnimationName = "Right_";
+	//	break;
 	default:
 		break;
 	}
@@ -423,9 +457,17 @@ void Player::Render(float _Delta)
 		F1_Key += "F1: 맵전환 ";
 		TextOutA(dc, 1130, 30, F1_Key.c_str(), (int)F1_Key.size());
 
+		std::string F2_Key = "";
+		F2_Key += "F2: BGM 끄기 ";
+		TextOutA(dc, 1130, 50, F2_Key.c_str(), (int)F2_Key.size());
+
+		std::string F3_Key = "";
+		F3_Key += "F3: BGM 시작 ";
+		TextOutA(dc, 1130, 70, F3_Key.c_str(), (int)F3_Key.size());
+
 		std::string Y_Key = "";
 		Y_Key += "Y: 충돌표시 ";
-		TextOutA(dc, 1130, 50, Y_Key.c_str(), (int)Y_Key.size());
+		TextOutA(dc, 1130, 90, Y_Key.c_str(), (int)Y_Key.size());
 
 
 		//디버그용 하얀점 만들기

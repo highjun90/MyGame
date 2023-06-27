@@ -1,5 +1,6 @@
 #pragma once
 #include "PlayActor.h"
+#include <GameEnginePlatform/GameEngineSound.h>
 
 enum class PlayerState 
 {
@@ -16,8 +17,8 @@ enum class PlayerDir
 {
 	Right,
 	Left,
-	Up,
-	Down,
+	//Up,
+	//Down,
 	Max,
 };
 
@@ -56,6 +57,8 @@ public:
 	{
 		return JumpSpeed;
 	}
+
+	void CameraPosToDir();
 
 	float DebugSpeed = 300.0f;
 	bool DebugMode = false;
@@ -109,6 +112,9 @@ private:
 	void Render(float _Delta) override;
 
 	float JumpSpeed = 300.0f;
+
+	GameEngineSoundPlayer* BGMPlayerToPlayer = nullptr;  //PlayLevel에서 BGMPlayer 가져올 포인터. Player_State 디버그 모드때 이용.
+	bool SoundPlaying = true;
 
 	////////////////////// DebugValue
 	float4 LeftCheck = { -50.0f, -50.0f };

@@ -32,7 +32,9 @@ void MrDark::Update(float _Delta)
 
 	//AddPos(Dir * _Delta * 300.0f);
 
-	if (MainRenderer->GetCurFrame() >= 14)
+	
+
+	if (MainRenderer->GetCurFrame() >= 13)
 	{
 		AddPos({ 0, -10 });
 	}
