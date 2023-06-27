@@ -148,10 +148,10 @@ void Player::Start()
 
 	}*/
 
-	//충돌체하나 가리키는 포인터
+	//Player의 충돌체하나를 가리키는 포인터
 	{
 		BodyCollsion = CreateCollision(CollisionOrder::PlayerBody);
-		BodyCollsion->SetCollisionScale({ 120, 240 });
+		BodyCollsion->SetCollisionScale({ 60, 120 });
 		BodyCollsion->SetCollisionType(CollisionType::Rect);
 	}
 
@@ -222,65 +222,114 @@ void Player::Update(float _Delta)
 		// Monster::AllMonsterDeath();
 	}
 
-
-	//디버그 모드
+	// 디버그 문자열 키고 끄기
 	if (true == GameEngineInput::IsDown('C'))
 	{
-		// GameEngineWindow::MainWindow.AddDoubleBufferingCopyScaleRatio(-1.0f * _Delta);
-		ChanageState(PlayerState::Debugmode);
+		if (DebugModeText == false)
+		{
+			DebugModeText = true;
+		}
+		else if (DebugModeText == true)
+		{
+			DebugModeText = false;
+		}
 	}
 
+
+	//디버그 모드
+	if (true == GameEngineInput::IsDown('V'))
+	{
+		if (DebugMode == false)
+		{
+			DebugMode = true;
+			BodyCollsion->Off();
+			ChanageState(PlayerState::Debugmode);
+		}
+		else if(DebugMode == true)
+		{
+			GravityReset();
+
+			DebugMode = false;
+			BodyCollsion->On();
+			ChanageState(PlayerState::JumpHold);
+		}
+		
+	}
+
+
 	// 충돌체 표시
-	if (true == GameEngineInput::IsPress(VK_F2))
+	if (true == GameEngineInput::IsDown(VK_F2))
 	{
 		//GameEngineWindow::MainWindow.AddDoubleBufferingCopyScaleRatio(-1.0f * _Delta);
 		GameEngineLevel::CollisionDebugRenderSwitch();
 	}
 
-	//사운드 끄고 키기
-	if (true == GameEngineInput::IsDown(VK_F3))
-	{
-		if (SoundPlaying == false)
-		{
-			*(BGMPlayerToPlayer) = GameEngineSound::SoundPlay("CandyChateauBGM.ogg");
-			SoundPlaying = true;
-		}
-	}
-	if (true == GameEngineInput::IsDown(VK_F4))
-	{
-		if (SoundPlaying == true)
-		{
-			BGMPlayerToPlayer->Stop();
-			SoundPlaying = false;
-		}
-	}
 
 	//시작, 종료지점 순간이동
-	if (true == GameEngineInput::IsDown(VK_F5))
+	if (true == GameEngineInput::IsDown(VK_F3))
 	{
 		SetPos(DebugStartPoint);
 	}
-	if (true == GameEngineInput::IsDown(VK_F6))
+	if (true == GameEngineInput::IsDown(VK_F4))
 	{
 		float4 EndPoint = { 13200, 2850 };
 		SetPos(EndPoint);
 	}
 
 	//골포인트 키고 끄기
+	if (true == GameEngineInput::IsDown(VK_F5))
+	{
+		bool GoalPointRender = GoalPoint::GetGoalPointIsRender();
+
+		if (GoalPointRender == false)
+		{
+			GoalPoint::ChangeGoalPointRenderTrue();
+
+			GameEngineCollision* GoalCollision = GoalPoint::GetGoalPointCollision();
+			GoalCollision->On();
+		}
+		else if (GoalPointRender == true)
+		{
+			GoalPoint::ChangeGoalPointRenderFalse();
+
+			GameEngineCollision* GoalCollision = GoalPoint::GetGoalPointCollision();
+			GoalCollision->Off();
+		}
+
+	}
+
+	//디버그점 키고 끄기
+	if (true == GameEngineInput::IsDown(VK_F6))
+	{
+		if (DebugPointIsRender == false)
+		{
+			DebugPointIsRender = true;
+		}
+		else if (DebugPointIsRender == true)
+		{
+			DebugPointIsRender = false;
+		}
+	}
+
+	//사운드 끄고 키기
 	if (true == GameEngineInput::IsDown(VK_F7))
 	{
-		GoalPoint::ChangeGoalPointRenderTrue();
+		if (SoundPlaying == false)
+		{
+			*(BGMPlayerToPlayer) = GameEngineSound::SoundPlay("CandyChateauBGM.ogg");
+			SoundPlaying = true;
+		}
+		else if (SoundPlaying == true)
+		{
+			BGMPlayerToPlayer->Stop();
+			SoundPlaying = false;
+		}
 
-		GameEngineCollision* GoalCollision = GoalPoint::GetGoalPointCollision();
-		GoalCollision->On();
 	}
-	if (true == GameEngineInput::IsDown(VK_F8))
-	{
-		GoalPoint::ChangeGoalPointRenderFalse();
 
-		GameEngineCollision* GoalCollision = GoalPoint::GetGoalPointCollision();
-		GoalCollision->Off();
-	}
+	
+
+	
 
 	//무적모드
 
@@ -475,35 +524,65 @@ void Player::Render(float _Delta)
 
 	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
 	
-	if (DebugMode == true)
+	if (DebugModeText == true)
 	{
-		std::string Text1 = "";
-		Text1 += "테스트모드";
-		TextOutA(dc, 2, 3, Text1.c_str(), (int)Text1.size());
+		
+		std::string C_Key = "";
+		C_Key += "C: 문자열 표시";
+		TextOutA(dc, 2, 3, C_Key.c_str(), (int)C_Key.size());
 
 		
-		std::string Text2 = "";
+
+		std::string PlayerColState = "";
+		PlayerColState += "Plyaer Collision: ";
+		if (DebugMode == false)
+		{
+			PlayerColState += "(OFF)";
+		}
+		else if (DebugMode == true)
+		{
+			PlayerColState += "(ON)";
+		}
+		TextOutA(dc, 2, 23, PlayerColState.c_str(), (int)PlayerColState.size());
+		
+		
+		/*std::string Text2 = "";
 		Text2 += "(키입력)";
-		TextOutA(dc, 2, 120, Text2.c_str(), (int)Text2.size());
+		TextOutA(dc, 2, 120, Text2.c_str(), (int)Text2.size());*/
+
+
 
 		std::string V_Key = "";
-		V_Key += "테스트모드 끄기: V";
+		V_Key += "V: 테스트모드 ";
+		if (DebugMode == false)
+		{
+			V_Key += "(OFF)";
+		}
+		else if (DebugMode == true)
+		{
+			V_Key += "(ON)";
+		}
 		TextOutA(dc, 2, 140, V_Key.c_str(), (int)V_Key.size());
 
+		std::string Text1 = "";
+		Text1 += "테스트모드 속도: (";
+		Text1 += std::to_string((int)DebugSpeed);
+		Text1 += ")";
+		TextOutA(dc, 2, 160, Text1.c_str(), (int)Text1.size());
+
 		std::string One_Key = "";
-		One_Key += "1: 이속 +100 (속도:  ";
-		One_Key += std::to_string((int)DebugSpeed);
-		One_Key += ")";
-		TextOutA(dc, 2, 160, One_Key.c_str(), (int)One_Key.size());
+		One_Key += "1: 테스트모드 이속 +100";
+		TextOutA(dc, 2, 180, One_Key.c_str(), (int)One_Key.size());
 
 		std::string Two_Key = "";
-		Two_Key += "2: 이속 -100";
-		TextOutA(dc, 2, 180, Two_Key.c_str(), (int)Two_Key.size());
+		Two_Key += "2: 테스트모드 이속 -100";
+		TextOutA(dc, 2, 200, Two_Key.c_str(), (int)Two_Key.size());
 
+		
 
 		//조작법
 		std::string WASD_Key = "";
-		WASD_Key += "WASD: 이동 ";
+		WASD_Key += "WD: 이동 ";
 		TextOutA(dc, 2, 260, WASD_Key.c_str(), (int)WASD_Key.size());
 
 		std::string J_Key = "";
@@ -523,36 +602,67 @@ void Player::Render(float _Delta)
 		TextOutA(dc, 1130, 30, F1_Key.c_str(), (int)F1_Key.size());
 
 		std::string F2_Key = "";
-		F2_Key += "F2: 충돌표시 ";
+		F2_Key += "F2: Collision표시 ";
 		TextOutA(dc, 1130, 50, F2_Key.c_str(), (int)F2_Key.size());
 
 		std::string F3_Key = "";
-		F3_Key += "F3: BGM 시작 ";
+		F3_Key += "F3: 시작지점이동 ";
 		TextOutA(dc, 1130, 70, F3_Key.c_str(), (int)F3_Key.size());
 
 		std::string F4_Key = "";
-		F4_Key += "F4: BGM 끄기 ";
+		F4_Key += "F4: 승리지점이동 ";
 		TextOutA(dc, 1130, 90, F4_Key.c_str(), (int)F4_Key.size());
 
 		std::string F5_Key = "";
-		F5_Key += "F5: 시작지점 이동 ";
+		F5_Key += "F5: 골인표지판 ";
+		bool GoalPointRender = GoalPoint::GetGoalPointIsRender();
+		if (GoalPointRender == false)
+		{
+			F5_Key += "(OFF)";
+		}
+		else if (GoalPointRender == true)
+		{
+			F5_Key += "(ON)";
+		}
 		TextOutA(dc, 1130, 110, F5_Key.c_str(), (int)F5_Key.size());
 
 		std::string F6_Key = "";
-		F6_Key += "F6: 도착지점 이동 ";
+		F6_Key += "F6: 확인점 ";
+		if (DebugPointIsRender == false)
+		{
+			F6_Key += "(OFF)";
+		}
+		else if (DebugPointIsRender == true)
+		{
+			F6_Key += "(ON)";
+		}
 		TextOutA(dc, 1130, 130, F6_Key.c_str(), (int)F6_Key.size());
 
 		std::string F7_Key = "";
-		F7_Key += "F7: 도착지 표시 ";
+		F7_Key += "F7: BGM ";
+		if (SoundPlaying == false)
+		{
+			F7_Key += "(OFF)";
+		}
+		else if (SoundPlaying == true)
+		{
+			F7_Key += "(ON)";
+		}
 		TextOutA(dc, 1130, 150, F7_Key.c_str(), (int)F7_Key.size());
 
-		std::string F8_Key = "";
+	/*	std::string F8_Key = "";
 		F8_Key += "F8: 도착지 삭제 ";
 		TextOutA(dc, 1130, 170, F8_Key.c_str(), (int)F8_Key.size());
 
+		std::string F9_Key = "";
+		F9_Key += "F9: 디버그점표시 ";
+		TextOutA(dc, 1130, 190, F9_Key.c_str(), (int)F9_Key.size());*/
+
 		
+	}
 
-
+	if (DebugPointIsRender == true)
+	{
 		//디버그용 하얀점 만들기
 
 		//디버그용 수치확인 변수
@@ -581,18 +691,6 @@ void Player::Render(float _Delta)
 		Data.Pos = ActorCameraPos() + DownCheck;
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
 	}
-	/*else
-	{
-		std::string Text1 = "";
-		Text1 += "";
-		TextOutA(dc, 2, 120, Text1.c_str(), Text1.size());
 
-		std::string Text2 = "";
-		Text2 += "글자off: 0";
-		TextOutA(dc, 2, 140, Text2.c_str(), Text2.size());
-	}*/
 
-	
-
-	
 }

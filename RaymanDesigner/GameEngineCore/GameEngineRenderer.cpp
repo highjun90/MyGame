@@ -388,6 +388,11 @@ void GameEngineRenderer::SetAngle(float _Angle)
 	Angle = _Angle;
 }
 
+void GameEngineRenderer::AddAngle(const float _Value)
+{
+	Angle += _Value;
+}
+
 void GameEngineRenderer::SetAlpha(unsigned char _Alpha)
 {
 	Alpha = _Alpha;

@@ -123,19 +123,16 @@ void Player::RunUpdate(float _Delta)
 		}
 		else
 		{
-			int a = 0;
-			unsigned int CheckColor = GetGroundColor(RGB(255, 255, 255), float4::UP);
+			unsigned int CheckColor = GetGroundColor(RGB(255, 255, 255), DownCheck);
 
 			while (CheckColor != RGB(255, 255, 255))
 			{
-				CheckColor = GetGroundColor(RGB(255, 255, 255), float4::UP);
+				CheckColor = GetGroundColor(RGB(255, 255, 255), DownCheck);
 				AddPos(float4::UP);
 			}
 
-
 			GravityReset();
 		}
-
 	}
 
 	DirCheck();
@@ -163,7 +160,7 @@ void Player::RunUpdate(float _Delta)
 
 		if (true == GameEngineInput::IsPress('A') && Dir == PlayerDir::Left)
 		{
-			CheckPos = { -30.0f, -50.0f };
+			CheckPos = LeftCheck;
 
 			MovePos = { -Speed * _Delta, 0.0f };
 
@@ -172,7 +169,7 @@ void Player::RunUpdate(float _Delta)
 		}
 		else if (true == GameEngineInput::IsPress('D') && Dir == PlayerDir::Right)
 		{
-			CheckPos = { 30.0f, -50.0f };
+			CheckPos = RightCheck;
 
 			MovePos = { Speed * _Delta, 0.0f };
 		}
@@ -190,6 +187,7 @@ void Player::RunUpdate(float _Delta)
 		DirCheck();
 		ChanageState(PlayerState::Sprint);
 	}
+
 
 
 	{
@@ -262,7 +260,7 @@ void Player::JumpUpdate(float _Delta)
 
 	if (true == GameEngineInput::IsPress('A') && Dir == PlayerDir::Left)
 	{
-		CheckPos = { -30.0f, -50.0f };
+		CheckPos = LeftCheck;
 
 		MovePos = { -Speed * _Delta, 0.0f };
 
@@ -271,7 +269,7 @@ void Player::JumpUpdate(float _Delta)
 	}
 	else if (true == GameEngineInput::IsPress('D') && Dir == PlayerDir::Right)
 	{
-		CheckPos = { 30.0f, -50.0f };
+		CheckPos = RightCheck;
 
 		MovePos = { Speed * _Delta, 0.0f };
 	}
@@ -455,11 +453,11 @@ void Player::SprintUpdate(float _Delta)
 		else
 		{
 			int a = 0;
-			unsigned int CheckColor = GetGroundColor(RGB(255, 255, 255), float4::UP);
+			unsigned int CheckColor = GetGroundColor(RGB(255, 255, 255), DownCheck);
 
 			while (CheckColor != RGB(255, 255, 255))
 			{
-				CheckColor = GetGroundColor(RGB(255, 255, 255), float4::UP);
+				CheckColor = GetGroundColor(RGB(255, 255, 255), DownCheck);
 				AddPos(float4::UP);
 			}
 
@@ -493,14 +491,14 @@ void Player::SprintUpdate(float _Delta)
 
 	if (true == GameEngineInput::IsPress('A') && Dir == PlayerDir::Left)
 	{
-		CheckPos = { -30.0f, -50.0f };
+		CheckPos = LeftCheck;
 
 		MovePos = { -Speed * _Delta, 0.0f };
 
 	}
 	else if (true == GameEngineInput::IsPress('D') && Dir == PlayerDir::Right)
 	{
-		CheckPos = { 30.0f, -50.0f };
+		CheckPos = RightCheck;
 
 		MovePos = { Speed * _Delta, 0.0f };
 	}
@@ -516,21 +514,74 @@ void Player::SprintUpdate(float _Delta)
 	}
 
 
-	if (MovePos == float4::ZERO)
-	{
-		DirCheck();
-		ChanageState(PlayerState::Idle);
-	}
+	
+
+
 
 	{
 		unsigned int Color = GetGroundColor(RGB(255, 255, 255), CheckPos);
 
 		if (Color == RGB(255, 255, 255))
 		{
+			// MovePos를 바꿔버리는 방법이 있을것이고.
+
+			if (RGB(255, 255, 255) == GetGroundColor(RGB(255, 255, 255), MovePos))
+			{
+				float4 XPos = float4::ZERO;
+				float4 Dir = MovePos.X <= 0.0f ? float4::RIGHT : float4::LEFT;
+
+				while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos + XPos))
+				{
+					XPos += Dir;
+
+					if (abs(XPos.X) > 50.0f)
+					{
+						break;
+					}
+				}
+
+				float4 YPos = float4::ZERO;
+				while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos + YPos))
+				{
+					YPos.Y += 1;
+
+					if (YPos.Y > 60.0f)
+					{
+						break;
+					}
+				}
+
+				if (abs(XPos.X) >= YPos.Y)
+				{
+					while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos))
+					{
+						MovePos.Y += 1;
+					}
+				}
+
+			}
+
+			// 내가 움직이려는 
+			// GetGroundColor(RGB(255, 255, 255), MovePos);
+
 			AddPos(MovePos);
-			GetLevel()->GetMainCamera()->AddPos(MovePos);
 		}
 	}
+
+	if (MovePos == float4::ZERO)
+	{
+		DirCheck();
+		ChanageState(PlayerState::Idle);
+	}
+	//{
+	//	unsigned int Color = GetGroundColor(RGB(255, 255, 255), CheckPos);
+
+	//	if (Color == RGB(255, 255, 255))
+	//	{
+	//		AddPos(MovePos);
+	//		GetLevel()->GetMainCamera()->AddPos(MovePos);
+	//	}
+	//}
 
 }
 
@@ -545,7 +596,7 @@ void Player::SprintJumpUpdate(float _Delta)
 
 	if (true == GameEngineInput::IsPress('A') && Dir == PlayerDir::Left)
 	{
-		CheckPos = { -30.0f, -50.0f };
+		CheckPos = LeftCheck;
 
 		MovePos = { -Speed * _Delta, 0.0f };
 
@@ -554,7 +605,7 @@ void Player::SprintJumpUpdate(float _Delta)
 	}
 	else if (true == GameEngineInput::IsPress('D') && Dir == PlayerDir::Right)
 	{
-		CheckPos = { 30.0f, -50.0f };
+		CheckPos = RightCheck;
 
 		MovePos = { Speed * _Delta, 0.0f };
 	}
@@ -636,7 +687,6 @@ void Player::DebugmodeStart()
 {
 	ChangeAnimationState("Idle");
 	DebugMode = true;
-
 }
 
 void Player::DebugmodeUpdate(float _Delta)
@@ -707,13 +757,13 @@ void Player::DebugmodeUpdate(float _Delta)
 	}*/
 
 	//디버그 모드 종료
-	if (true == GameEngineInput::IsDown('V'))
-	{
-		// GameEngineWindow::MainWindow.AddDoubleBufferingCopyScaleRatio(-1.0f * _Delta);
-		DebugMode = false;
-		GravityReset();
-		ChanageState(PlayerState::JumpHold);
-	}
+	//if (true == GameEngineInput::IsDown('V'))
+	//{
+	//	// GameEngineWindow::MainWindow.AddDoubleBufferingCopyScaleRatio(-1.0f * _Delta);
+	//	DebugMode = false;
+	//	GravityReset();
+	//	ChanageState(PlayerState::JumpHold);
+	//}
 
 	AddPos(MovePos);
 	GetLevel()->GetMainCamera()->AddPos(MovePos);

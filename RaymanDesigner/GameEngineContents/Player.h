@@ -66,7 +66,9 @@ public:
 
 	float DebugSpeed = 300.0f;
 	bool DebugMode = false;
+	bool DebugModeText = false;
 	float4 DebugStartPoint = float4::ZERO;
+	bool DebugPointIsRender = false;
 
 
 protected:

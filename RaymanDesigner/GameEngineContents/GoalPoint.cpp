@@ -5,7 +5,7 @@
 #include "ContentsEnum.h"
 
 GoalPoint* GoalPoint::MainGoalPoint = nullptr;
-bool GoalPoint::GoalPointIsRender = false;
+bool GoalPoint::GoalPointIsRender = true;
 GameEngineCollision* GoalPoint::GoalPointCollision = nullptr;
 
 GoalPoint::GoalPoint()
@@ -50,11 +50,11 @@ void GoalPoint::Start()
 	}
 
 	//맨처음엔 렌더, 충돌없음
-	GoalRenderer->Off();
+	GoalRenderer->On();
 
 	GoalPointCollision = CreateCollision(CollisionOrder::GoalPoint);
 	GoalPointCollision->SetCollisionScale({ 10, 2 });
 	GoalPointCollision->SetCollisionType(CollisionType::Rect);
 
-	GoalPointCollision->Off();
+	GoalPointCollision->On();
 }
