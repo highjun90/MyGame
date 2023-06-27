@@ -8,6 +8,7 @@
 #include <GameEnginePlatform/GameEngineSound.h>
 #include "Monster.h"
 #include "MrDark.h"
+#include "GoalPoint.h"
 #include "PlayUIManager.h"
 #include "FadeObject.h"
 
@@ -84,7 +85,7 @@ void PlayLevel::Start()
 
 	CreateActor<PlayUIManager>();
 	CreateActor<MrDark>();
-
+	CreateActor<GoalPoint>();
 
 	//배경이 타일 맵일때
 	/*TileMap* TileObject = CreateActor<TileMap>();

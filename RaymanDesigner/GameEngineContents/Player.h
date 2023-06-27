@@ -2,6 +2,8 @@
 #include "PlayActor.h"
 #include <GameEnginePlatform/GameEngineSound.h>
 
+#include "DarkRayman.h"
+
 enum class PlayerState 
 {
 	Idle,
@@ -9,6 +11,7 @@ enum class PlayerState
 	Jump,
 	JumpHold,
 	Sprint,
+	Victory,
 	Debugmode,
 	Max, // 일반적으로 사용하지 않는 값.
 };
@@ -65,8 +68,6 @@ public:
 	float4 DebugStartPoint = float4::ZERO;
 
 
-	
-
 protected:
 	void StateUpdate(float _Delta);
 
@@ -88,6 +89,9 @@ protected:
 
 	void DebugmodeStart();
 	void DebugmodeUpdate(float _Delta);
+
+	void VictoryStart();
+	void VIctoryUpdate(float _Delta);
 
 	void ChanageState(PlayerState State);
 
@@ -112,6 +116,8 @@ private:
 	void Render(float _Delta) override;
 
 	float JumpSpeed = 300.0f;
+
+	DarkRayman* DarkRaymanToPlayer = nullptr;
 
 	GameEngineSoundPlayer* BGMPlayerToPlayer = nullptr;  //PlayLevel에서 BGMPlayer 가져올 포인터. Player_State 디버그 모드때 이용.
 	bool SoundPlaying = true;

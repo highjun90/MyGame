@@ -83,12 +83,6 @@ void MrDark::Start()
 
 void MrDark::Render(float _Delta)
 {
-	std::string Text = "";
-
-	Text += "플레이어 테스트 값 : ";
-	Text += std::to_string(0);
-
-	HDC dc = GameEngineWindow::MainWindow.GetBackBuffer()->GetImageDC();
-	//TextOutA(dc, 2, 3, Text.c_str(), Text.size());
+	
 
 }

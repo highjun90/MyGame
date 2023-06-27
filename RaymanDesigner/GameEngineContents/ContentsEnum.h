@@ -21,5 +21,6 @@ enum class CollisionOrder
 	Potal,
 	PlayerBody,
 	MonsterBody,
-	DarkRayMan
+	DarkRayMan,
+	GoalPoint
 };

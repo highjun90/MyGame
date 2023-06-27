@@ -67,6 +67,9 @@ void Player::Start()
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_RaymanJump.bmp"), 42, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_RaymanJump.bmp"), 42, 1);
 
+		//승리모션 스프라이트 등록
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_RaymanVictory.bmp"), 39, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_RaymanVictory.bmp"), 39, 1);
 
 		//UI 등록
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("UI_LifeAndHp.bmp"));
@@ -109,6 +112,10 @@ void Player::Start()
 		//점프 하강유지 애니메이션 등록
 		MainRenderer->CreateAnimation("Left_RaymanJumpHold", "Left_RaymanJump.bmp", 30, 41, 0.04f, true);
 		MainRenderer->CreateAnimation("Right_RaymanJumpHold", "Right_RaymanJump.bmp", 30, 41, 0.04f, true);
+
+		//승리모션 애니메이션 등록
+		MainRenderer->CreateAnimation("Left_RaymanVictory", "Left_RaymanVictory.bmp", 0, 38, 0.025f, false);
+		MainRenderer->CreateAnimation("Right_RaymanVictory", "Right_RaymanVictory.bmp", 0, 38, 0.025f, false);
 
 		//MainRenderer->ChangeAnimation("Test");
 		MainRenderer->SetRenderScaleToTexture();
@@ -182,6 +189,17 @@ void Player::Update(float _Delta)
 		// 나는 몬스터랑 충돌한거야.
 	}
 
+	std::vector<GameEngineCollision*> _GoalCollisionTest;
+	if (true == BodyCollsion->Collision(CollisionOrder::GoalPoint, _GoalCollisionTest
+		, CollisionType::Rect // 나를 사각형으로 봐줘
+		, CollisionType::Rect // 상대도 사각형으로 봐줘
+	))
+	{
+		ChanageState(PlayerState::Victory);
+	}
+
+
+
 	if (true == GameEngineInput::IsPress('L'))
 	{
 		// GameEngineSound::SoundLoad("C:\\AAAA\\AAAA\\A\\AAA.Mp3");
@@ -225,6 +243,8 @@ void Player::Update(float _Delta)
 			SoundPlaying = true;
 		}
 	}
+
+	//무적모드
 
 	StateUpdate(_Delta);
 
@@ -385,6 +405,7 @@ void Player::ChangeAnimationState(const std::string& _StateName)
 	//case PlayerDir::Down:
 	//	AnimationName = "Right_";
 	//	break;
+
 	default:
 		break;
 	}

@@ -40,6 +40,12 @@ void Player::SprintStart()
 }
 
 
+void Player::VictoryStart()
+{
+	ChangeAnimationState("RaymanVictory");
+}
+
+
 void Player::IdleUpdate(float _Delta)
 {
 	if (true == MainRenderer->IsAnimationEnd())
