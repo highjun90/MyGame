@@ -19,7 +19,6 @@ void Player::IdleStart()
 void Player::RunStart()
 {
 	ChangeAnimationState("Run");
-	// MainRenderer->ChangeAnimation("Right_Run");
 }
 
 void Player::JumpStart()
@@ -36,7 +35,12 @@ void Player::JumpHoldStart()
 void Player::SprintStart()
 {
 	ChangeAnimationState("RaymanSprint");
-	// MainRenderer->ChangeAnimation("Right_Run");
+}
+
+void Player::SprintJumpStart()
+{
+	ChangeAnimationState("RaymanSprintJump");
+	SetGravityVector(float4::UP * 1100.0f);
 }
 
 
@@ -476,13 +480,13 @@ void Player::SprintUpdate(float _Delta)
 	{
 		
 		SetJumpSpeed(800.0f);
-		ChanageState(PlayerState::Jump);
+		ChanageState(PlayerState::SprintJump);
 	}
 	else if (true == GameEngineInput::IsPress('D') && GameEngineInput::IsPress(VK_SPACE) && Dir == PlayerDir::Right)
 	{
 		
 		SetJumpSpeed(800.0f);
-		ChanageState(PlayerState::Jump);
+		ChanageState(PlayerState::SprintJump);
 	}
 
 
@@ -525,6 +529,99 @@ void Player::SprintUpdate(float _Delta)
 		{
 			AddPos(MovePos);
 			GetLevel()->GetMainCamera()->AddPos(MovePos);
+		}
+	}
+
+}
+
+void Player::SprintJumpUpdate(float _Delta)
+{
+	Gravity(_Delta);
+	DirCheck();
+
+	float Speed = GetJumpSpeed();
+	float4 MovePos = float4::ZERO;
+	float4 CheckPos = float4::ZERO;
+
+	if (true == GameEngineInput::IsPress('A') && Dir == PlayerDir::Left)
+	{
+		CheckPos = { -30.0f, -50.0f };
+
+		MovePos = { -Speed * _Delta, 0.0f };
+
+		// unsigned int Color = GetGroundColor(RGB(255, 255, 255));
+
+	}
+	else if (true == GameEngineInput::IsPress('D') && Dir == PlayerDir::Right)
+	{
+		CheckPos = { 30.0f, -50.0f };
+
+		MovePos = { Speed * _Delta, 0.0f };
+	}
+
+
+
+	{
+		unsigned int Color = GetGroundColor(RGB(255, 255, 255), CheckPos);
+
+		if (Color == RGB(255, 255, 255))
+		{
+			// MovePos를 바꿔버리는 방법이 있을것이고.
+
+			if (RGB(255, 255, 255) == GetGroundColor(RGB(255, 255, 255), MovePos))
+			{
+				float4 XPos = float4::ZERO;
+				float4 Dir = MovePos.X <= 0.0f ? float4::RIGHT : float4::LEFT;
+
+				while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos + XPos))
+				{
+					XPos += Dir;
+
+					if (abs(XPos.X) > 50.0f)
+					{
+						break;
+					}
+				}
+
+				float4 YPos = float4::ZERO;
+				while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos + YPos))
+				{
+					YPos.Y += 1;
+
+					if (YPos.Y > 60.0f)
+					{
+						break;
+					}
+				}
+
+				if (abs(XPos.X) >= YPos.Y)
+				{
+					while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos))
+					{
+						MovePos.Y += 1;
+					}
+				}
+
+			}
+
+			// 내가 움직이려는 
+			// GetGroundColor(RGB(255, 255, 255), MovePos);
+
+			AddPos(MovePos);
+			//GetLevel()->GetMainCamera()->AddPos(MovePos);
+			//원래는 Play_State에서 카메라 화면 이동했는데 카메라 오버 막는 기능 추가하면서 PlayActor로 기능이 이동함
+		}
+	}
+
+
+
+	//AddPos(MovePos);
+	{
+		unsigned int Color = GetGroundColor(RGB(255, 255, 255), DownCheck);
+		if (RGB(255, 255, 255) != Color)
+		{
+			ChanageState(PlayerState::Idle);
+			return;
 		}
 	}
 
@@ -596,16 +693,7 @@ void Player::DebugmodeUpdate(float _Delta)
 		DebugSpeed = 0;
 	}
 
-	//위치 순간이동
-	if (true == GameEngineInput::IsDown('3'))
-	{
-		SetPos(DebugStartPoint);
-	}
-	if (true == GameEngineInput::IsDown('4'))
-	{
-		float4 EndPoint = { 13200, 2850 };
-		SetPos(EndPoint);
-	}
+	
 
 	
 

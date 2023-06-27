@@ -65,6 +65,10 @@ void Player::Start()
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_RaymanSprint.bmp"), 31, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_RaymanSprint.bmp"), 31, 1);
 
+		//스프린트점프 스프라이트 등록
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_RaymanSprintJump.bmp"), 14, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_RaymanSprintJump.bmp"), 14, 1);
+
 		//점프 스프라이트 등록
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_RaymanJump.bmp"), 42, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_RaymanJump.bmp"), 42, 1);
@@ -107,6 +111,10 @@ void Player::Start()
 		//스프린트 애니메이션 등록
 		MainRenderer->CreateAnimation("Left_RaymanSprint", "Left_RaymanSprint.bmp", 26, 0, 0.035f, true);
 		MainRenderer->CreateAnimation("Right_RaymanSprint", "Right_RaymanSprint.bmp", 0, 26, 0.035f, true);
+
+		//스프린트점프 애니메이션 등록
+		MainRenderer->CreateAnimation("Left_RaymanSprintJump", "Left_RaymanSprintJump.bmp", 0, 13, 0.04f, true);
+		MainRenderer->CreateAnimation("Right_RaymanSprintJump", "Right_RaymanSprintJump.bmp", 0, 13, 0.04f, true);
 
 		//점프 애니메이션 등록
 		MainRenderer->CreateAnimation("Left_RaymanJump", "Left_RaymanJump.bmp", 0, 29, 0.025f, false);
@@ -214,13 +222,6 @@ void Player::Update(float _Delta)
 		// Monster::AllMonsterDeath();
 	}
 
-	// 충돌체 표시
-	if (true == GameEngineInput::IsPress('Y'))
-	{
-		//GameEngineWindow::MainWindow.AddDoubleBufferingCopyScaleRatio(-1.0f * _Delta);
-		GameEngineLevel::CollisionDebugRenderSwitch();
-	}
-
 
 	//디버그 모드
 	if (true == GameEngineInput::IsDown('C'))
@@ -229,8 +230,15 @@ void Player::Update(float _Delta)
 		ChanageState(PlayerState::Debugmode);
 	}
 
+	// 충돌체 표시
+	if (true == GameEngineInput::IsPress(VK_F2))
+	{
+		//GameEngineWindow::MainWindow.AddDoubleBufferingCopyScaleRatio(-1.0f * _Delta);
+		GameEngineLevel::CollisionDebugRenderSwitch();
+	}
+
 	//사운드 끄고 키기
-	if (true == GameEngineInput::IsDown(VK_F2))
+	if (true == GameEngineInput::IsDown(VK_F3))
 	{
 		if (SoundPlaying == false)
 		{
@@ -238,7 +246,7 @@ void Player::Update(float _Delta)
 			SoundPlaying = true;
 		}
 	}
-	if (true == GameEngineInput::IsDown(VK_F3))
+	if (true == GameEngineInput::IsDown(VK_F4))
 	{
 		if (SoundPlaying == true)
 		{
@@ -247,15 +255,26 @@ void Player::Update(float _Delta)
 		}
 	}
 
+	//시작, 종료지점 순간이동
+	if (true == GameEngineInput::IsDown(VK_F5))
+	{
+		SetPos(DebugStartPoint);
+	}
+	if (true == GameEngineInput::IsDown(VK_F6))
+	{
+		float4 EndPoint = { 13200, 2850 };
+		SetPos(EndPoint);
+	}
+
 	//골포인트 키고 끄기
-	if (true == GameEngineInput::IsDown(VK_F4))
+	if (true == GameEngineInput::IsDown(VK_F7))
 	{
 		GoalPoint::ChangeGoalPointRenderTrue();
 
 		GameEngineCollision* GoalCollision = GoalPoint::GetGoalPointCollision();
 		GoalCollision->On();
 	}
-	if (true == GameEngineInput::IsDown(VK_F5))
+	if (true == GameEngineInput::IsDown(VK_F8))
 	{
 		GoalPoint::ChangeGoalPointRenderFalse();
 
@@ -291,6 +310,8 @@ void Player::StateUpdate(float _Delta)
 		return JumpHoldUpdate(_Delta);
 	case PlayerState::Sprint:
 		return SprintUpdate(_Delta);
+	case PlayerState::SprintJump:
+		return SprintJumpUpdate(_Delta);
 	case PlayerState::Debugmode:
 		return DebugmodeUpdate(_Delta);
 	default:
@@ -319,6 +340,9 @@ void Player::ChanageState(PlayerState _State)
 			break;
 		case PlayerState::Sprint:
 			SprintStart();
+			break;
+		case PlayerState::SprintJump:
+			SprintJumpStart();
 			break;
 		case PlayerState::Victory:
 			VictoryStart();
@@ -462,41 +486,33 @@ void Player::Render(float _Delta)
 		Text2 += "(키입력)";
 		TextOutA(dc, 2, 120, Text2.c_str(), (int)Text2.size());
 
-		std::string Text3 = "";
-		Text3 += "테스트 끄기: V";
-		TextOutA(dc, 2, 140, Text3.c_str(), (int)Text3.size());
+		std::string V_Key = "";
+		V_Key += "테스트모드 끄기: V";
+		TextOutA(dc, 2, 140, V_Key.c_str(), (int)V_Key.size());
 
-		std::string One_key = "";
-		One_key += "1: 이속 +100 (속도:  ";
-		One_key += std::to_string((int)DebugSpeed);
-		One_key += ")";
-		TextOutA(dc, 2, 160, One_key.c_str(), (int)One_key.size());
+		std::string One_Key = "";
+		One_Key += "1: 이속 +100 (속도:  ";
+		One_Key += std::to_string((int)DebugSpeed);
+		One_Key += ")";
+		TextOutA(dc, 2, 160, One_Key.c_str(), (int)One_Key.size());
 
-		std::string Two_key = "";
-		Two_key += "2: 이속 -100";
-		TextOutA(dc, 2, 180, Two_key.c_str(), (int)Two_key.size());
-
-		std::string Text5 = "";
-		Text5 += "3: 시작지점이동 ";
-		TextOutA(dc, 2, 200, Text5.c_str(), (int)Text5.size());
-
-		std::string Text6 = "";
-		Text6 += "4: 종료지점이동 ";
-		TextOutA(dc, 2, 220, Text6.c_str(), (int)Text6.size());
+		std::string Two_Key = "";
+		Two_Key += "2: 이속 -100";
+		TextOutA(dc, 2, 180, Two_Key.c_str(), (int)Two_Key.size());
 
 
 		//조작법
-		std::string Text7 = "";
-		Text7 += "WASD: 이동 ";
-		TextOutA(dc, 2, 260, Text7.c_str(), (int)Text7.size());
+		std::string WASD_Key = "";
+		WASD_Key += "WASD: 이동 ";
+		TextOutA(dc, 2, 260, WASD_Key.c_str(), (int)WASD_Key.size());
 
-		std::string Text8 = "";
-		Text8 += "J: 달리기 ";
-		TextOutA(dc, 2, 280, Text8.c_str(), (int)Text8.size());
+		std::string J_Key = "";
+		J_Key += "J: 달리기 ";
+		TextOutA(dc, 2, 280, J_Key.c_str(), (int)J_Key.size());
 
-		std::string Text9 = "";
-		Text9 += "Space: 점프 ";
-		TextOutA(dc, 2, 300, Text9.c_str(), (int)Text9.size());
+		std::string Space_Key = "";
+		Space_Key += "Space: 점프 ";
+		TextOutA(dc, 2, 300, Space_Key.c_str(), (int)Space_Key.size());
 
 
 
@@ -507,24 +523,34 @@ void Player::Render(float _Delta)
 		TextOutA(dc, 1130, 30, F1_Key.c_str(), (int)F1_Key.size());
 
 		std::string F2_Key = "";
-		F2_Key += "F2: BGM 시작 ";
+		F2_Key += "F2: 충돌표시 ";
 		TextOutA(dc, 1130, 50, F2_Key.c_str(), (int)F2_Key.size());
 
 		std::string F3_Key = "";
-		F3_Key += "F3: BGM 끄기 ";
+		F3_Key += "F3: BGM 시작 ";
 		TextOutA(dc, 1130, 70, F3_Key.c_str(), (int)F3_Key.size());
 
 		std::string F4_Key = "";
-		F4_Key += "F4: 도착지 표시 ";
+		F4_Key += "F4: BGM 끄기 ";
 		TextOutA(dc, 1130, 90, F4_Key.c_str(), (int)F4_Key.size());
 
 		std::string F5_Key = "";
-		F5_Key += "F5: 도착지 삭제 ";
+		F5_Key += "F5: 시작지점 이동 ";
 		TextOutA(dc, 1130, 110, F5_Key.c_str(), (int)F5_Key.size());
 
-		std::string Y_Key = "";
-		Y_Key += "Y: 충돌표시 ";
-		TextOutA(dc, 1130, 130, Y_Key.c_str(), (int)Y_Key.size());
+		std::string F6_Key = "";
+		F6_Key += "F6: 도착지점 이동 ";
+		TextOutA(dc, 1130, 130, F6_Key.c_str(), (int)F6_Key.size());
+
+		std::string F7_Key = "";
+		F7_Key += "F7: 도착지 표시 ";
+		TextOutA(dc, 1130, 150, F7_Key.c_str(), (int)F7_Key.size());
+
+		std::string F8_Key = "";
+		F8_Key += "F8: 도착지 삭제 ";
+		TextOutA(dc, 1130, 170, F8_Key.c_str(), (int)F8_Key.size());
+
+		
 
 
 		//디버그용 하얀점 만들기
