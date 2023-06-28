@@ -32,8 +32,12 @@ public:
 
 	void SetGroundTexture(const std::string& _GroundTextureName);
 
+	void SetGroundTextureDIvision(const std::string& _GroundTextureName, int _Order);
+
 	// 내 위치에서 
 	int GetGroundColor(unsigned int _DefaultColor, float4 _Pos = float4::ZERO);
+
+	int GetGroundColorFromDivision(unsigned int _DefaultColor, float4 _Pos = float4::ZERO);
 
 	// 디버깅 박스 만드는데 사용하고있음
 	float4 ActorCameraPos();
@@ -47,6 +51,7 @@ protected:
 
 private:
 	class GameEngineWindowTexture* GroundTexture = nullptr;
+	class GameEngineWindowTexture* GroundTextureDivision[5];
 
 	bool IsGravity = true;
 
