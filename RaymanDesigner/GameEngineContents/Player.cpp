@@ -164,6 +164,18 @@ void Player::Start()
 	PlayLevel* MyLevel = dynamic_cast<PlayLevel*>(GetLevel());
 	MyLevel->GetBGMPlayerToPlayLevel();
 	BGMPlayerToPlayer = MyLevel->GetBGMPlayerToPlayLevel();
+
+
+	//승리사운드 등록
+	if (nullptr == GameEngineSound::FindSound("Victory.mp3"))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\");
+
+		GameEngineSound::SoundLoad(FilePath.PlusFilePath("Victory.mp3"));
+	}
 }
 
 void Player::Update(float _Delta)

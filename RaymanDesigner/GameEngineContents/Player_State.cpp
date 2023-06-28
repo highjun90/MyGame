@@ -46,6 +46,14 @@ void Player::SprintJumpStart()
 
 void Player::VictoryStart()
 {
+	//¹è°æÀ½²ô±â
+	if (SoundPlaying == true)
+	{
+		BGMPlayerToPlayer->Stop();
+		SoundPlaying = false;
+	}
+
+	GameEngineSound::SoundPlay("Victory.mp3");
 	ChangeAnimationState("RaymanVictory");
 }
 
