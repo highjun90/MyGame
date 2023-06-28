@@ -101,8 +101,22 @@ void PlayLevel::Start()
 		GameEngineSound::SoundLoad(FilePath.PlusFilePath("CandyChateauBGM.ogg"));
 	}
 
-	//레드컬러맵세팅 원본
-	if (false == ResourcesManager::GetInst().IsLoadTexture("MapRedColorTest02.Bmp"))
+	////레드컬러맵세팅 원본
+	//if (false == ResourcesManager::GetInst().IsLoadTexture("MapRedColorTest02.Bmp"))
+	//{
+	//	GameEnginePath FilePath;
+	//	FilePath.SetCurrentPath();
+	//	FilePath.MoveParentToExistsChild("ContentsResources");
+
+	//	GameEnginePath FolderPath = FilePath;
+
+	//	FilePath.MoveChild("ContentsResources\\Texture\\");
+	//	ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("MapRedColorTest02.bmp"));
+
+	//}
+
+	//레드맵 분할 리소스 등록
+	if (false == ResourcesManager::GetInst().IsLoadTexture("CandyChateauRed1.Bmp"))
 	{
 		GameEnginePath FilePath;
 		FilePath.SetCurrentPath();
@@ -111,31 +125,60 @@ void PlayLevel::Start()
 		GameEnginePath FolderPath = FilePath;
 
 		FilePath.MoveChild("ContentsResources\\Texture\\");
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("MapRedColorTest02.bmp"));
 
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("CandyChateauRed0.bmp"));
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("CandyChateauRed1.bmp"));
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("CandyChateauRed2.bmp"));
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("CandyChateauRed3.bmp"));
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("CandyChateauRed4.bmp"));
 	}
-
 
 
 	//배경이미지
 	BackGroundImagePtr = CreateActor<BackGroundImage>();
 	BackGroundImagePtr->Init("CandyChateau1200x800.Bmp");
 
-	//배경타일
-	BackGroundPtr = CreateActor<BackGround>();
-	BackGroundPtr->Init("CandyChateauTile01.Bmp", "MapRedColorTest02.bmp");
+	for (int i = 0; i < 5; i++)
+	{
+		std::string TilemapName = "CandyChateauTile";
+		TilemapName += std::to_string((int)i);
+		TilemapName += ".bmp";
+
+		std::string RedmapName = "CandyChateauRed";
+		RedmapName += std::to_string((int)i);
+		RedmapName += ".bmp";
+
+		BackGroundDivisionPtr[i] = CreateActor<BackGround>();
+		BackGroundDivisionPtr[i]->Init(TilemapName, RedmapName);
+
+		float4 ReLocationPos = BackGroundDivisionPtr[i]->GetPos();
+		ReLocationPos.X = ReLocationPos.X * (i + 1);
+		//BackGroundDivisionPtr[i]->SetPos(ReLocationPos);
+
+		float _X = 3200.0f * (float)i;
+		float4 _Pos4 = {_X,0};
+
+		BackGroundDivisionPtr[i]->AddPos(_Pos4);
+	}
+
+	
+
+	int a = 0;
+	////배경타일
+	//BackGroundPtr = CreateActor<BackGround>();
+	//BackGroundPtr->Init("CandyChateauTile01.Bmp", "MapRedColorTest02.bmp");
 
 	// 카메라 오버 막는데 필요한 데이터인 맵스케일 등록. 맵을 바꾸면 그 맵에 맞춰서 카메라가 나가지 않음
-	GameEngineWindowTexture* Ptr = ResourcesManager::GetInst().FindTexture("CandyChateauTile01.Bmp");
+	GameEngineWindowTexture* Ptr = ResourcesManager::GetInst().FindTexture("CandyChateauTile0.Bmp");
 	if (nullptr == Ptr)
 	{
 		MsgBoxAssert("맵 텍스처를 알수가 없습니다.");
 	}
-	GlobalValue::MapScale = Ptr->GetScale();
+	GlobalValue::MapScale = Ptr->GetScale()*5;
 
 
 	LevelPlayer = CreateActor<Player>();
-	LevelPlayer->SetGroundTexture("MapRedColorTest02.bmp");
+	LevelPlayer->SetGroundTexture("CandyChateauRed0.bmp");
 
 	{
 		FadeObject* FObject = CreateActor<FadeObject>();

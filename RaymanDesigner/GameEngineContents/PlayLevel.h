@@ -38,6 +38,7 @@ private:
 
 	class BackGroundImage* BackGroundImagePtr = nullptr;
 	class BackGround* BackGroundPtr = nullptr;
+	class BackGround* BackGroundDivisionPtr[5];
 	
 	class Player* LevelPlayer = nullptr;
 
