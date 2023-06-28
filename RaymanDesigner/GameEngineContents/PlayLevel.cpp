@@ -174,7 +174,8 @@ void PlayLevel::Start()
 	{
 		MsgBoxAssert("맵 텍스처를 알수가 없습니다.");
 	}
-	GlobalValue::MapScale = Ptr->GetScale()*5;
+	GlobalValue::MapScale = Ptr->GetScale();
+	GlobalValue::MapScale.X = GlobalValue::MapScale.X * 5;
 
 
 	LevelPlayer = CreateActor<Player>();
