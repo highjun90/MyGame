@@ -135,6 +135,10 @@ void PlayLevel::Start()
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("CandyChateauRed2.bmp"));
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("CandyChateauRed3.bmp"));
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("CandyChateauRed4.bmp"));
+
+
+		//회색 처리된 레드맵
+		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("MapGrayColor.bmp"));
 	}
 
 	//분할된 타일맵 리소스 등록
@@ -168,9 +172,9 @@ void PlayLevel::Start()
 	GlobalValue::MapScale.X = GlobalValue::MapScale.X * 5; //원본맵을 수직으로 5분할 했으므로 X를 5배 늘려줌
 
 
-	//레드맵은 어떻게 이어붙이는가? 
+	//충돌확인 맵은 통짜, 따로있음 어떻게 이어붙이는가? 
 	LevelPlayer = CreateActor<Player>();
-	LevelPlayer->SetGroundTexture("CandyChateauRed0.bmp");
+	LevelPlayer->SetGroundTexture("MapGrayColor.bmp");
 
 	{
 		FadeObject* FObject = CreateActor<FadeObject>();

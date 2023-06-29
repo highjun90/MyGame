@@ -210,7 +210,7 @@ void Player::RunUpdate(float _Delta)
 				float4 XPos = float4::ZERO;
 				float4 Dir = MovePos.X <= 0.0f ? float4::RIGHT : float4::LEFT;
 
-				while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos + XPos))
+				while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos + XPos))
 				{
 					XPos += Dir;
 
@@ -221,7 +221,7 @@ void Player::RunUpdate(float _Delta)
 				}
 
 				float4 YPos = float4::ZERO;
-				while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos + YPos))
+				while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos + YPos))
 				{
 					YPos.Y += 1;
 
@@ -233,7 +233,7 @@ void Player::RunUpdate(float _Delta)
 
 				if (abs(XPos.X) >= YPos.Y)
 				{
-					while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos))
+					while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos))
 					{
 						MovePos.Y += 1;
 					}
@@ -296,7 +296,7 @@ void Player::JumpUpdate(float _Delta)
 				float4 XPos = float4::ZERO;
 				float4 Dir = MovePos.X <= 0.0f ? float4::RIGHT : float4::LEFT;
 
-				while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos + XPos))
+				while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos + XPos))
 				{
 					XPos += Dir;
 
@@ -307,7 +307,7 @@ void Player::JumpUpdate(float _Delta)
 				}
 
 				float4 YPos = float4::ZERO;
-				while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos + YPos))
+				while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos + YPos))
 				{
 					YPos.Y += 1;
 
@@ -319,7 +319,7 @@ void Player::JumpUpdate(float _Delta)
 
 				if (abs(XPos.X) >= YPos.Y)
 				{
-					while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos))
+					while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos))
 					{
 						MovePos.Y += 1;
 					}
@@ -366,7 +366,7 @@ void Player::JumpHoldUpdate(float _Delta)
 
 	if (true == GameEngineInput::IsPress('A') && Dir == PlayerDir::Left)
 	{
-		CheckPos = { -30.0f, -50.0f };
+		CheckPos = LeftCheck;
 
 		MovePos = { -Speed * _Delta, 0.0f };
 
@@ -375,7 +375,7 @@ void Player::JumpHoldUpdate(float _Delta)
 	}
 	else if (true == GameEngineInput::IsPress('D') && Dir == PlayerDir::Right)
 	{
-		CheckPos = { 30.0f, -50.0f };
+		CheckPos = RightCheck;
 
 		MovePos = { Speed * _Delta, 0.0f };
 	}
@@ -394,7 +394,7 @@ void Player::JumpHoldUpdate(float _Delta)
 				float4 XPos = float4::ZERO;
 				float4 Dir = MovePos.X <= 0.0f ? float4::RIGHT : float4::LEFT;
 
-				while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos + XPos))
+				while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos + XPos))
 				{
 					XPos += Dir;
 
@@ -405,7 +405,7 @@ void Player::JumpHoldUpdate(float _Delta)
 				}
 
 				float4 YPos = float4::ZERO;
-				while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos + YPos))
+				while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos + YPos))
 				{
 					YPos.Y += 1;
 
@@ -417,7 +417,7 @@ void Player::JumpHoldUpdate(float _Delta)
 
 				if (abs(XPos.X) >= YPos.Y)
 				{
-					while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos))
+					while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos))
 					{
 						MovePos.Y += 1;
 					}
@@ -538,7 +538,7 @@ void Player::SprintUpdate(float _Delta)
 				float4 XPos = float4::ZERO;
 				float4 Dir = MovePos.X <= 0.0f ? float4::RIGHT : float4::LEFT;
 
-				while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos + XPos))
+				while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos + XPos))
 				{
 					XPos += Dir;
 
@@ -549,7 +549,7 @@ void Player::SprintUpdate(float _Delta)
 				}
 
 				float4 YPos = float4::ZERO;
-				while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos + YPos))
+				while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos + YPos))
 				{
 					YPos.Y += 1;
 
@@ -561,7 +561,7 @@ void Player::SprintUpdate(float _Delta)
 
 				if (abs(XPos.X) >= YPos.Y)
 				{
-					while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos))
+					while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos))
 					{
 						MovePos.Y += 1;
 					}
@@ -632,7 +632,7 @@ void Player::SprintJumpUpdate(float _Delta)
 				float4 XPos = float4::ZERO;
 				float4 Dir = MovePos.X <= 0.0f ? float4::RIGHT : float4::LEFT;
 
-				while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos + XPos))
+				while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos + XPos))
 				{
 					XPos += Dir;
 
@@ -643,7 +643,7 @@ void Player::SprintJumpUpdate(float _Delta)
 				}
 
 				float4 YPos = float4::ZERO;
-				while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos + YPos))
+				while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos + YPos))
 				{
 					YPos.Y += 1;
 
@@ -655,7 +655,7 @@ void Player::SprintJumpUpdate(float _Delta)
 
 				if (abs(XPos.X) >= YPos.Y)
 				{
-					while (RGB(255, 0, 0) != GetGroundColor(RGB(255, 255, 255), MovePos))
+					while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos))
 					{
 						MovePos.Y += 1;
 					}
