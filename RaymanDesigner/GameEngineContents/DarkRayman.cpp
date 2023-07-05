@@ -48,7 +48,9 @@ void DarkRayman::Start()
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_DarkRaymanSprint.bmp"), 31, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_DarkRaymanSprint.bmp"), 27, 1);
 
-
+		//스프린트점프 스프라이트 등록
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_DarkRaymanSprintJump.bmp"), 14, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_DarkRaymanSprintJump.bmp"), 14, 1);
 
 		//점프 스프라이트 등록
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_DarkRaymanJump.bmp"), 42, 1);
@@ -71,6 +73,9 @@ void DarkRayman::Start()
 		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanSprint", "Left_DarkRaymanSprint.bmp", 26, 0, 0.035f, true);
 		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanSprint", "Right_DarkRaymanSprint.bmp", 0, 26, 0.035f, true);
 
+		//스프린트점프 애니메이션 등록
+		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanSprintJump", "Right_DarkRaymanSprintJump.bmp", 0, 13, 0.04f, true);
+		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanSprintJump", "Left_DarkRaymanSprintJump.bmp", 0, 13, 0.04f, true);
 
 
 		//점프 애니메이션 등록
