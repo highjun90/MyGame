@@ -90,7 +90,7 @@ void DarkRayman::Start()
 
 	DarkRaymanRenderer->SetRenderScaleToTexture();
 
-	std::string AniName = "Left_DarkRaymanJumpHold";
+	std::string AniName = "Right_DarkRaymanJumpHold";
 	DarkRaymanRenderer->ChangeAnimation(AniName);
 
 	DarkRaymanRenderer->Off();
