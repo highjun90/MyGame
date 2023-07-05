@@ -48,6 +48,8 @@ void DarkRayman::Start()
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_DarkRaymanSprint.bmp"), 31, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_DarkRaymanSprint.bmp"), 27, 1);
 
+
+
 		//점프 스프라이트 등록
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_DarkRaymanJump.bmp"), 42, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_DarkRaymanJump.bmp"), 42, 1);
@@ -68,6 +70,8 @@ void DarkRayman::Start()
 		//스프린트 애니메이션 등록
 		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanSprint", "Left_DarkRaymanSprint.bmp", 26, 0, 0.035f, true);
 		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanSprint", "Right_DarkRaymanSprint.bmp", 0, 26, 0.035f, true);
+
+
 
 		//점프 애니메이션 등록
 		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanJump", "Left_DarkRaymanJump.bmp", 0, 29, 0.025f, false);
@@ -97,17 +101,15 @@ void DarkRayman::Start()
 	Matching_RaymanAniname.insert({ "Left_RaymanSprint","Left_DarkRaymanSprint" });
 	Matching_RaymanAniname.insert({ "Right_RaymanSprint","Right_DarkRaymanSprint" });
 
-	Matching_RaymanAniname.insert({ "Left_RaymanSprintJump","" });
-	Matching_RaymanAniname.insert({ "Right_RaymanSprintJump","" });
+	Matching_RaymanAniname.insert({ "Left_RaymanSprintJump","Left_DarkRaymanSprintJump" });
+	Matching_RaymanAniname.insert({ "Right_RaymanSprintJump","Right_DarkRaymanSprintJump" });
 
-	Matching_RaymanAniname.insert({ "Left_RaymanJump","" });
-	Matching_RaymanAniname.insert({ "Right_RaymanJump","" });
+	Matching_RaymanAniname.insert({ "Left_RaymanJump","Left_DarkRaymanJump" });
+	Matching_RaymanAniname.insert({ "Right_RaymanJump","Right_DarkRaymanJump" });
 
-	Matching_RaymanAniname.insert({ "Left_RaymanJumpHold","" });
-	Matching_RaymanAniname.insert({ "Right_RaymanJumpHold","" });
+	Matching_RaymanAniname.insert({ "Left_RaymanJumpHold","Left_DarkRaymanJumpHold" });
+	Matching_RaymanAniname.insert({ "Right_RaymanJumpHold","Right_DarkRaymanJumpHold" });
 
-	Matching_RaymanAniname.insert({ "Left_RaymanVictory","" });
-	Matching_RaymanAniname.insert({ "Right_RaymanVictory","" });
 }
 
 
