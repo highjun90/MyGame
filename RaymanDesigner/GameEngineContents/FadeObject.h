@@ -20,9 +20,23 @@ public:
 		FadeDir = _Fade;
 	}
 
+
+	void SetValue(float _Value)
+	{
+		Value = _Value;
+	}
 	float GetValue()
 	{
 		return Value;
+	}
+
+	void SetTimeReset(bool _bool)
+	{
+		TimeReset = _bool;
+	}
+	bool GetTimeReset()
+	{
+		return TimeReset;
 	}
 
 protected:
@@ -30,6 +44,8 @@ protected:
 private:
 	float Value = 255.0f;
 	bool FadeDir = true;
+	bool TimeReset = false;
+
 	GameEngineRenderer* Render;
 
 	void Start() override;

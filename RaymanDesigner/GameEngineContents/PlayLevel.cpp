@@ -11,7 +11,7 @@
 #include "DarkRayman.h"
 #include "GoalPoint.h"
 #include "PlayUIManager.h"
-#include "FadeObject.h"
+
 
 // Contents
 #include "Player.h"
@@ -124,7 +124,8 @@ void PlayLevel::Start()
 
 	//배경이미지 등록
 	BackGroundImagePtr = CreateActor<BackGroundImage>();
-	BackGroundImagePtr->Init("CandyChateau1200x800.Bmp");
+	//BackGroundImagePtr->Init("CandyChateau1200x800.Bmp");
+	BackGroundImagePtr->Init("CandyChateau1480x987.Bmp");
 
 	//분할된 레드맵 리소스 등록
 	if (false == ResourcesManager::GetInst().IsLoadTexture("CandyChateauRed1.Bmp"))
@@ -183,8 +184,9 @@ void PlayLevel::Start()
 	LevelPlayer = CreateActor<Player>();
 	LevelPlayer->SetGroundTexture("MapGrayColor.bmp");
 
+	//검은화면
 	{
-		FadeObject* FObject = CreateActor<FadeObject>();
+		FObject = CreateActor<FadeObject>();
 	}
 
 	CreateActor<PlayUIManager>();
@@ -194,18 +196,6 @@ void PlayLevel::Start()
 	DarkRaymanPtr->SetRaymanPtr(LevelPlayer);
 
 	CreateActor<GoalPoint>();
-
-	//배경이 타일 맵일때
-	/*TileMap* TileObject = CreateActor<TileMap>();
-
-	TileObject->CreateTileMap("Tile.bmp", 20, 20, { 50, 50 }, 0);
-	for (size_t y = 0; y < 20; y++)
-	{
-		for (size_t x = 0; x < 20; x++)
-		{
-			TileObject->SetTile(x, y, 0);
-		}
-	}*/
 }
 
 
@@ -227,6 +217,10 @@ void PlayLevel::Update(float _Delta)
 
 	}
 
+	if (LevelPlayer->GetLoseGame() == true)
+	{
+		
+	}
 
 	//원본 선생님 몬스터 만들기
 	/*if (3.0f <= GetLiveTime() )
@@ -237,11 +231,11 @@ void PlayLevel::Update(float _Delta)
 
 
 	//임의로 만든 몬스터 1개 만들기, 3초뒤 1마리 나오게
-	if (3.0f <= GetLiveTime() && true == CreateDarkRayman)
+	/*if (3.0f <= GetLiveTime() && true == CreateDarkRayman)
 	{
 		Monster* NewMonster = CreateActor<Monster>();
 		CreateDarkRayman = false;
-	}
+	}*/
 
 	
 }

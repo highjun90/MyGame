@@ -13,6 +13,7 @@ enum class PlayerState
 	Sprint,
 	SprintJump,
 	Victory,
+	Die,
 	Debugmode,
 	Max, // 일반적으로 사용하지 않는 값.
 };
@@ -72,7 +73,23 @@ public:
 	float4 DebugStartPoint = float4::ZERO;
 	bool DebugPointIsRender = false;
 
+	void SetLife(int _Life)
+	{
+		TotalLife = _Life;
+	}
+	int GetLife() const
+	{
+		return TotalLife;
+	}
 
+	void SetLoseGame(bool _bool)
+	{
+		LoseGame = _bool;
+	}
+	bool GetLoseGame() const
+	{
+		return LoseGame;
+	}
 protected:
 	void StateUpdate(float _Delta);
 
@@ -99,7 +116,10 @@ protected:
 	void DebugmodeUpdate(float _Delta);
 
 	void VictoryStart();
-	void VIctoryUpdate(float _Delta);
+	void VictoryUpdate(float _Delta);
+
+	void DieStart();
+	void DieUpdate(float _Delta);
 
 	void ChanageState(PlayerState State);
 
@@ -116,6 +136,7 @@ protected:
 
 	void ChangeAnimationState(const std::string& _StateName);
 
+
 private:
 	void LevelStart() override; 
 
@@ -124,6 +145,10 @@ private:
 	void Render(float _Delta) override;
 
 	float JumpSpeed = 300.0f;
+
+	int TotalLife = 5;
+	bool LoseGame = false;
+	//bool VictoryGame = false;
 
 	DarkRayman* DarkRaymanToPlayer = nullptr;
 

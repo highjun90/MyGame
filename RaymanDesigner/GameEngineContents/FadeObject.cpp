@@ -39,12 +39,31 @@ void FadeObject::Start()
 
 void FadeObject::Update(float _Time)
 {
-	if (FadeDir)
+	/*if (true == GetTimeReset())
+	{
+		ResetLiveTime();
+	}*/
+
+	float time = _Time;
+
+	if (true == FadeDir)
 	{
 		Value -= _Time * 300;
 		if (0.0f >= Value)
 		{
-			Death();
+			//Death();
+			return;
+		}
+		Render->SetAlpha(static_cast<unsigned char>(Value));
+	}
+	else if (false == FadeDir)
+	{
+		
+		Value += _Time * 300;
+		if (255.0f <= Value)
+		{
+			float time = _Time;
+			//Death();
 			return;
 		}
 		Render->SetAlpha(static_cast<unsigned char>(Value));

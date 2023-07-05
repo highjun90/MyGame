@@ -77,6 +77,13 @@ void Player::Start()
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_RaymanVictory.bmp"), 39, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_RaymanVictory.bmp"), 39, 1);
 
+		//죽기 스프라이트 등록
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_RaymanDie.bmp"), 10, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_RaymanDie.bmp"), 10, 1);
+
+		//죽기 빛 스트라이트 등록
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("RaymanDieLight.bmp"), 7, 1);
+
 		//UI 등록
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("UI_LifeAndHp.bmp"));
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("UI_LeftDownMarble.bmp"));
@@ -127,8 +134,14 @@ void Player::Start()
 		MainRenderer->CreateAnimation("Left_RaymanVictory", "Left_RaymanVictory.bmp", 0, 38, 0.06f, false);
 		MainRenderer->CreateAnimation("Right_RaymanVictory", "Right_RaymanVictory.bmp", 0, 38, 0.06f, false);
 
-		//MainRenderer->ChangeAnimation("Test");
+		//죽기 애니메이션 등록
+		MainRenderer->CreateAnimation("Left_RaymanDie", "Left_RaymanDie.bmp", 0, 9, 0.04f, false);
+		MainRenderer->CreateAnimation("Right_RaymanDie", "Right_RaymanDie.bmp", 0, 9, 0.04f, false);
 
+		//죽기 빛 애니메이션 등록
+		MainRenderer->CreateAnimation("RaymanDieLight", "RaymanDieLight.bmp", 0, 6, 0.08f, false);
+
+	
 		MainRenderer->SetRenderScaleToTexture();
 
 		////다크레이맨 스케일 플레이어와 같게 해주기
@@ -184,6 +197,17 @@ void Player::Start()
 
 		GameEngineSound::SoundLoad(FilePath.PlusFilePath("Victory.mp3"));
 	}
+
+	//죽기사운드 등록
+	if (nullptr == GameEngineSound::FindSound("RaymanDie.mp3"))
+	{
+		GameEnginePath FilePath;
+		FilePath.SetCurrentPath();
+		FilePath.MoveParentToExistsChild("ContentsResources");
+		FilePath.MoveChild("ContentsResources\\Sound\\");
+
+		GameEngineSound::SoundLoad(FilePath.PlusFilePath("RaymanDie.mp3"));
+	}
 }
 
 void Player::Update(float _Delta)
@@ -219,6 +243,7 @@ void Player::Update(float _Delta)
 		// 나는 몬스터랑 충돌한거야.
 	}
 
+	//골포인트 충돌체크
 	std::vector<GameEngineCollision*> _GoalCollisionTest;
 	if (true == BodyCollsion->Collision(CollisionOrder::GoalPoint, _GoalCollisionTest
 		, CollisionType::Rect // 나를 사각형으로 봐줘
@@ -226,6 +251,16 @@ void Player::Update(float _Delta)
 	))
 	{
 		ChanageState(PlayerState::Victory);
+	}
+
+	//다크레이맨 몸 충돌체크
+	std::vector<GameEngineCollision*> _DarkRaymanBodyCol;
+	if (true == BodyCollsion->Collision(CollisionOrder::DarkRayManBody, _DarkRaymanBodyCol
+		, CollisionType::Rect // 나를 사각형으로 봐줘
+		, CollisionType::Rect // 상대도 사각형으로 봐줘
+	))
+	{
+		ChanageState(PlayerState::Die);
 	}
 
 
@@ -381,6 +416,10 @@ void Player::StateUpdate(float _Delta)
 		return SprintUpdate(_Delta);
 	case PlayerState::SprintJump:
 		return SprintJumpUpdate(_Delta);
+	case PlayerState::Victory:
+		return VictoryUpdate(_Delta);
+	case PlayerState::Die:
+		return DieUpdate(_Delta);
 	case PlayerState::Debugmode:
 		return DebugmodeUpdate(_Delta);
 	default:
@@ -415,6 +454,9 @@ void Player::ChanageState(PlayerState _State)
 			break;
 		case PlayerState::Victory:
 			VictoryStart();
+			break;
+		case PlayerState::Die:
+			DieStart();
 			break;
 		case PlayerState::Debugmode:
 			DebugmodeStart();

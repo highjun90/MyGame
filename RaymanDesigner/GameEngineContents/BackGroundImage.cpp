@@ -30,10 +30,16 @@ void BackGroundImage::Start()
 
 void BackGroundImage::Update(float _Delta)
 {
-	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
+	//원본 이미지 위치
+	/*float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
 	float4 AddForRePos = { Scale.X / 2, Scale.Y / 2 };
-	SetPos(CameraPos + AddForRePos);
+	SetPos(CameraPos + AddForRePos);*/
 
+
+	float4 CameraPos = GetLevel()->GetMainCamera()->GetPos();
+	//float4 AddForRePos = { 740, 493 };
+	float4 AddForRePos = { 690, 443 };
+	SetPos(CameraPos + AddForRePos);
 }
 
 
@@ -59,16 +65,16 @@ void BackGroundImage::Init(const std::string& _FileName)
 	GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture(_FileName);
 
 	// 원래이미지 사이즈
-	/*float4 Scale = { Texture->GetScale() };
+	float4 Scale = { Texture->GetScale() };
 	Renderer->SetTexture(_FileName);
 	Renderer->SetRenderScale(Scale);
-	SetPos({ Scale.hX(), Scale.hY() });*/
+	//SetPos({ Scale.hX(), Scale.hY() });
 
 	//스크린 크기로 이미지사이즈
-	float4 ReScale = { 1280, 800 };
+	/*float4 ReScale = { 1480, 1000 };
 	SetScale(ReScale);
 	Renderer->SetTexture(_FileName);
-	Renderer->SetRenderScale(this->Scale);
+	Renderer->SetRenderScale(this->Scale);*/
 
 
 }

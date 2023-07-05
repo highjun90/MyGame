@@ -2,6 +2,8 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 
+#include "FadeObject.h"
+
 // 설명 :
 class DarkRayman;
 class PlayLevel : public GameEngineLevel
@@ -46,7 +48,8 @@ private:
 	GameEngineSoundPlayer BGMPlayerToPlayLevel;
 
 	//임의로 추가한 멤버변수
-	bool CreateDarkRayman = true;
+	bool CreateDarkRayman = false;
 	bool CreateMrDark = true;
+	FadeObject* FObject = nullptr;
 };
 

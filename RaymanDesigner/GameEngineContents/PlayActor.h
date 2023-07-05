@@ -47,6 +47,16 @@ public:
 		GravityVector = _GravityVector;
 	}
 
+	void SetCameraMovement(bool _bool)
+	{
+		CameraMovement = _bool;
+	}
+
+	bool GetCameraMovement()
+	{
+		return CameraMovement;
+	}
+
 protected:
 
 private:
@@ -57,6 +67,8 @@ private:
 
 	float GravityPower = 3000.0f;
 	float4 GravityVector = float4::ZERO;
+
+	bool CameraMovement = true;
 
 };
 

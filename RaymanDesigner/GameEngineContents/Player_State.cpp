@@ -57,6 +57,12 @@ void Player::VictoryStart()
 	ChangeAnimationState("RaymanVictory");
 }
 
+void Player::DieStart()
+{
+	GameEngineSound::SoundPlay("RaymanDie.mp3");
+	ChangeAnimationState("RaymanDie");
+}
+
 
 void Player::IdleUpdate(float _Delta)
 {
@@ -686,9 +692,59 @@ void Player::SprintJumpUpdate(float _Delta)
 
 }
 
-void VIctoryUpdate(float _Delta) 
+void Player::VictoryUpdate(float _Delta)
 {
 
+}
+
+void Player::DieUpdate(float _Delta)
+{
+
+
+	float4 _Pos = float4::ZERO;
+	float _ColDir = 0.0f;
+
+	if (Dir == PlayerDir::Left)
+	{
+		_ColDir = 1.0f;
+	}
+	else if (Dir == PlayerDir::Right)
+	{
+		_ColDir = -1.0f;
+	}
+	else
+	{
+		MsgBoxAssert("죽기에서 방향을 모르겠습니다.");
+	}
+
+
+	//마지막 빛 애니메이션 연출일땐 위치이동 안함
+	if (MainRenderer->GetCurAnimationName() != "RaymanDieLight")
+	{
+		if (4 > MainRenderer->GetCurFrame())
+		{
+			_Pos = { _ColDir * 3.0f, -3.0f };
+			AddPos(_Pos);
+		}
+		else if (9 > MainRenderer->GetCurFrame())
+		{
+			_Pos = { _ColDir * 1.0f , 1.0f };
+			AddPos(_Pos);
+		}
+	}
+
+	//마지막 빛 애니메이션으로 전환
+	if (MainRenderer->GetCurAnimationName() != "RaymanDieLight" && 9 == MainRenderer->GetCurFrame())
+	{
+		SetCameraMovement(false);
+		MainRenderer->ChangeAnimation("RaymanDieLight");
+	}
+
+	//게임패배상태로 전환
+	if (MainRenderer->GetCurAnimationName() == "RaymanDieLight" && true == MainRenderer->IsAnimationEnd())
+	{
+		SetLoseGame(true);
+	}
 }
 
 void Player::DebugmodeStart()

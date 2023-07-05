@@ -64,11 +64,14 @@ private:
 
 	class Player* RaymanPtr = nullptr;
 
+	bool Live = true;
 	bool Chase = false;
+	
 
 	std::vector<PastRaymanData*> PastRaymanDatas;
 	int TotalNum_PastRaymanDatas = 0;
 	int Index_PastRaymanDatas = 0;
+
 
 	std::map<std::string, std::string> Matching_RaymanAniname;
 };  

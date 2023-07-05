@@ -182,6 +182,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="FadeObjectReverse.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GlobalValue.h">
       <SubType>
       </SubType>
@@ -246,6 +250,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="FadeObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FadeObjectReverse.cpp">
       <SubType>
       </SubType>
     </ClCompile>

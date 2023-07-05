@@ -179,6 +179,11 @@ public:
 		return CurAnimation;
 	}
 
+	std::string GetCurAnimationName()
+	{
+		return CurAnimation->Name;
+	}
+
 	//void SetCurAnimationFrame(size_t _Frame);
 	//void SetCurAnimation
 

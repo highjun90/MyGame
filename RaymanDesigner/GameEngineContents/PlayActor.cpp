@@ -34,6 +34,14 @@ void PlayActor::Gravity(float _Delta)
 
 void PlayActor::CameraFocus() 
 {
+	bool CameraUpdate = GetCameraMovement();
+
+	if (false == CameraUpdate)
+	{
+		return;
+	}
+
+
 	float4 WindowScale = GameEngineWindow::MainWindow.GetScale();
 	GetLevel()->GetMainCamera()->SetPos(GetPos() + float4{ -WindowScale.hX(), -WindowScale.hY() -100.0f });
 	

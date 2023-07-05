@@ -1,10 +1,11 @@
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineCore/ResourcesManager.h>
+#include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineRenderer.h>
 
 #include "DarkRayman.h"
 #include "Player.h"
-
+#include "ContentsEnum.h"
 
 DarkRayman::DarkRayman()
 {
@@ -77,7 +78,6 @@ void DarkRayman::Start()
 		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanSprintJump", "Right_DarkRaymanSprintJump.bmp", 0, 13, 0.04f, true);
 		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanSprintJump", "Left_DarkRaymanSprintJump.bmp", 0, 13, 0.04f, true);
 
-
 		//점프 애니메이션 등록
 		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanJump", "Left_DarkRaymanJump.bmp", 0, 29, 0.025f, false);
 		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanJump", "Right_DarkRaymanJump.bmp", 0, 29, 0.025f, false);
@@ -85,8 +85,16 @@ void DarkRayman::Start()
 		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanJumpHold", "Left_DarkRaymanJump.bmp", 30, 41, 0.04f, true);
 		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanJumpHold", "Right_DarkRaymanJump.bmp", 30, 41, 0.04f, true);
 
+
+
+
 	}
 
+
+	DarkRaymanCollsion = CreateCollision(CollisionOrder::DarkRayManBody);
+	DarkRaymanCollsion->SetCollisionScale({ 50, 110 });
+	DarkRaymanCollsion->SetCollisionType(CollisionType::Rect);
+	DarkRaymanCollsion->Off();
 
 	DarkRaymanRenderer->SetRenderScaleToTexture();
 
@@ -121,32 +129,43 @@ void DarkRayman::Start()
 void DarkRayman::Update(float _Delta)
 {
 	//레이맨 등장 후 일정시간 후 다크레이맨 등장
-	if (RaymanPtr == nullptr)
+	float LiveTime = RaymanPtr->GetLiveTime();
+	if (LiveTime > 2.0f && Live == true)
 	{
-		MsgBoxAssert("DarkRayman이 Rayman을 모릅니다");
+		DarkRaymanRenderer->On();
+		DarkRaymanCollsion->On();
+
+		SetChase(true);
 	}
-	else
+
+	//레이맨 충돌시 하는 행동
+	std::vector<GameEngineCollision*> _DarkRaymanBodyCol;
+	if (true == DarkRaymanCollsion->Collision(CollisionOrder::PlayerBody, _DarkRaymanBodyCol
+		, CollisionType::Rect // 나를 사각형으로 봐줘
+		, CollisionType::Rect // 상대도 사각형으로 봐줘
+	))
 	{
-		float LiveTime = RaymanPtr->GetLiveTime();
+		DarkRaymanRenderer->Off();
+		//DarkRaymanCollsion->Off();
+		ResetLiveTime();
 
-		if (LiveTime > 3.0f)
-		{
-			DarkRaymanRenderer->On();
-			SetChase(true);
-		}
-
+		SetChase(false);
+		Live = false;
 	}
+
+	
 
 	//지금 등장해서 추적안하고 있으면 레이맨 정보만 추가, 아니면 정보를 바탕으로 레이맨 쫒음
 	bool NowChase = GetChase();
-	if (NowChase == false)
+	if (Live == true && NowChase == false)
 	{
 		AddRaymanData();
 	}
-	else
+	else if(Live == true && NowChase == true)
 	{
 		ChaseRayman();
 	}
+
 }
 
 
@@ -208,7 +227,7 @@ void DarkRayman::ChaseRayman()
 	size_t ChangeFrame = PastRaymanDatas[Index_PastRaymanDatas]->AnimationCurFrame;
 
 
-
+	DarkRaymanRenderer->ChangeAnimation(ChangeAni02);
 
 
 

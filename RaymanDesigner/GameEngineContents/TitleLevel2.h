@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
+#include "FadeObject.h"
 
 
 // Ό³Έν :
@@ -17,6 +18,8 @@ public:
 	TitleLevel2& operator=(const TitleLevel2& _Other) = delete;
 	TitleLevel2& operator=(TitleLevel2&& _Other) noexcept = delete;
 
+	bool AutoLevelChange = false;
+
 protected:
 
 
@@ -27,6 +30,7 @@ private:
 
 
 	class BackGround* BackGroundPtr = nullptr;
+	FadeObject* FObject = nullptr;
 
 
 

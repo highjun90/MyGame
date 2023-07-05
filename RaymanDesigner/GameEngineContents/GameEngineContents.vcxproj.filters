@@ -52,6 +52,9 @@
     <ClInclude Include="GoalPoint.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="FadeObjectReverse.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -102,6 +105,9 @@
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="GoalPoint.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeObjectReverse.cpp">
       <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
