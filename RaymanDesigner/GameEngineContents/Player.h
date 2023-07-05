@@ -22,8 +22,6 @@ enum class PlayerDir
 {
 	Right,
 	Left,
-	//Up,
-	//Down,
 	Max,
 };
 
@@ -63,9 +61,8 @@ public:
 		return JumpSpeed;
 	}
 
-	void CameraPosToDir();
 
-	DarkRayman* DarkRaymanPtr = nullptr;
+	
 
 	float DebugSpeed = 300.0f;
 	bool DebugMode = false;
@@ -89,6 +86,15 @@ public:
 	bool GetLoseGame() const
 	{
 		return LoseGame;
+	}
+
+	void SetDir(PlayerDir _Dir)
+	{
+		Dir = _Dir;
+	}
+	PlayerDir GetDir()
+	{
+		return Dir;
 	}
 protected:
 	void StateUpdate(float _Delta);
@@ -150,7 +156,7 @@ private:
 	bool LoseGame = false;
 	//bool VictoryGame = false;
 
-	DarkRayman* DarkRaymanToPlayer = nullptr;
+
 
 	GameEngineSoundPlayer* BGMPlayerToPlayer = nullptr;  //PlayLevel에서 BGMPlayer 가져올 포인터. Player_State 디버그 모드때 이용.
 	bool SoundPlaying = true;

@@ -395,10 +395,6 @@ void Player::Update(float _Delta)
 	// Gravity();
 }
 
-void CameraPosToDir()
-{
-	
-}
 
 void Player::StateUpdate(float _Delta)
 {

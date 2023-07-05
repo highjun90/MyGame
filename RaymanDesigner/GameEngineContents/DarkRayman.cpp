@@ -57,6 +57,9 @@ void DarkRayman::Start()
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_DarkRaymanJump.bmp"), 42, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_DarkRaymanJump.bmp"), 42, 1);
 
+		//죽기 스프라이트 등록
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_DarkRaymanDie.bmp"), 40, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_DarkRaymanDie.bmp"), 40, 1);
 
 	}
 
@@ -85,9 +88,9 @@ void DarkRayman::Start()
 		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanJumpHold", "Left_DarkRaymanJump.bmp", 30, 41, 0.04f, true);
 		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanJumpHold", "Right_DarkRaymanJump.bmp", 30, 41, 0.04f, true);
 
-
-
-
+		//죽기 애니메이션 등록
+		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanDie", "Left_DarkRaymanDie.bmp", 0, 39, 0.045f, false);
+		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanDie", "RIght_DarkRaymanDie.bmp", 0, 39, 0.045f, false);
 	}
 
 
@@ -123,6 +126,9 @@ void DarkRayman::Start()
 	Matching_RaymanAniname.insert({ "Left_RaymanJumpHold","Left_DarkRaymanJumpHold" });
 	Matching_RaymanAniname.insert({ "Right_RaymanJumpHold","Right_DarkRaymanJumpHold" });
 
+	Matching_RaymanAniname.insert({ "Left_RaymanDie","Left_DarkRaymanDie" });
+	Matching_RaymanAniname.insert({ "Right_RaymanDie","Right_DarkRaymanDie" });
+
 }
 
 
@@ -145,8 +151,16 @@ void DarkRayman::Update(float _Delta)
 		, CollisionType::Rect // 상대도 사각형으로 봐줘
 	))
 	{
-		DarkRaymanRenderer->Off();
+		//DarkRaymanRenderer->Off();
 		//DarkRaymanCollsion->Off();
+
+		//std::string ChangeAni01 = PastRaymanDatas[Index_PastRaymanDatas]->AnimationName;
+		//std::string ChangeAni02 = Matching_RaymanAniname.at(ChangeAni01);
+		//DarkRaymanRenderer->ChangeAnimation("Left_DarkRaymanDie");
+
+		DieState();
+
+
 		ResetLiveTime();
 
 		SetChase(false);
@@ -226,12 +240,22 @@ void DarkRayman::ChaseRayman()
 	std::string ChangeAni02 = Matching_RaymanAniname.at(ChangeAni01);
 	size_t ChangeFrame = PastRaymanDatas[Index_PastRaymanDatas]->AnimationCurFrame;
 
-
 	DarkRaymanRenderer->ChangeAnimation(ChangeAni02);
-
-
-
 
 	AddRaymanData(Index_PastRaymanDatas);
 	Index_PastRaymanDatas++;
+}
+
+
+void DarkRayman::DieState()
+{
+	if (RaymanPtr->GetDir() == PlayerDir::Right)
+	{
+		DarkRaymanRenderer->ChangeAnimation("Left_DarkRaymanDie");
+	}
+	else
+	{
+		DarkRaymanRenderer->ChangeAnimation("Right_DarkRaymanDie");
+	}
+	
 }

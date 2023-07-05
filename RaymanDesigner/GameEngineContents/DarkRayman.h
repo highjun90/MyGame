@@ -4,6 +4,8 @@
 #include <vector>
 #include <map>
 
+#include "Player.h"
+
 class Player;
 class DarkRayman : public GameEngineActor
 {
@@ -54,6 +56,9 @@ public:
 	void AddRaymanData();
 	void AddRaymanData(int _Index);
 	void ChaseRayman();
+
+	void DieState();
+	
 
 protected:
 
