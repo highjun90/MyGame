@@ -3,6 +3,7 @@
 #include <GameEnginePlatform/GameEngineSound.h>
 
 // Ό³Έν :
+class DarkRayman;
 class PlayLevel : public GameEngineLevel
 {
 public:
@@ -21,11 +22,10 @@ public:
 		return &BGMPlayerToPlayLevel;
 	}
 
-	void TestLevelFunction()
+	DarkRayman* GetDarkRaymanPtr()
 	{
-
+		return DarkRaymanPtr;
 	}
-	
 
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
@@ -41,6 +41,7 @@ private:
 	class BackGround* BackGroundDivisionPtr[5];
 	
 	class Player* LevelPlayer = nullptr;
+	class DarkRayman* DarkRaymanPtr = nullptr;
 
 	GameEngineSoundPlayer BGMPlayerToPlayLevel;
 

@@ -1,11 +1,14 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
 #include <string>
+#include <vector>
+#include <map>
 
-
+class Player;
 class DarkRayman : public GameEngineActor
 {
 public:
+
 	//constructor destructor
 	DarkRayman();
 	~DarkRayman();
@@ -16,25 +19,56 @@ public:
 	DarkRayman& operator=(const DarkRayman& _Other) = delete;
 	DarkRayman&& operator=(DarkRayman&& _Other) noexcept = delete;
 
-	void SetPosToPlayer(float4 _Pos)
+	GameEngineRenderer* DarkRaymanRenderer = nullptr;
+	GameEngineCollision* DarkRaymanCollsion = nullptr;
+
+	void SetRaymanPtr(Player* _RaymanPtr) 
 	{
-		PastPosToPlayer = _Pos;
+		RaymanPtr = _RaymanPtr;
 	}
 
-	float4 GetPosToPlayer()
+	Player* GetRaymanPtr()
 	{
-		return PastPosToPlayer;
+		return RaymanPtr;
 	}
+
+	class PastRaymanData
+	{
+	public:
+		float4 Pos = float4::ZERO;
+		//float4 Scale = float4::ZERO;
+		std::string AnimationName = "";
+		size_t AnimationCurFrame = 0;
+	};
+
+	void SetChase(bool _Chase)
+	{
+		Chase = _Chase;
+	}
+
+	bool GetChase()
+	{
+		return Chase;
+	}
+
+	void AddRaymanData();
+	void AddRaymanData(int _Index);
+	void ChaseRayman();
 
 protected:
 
 private:
 	void Start() override;
 	void Update(float _Delta) override;
+	void Render(float _Delta) override;
 
-	float4 PastPosToPlayer = float4::ZERO;
-	std::string PastAnimationToPlayer = "";
-	size_t PastFrameToPlayer = 0;
+	class Player* RaymanPtr = nullptr;
 
+	bool Chase = false;
 
+	std::vector<PastRaymanData*> PastRaymanDatas;
+	int TotalNum_PastRaymanDatas = 0;
+	int Index_PastRaymanDatas = 0;
+
+	std::map<std::string, std::string> Matching_RaymanAniname;
 };  

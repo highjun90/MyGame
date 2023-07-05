@@ -37,6 +37,11 @@ public:
 		RenderPos = _Value;
 	}
 
+	float4 GetRenderScale()
+	{
+		return RenderScale;
+	}
+
 
 	void SetRenderScale(const float4& _Value)
 	{
@@ -168,6 +173,14 @@ public:
 	{
 		return CurAnimation->Name == _Name;
 	}
+
+	Animation* GetCurAnimation()
+	{
+		return CurAnimation;
+	}
+
+	//void SetCurAnimationFrame(size_t _Frame);
+	//void SetCurAnimation
 
 private:
 	std::map<std::string, Animation> AllAnimation;

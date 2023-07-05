@@ -8,6 +8,7 @@
 #include <GameEnginePlatform/GameEngineSound.h>
 #include "Monster.h"
 #include "MrDark.h"
+#include "DarkRayman.h"
 #include "GoalPoint.h"
 #include "PlayUIManager.h"
 #include "FadeObject.h"
@@ -21,6 +22,12 @@
 
 PlayLevel::PlayLevel()
 {
+	//그냥 포인터 초기화
+	for (int i = 0; i < 5; i++)
+	{
+		BackGroundDivisionPtr[i] = nullptr;
+	}
+
 }
 
 PlayLevel::~PlayLevel()
@@ -182,6 +189,10 @@ void PlayLevel::Start()
 
 	CreateActor<PlayUIManager>();
 	CreateActor<MrDark>();
+
+	DarkRaymanPtr = CreateActor<DarkRayman>();
+	DarkRaymanPtr->SetRaymanPtr(LevelPlayer);
+
 	CreateActor<GoalPoint>();
 
 	//배경이 타일 맵일때
@@ -232,6 +243,7 @@ void PlayLevel::Update(float _Delta)
 		CreateDarkRayman = false;
 	}
 
+	
 }
 void PlayLevel::Release() 
 {

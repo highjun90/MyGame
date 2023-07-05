@@ -64,6 +64,8 @@ public:
 
 	void CameraPosToDir();
 
+	DarkRayman* DarkRaymanPtr = nullptr;
+
 	float DebugSpeed = 300.0f;
 	bool DebugMode = false;
 	bool DebugModeText = false;
@@ -104,7 +106,7 @@ protected:
 	PlayerState State = PlayerState::Max;
 	PlayerDir Dir = PlayerDir::Right;
 	std::string CurState = "";
-	GameEngineRenderer* HPRender;
+	//GameEngineRenderer* HPRender;
 
 	int TestValue = 0;
 

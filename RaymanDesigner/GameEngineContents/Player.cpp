@@ -128,7 +128,15 @@ void Player::Start()
 		MainRenderer->CreateAnimation("Right_RaymanVictory", "Right_RaymanVictory.bmp", 0, 38, 0.06f, false);
 
 		//MainRenderer->ChangeAnimation("Test");
+
 		MainRenderer->SetRenderScaleToTexture();
+
+		////다크레이맨 스케일 플레이어와 같게 해주기
+		//float4 DarkRaymanScale = MainRenderer->GetRenderScale();
+
+		//DarkRaymanPtr->DarkRaymanRenderer->SetRenderScale(DarkRaymanScale);
+		//int a = 0;
+	
 	}
 
 	//hp바 선생님코드
