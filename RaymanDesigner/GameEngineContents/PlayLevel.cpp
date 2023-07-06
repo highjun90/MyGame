@@ -6,15 +6,9 @@
 #include <GameEnginePlatform/GameEngineInput.h>
 #include <GameEnginePlatform/GameEngineWindow.h>
 #include <GameEnginePlatform/GameEngineSound.h>
-#include "Monster.h"
-#include "MrDark.h"
-#include "DarkRayman.h"
-#include "GoalPoint.h"
+
 #include "PlayUIManager.h"
-
-
 // Contents
-#include "Player.h"
 #include "BackGround.h"
 #include "BackGroundImage.h"
 #include "GlobalValue.h"
@@ -189,13 +183,13 @@ void PlayLevel::Start()
 		FObject = CreateActor<FadeObject>();
 	}
 
-	CreateActor<PlayUIManager>();
-	CreateActor<MrDark>();
+	PlayUIManagerPtr = CreateActor<PlayUIManager>();
+	MrDarkPtr = CreateActor<MrDark>();
 
 	DarkRaymanPtr = CreateActor<DarkRayman>();
 	DarkRaymanPtr->SetRaymanPtr(LevelPlayer);
 
-	CreateActor<GoalPoint>();
+	GoalPointPtr = CreateActor<GoalPoint>();
 }
 
 
@@ -219,7 +213,7 @@ void PlayLevel::Update(float _Delta)
 
 	if (LevelPlayer->GetLoseGame() == true)
 	{
-		
+
 	}
 
 	//원본 선생님 몬스터 만들기
@@ -237,8 +231,29 @@ void PlayLevel::Update(float _Delta)
 		CreateDarkRayman = false;
 	}*/
 
+	//레이맨 죽으면 재시작
+	if (true == LevelPlayer->GetLoseGame())
+	{
+
+		//재시작 맨처음 시간 기록
+		if (RestartTime1 == 0)
+		{
+			RestartTime1 = GetLiveTime();
+
+		}
+
+
+		ResetGame();
+
+		if (0 > LevelPlayer->GetLife())
+		{
+
+		}
+	}
 	
 }
+
+
 void PlayLevel::Release() 
 {
 }

@@ -343,10 +343,7 @@ void GameEngineRenderer::CreateAnimationToFrame(
 
 void GameEngineRenderer::ChangeAnimation(const std::string& _AniamtionName, int _FrameCount, bool _ForceChange)
 {
-	if (_AniamtionName == "Left_RaymanSprint")
-	{
-		int a = 0;
-	}
+	
 	Animation* ChangeAni = FindAnimation(_AniamtionName);
 
 	if (ChangeAni == CurAnimation && false == _ForceChange)

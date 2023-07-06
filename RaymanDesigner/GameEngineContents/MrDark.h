@@ -18,6 +18,8 @@ public:
 
 	GameEngineRenderer* MainRenderer = nullptr;
 
+	void Restart();
+
 protected:
 
 private:

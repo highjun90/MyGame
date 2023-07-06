@@ -89,8 +89,8 @@ void DarkRayman::Start()
 		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanJumpHold", "Right_DarkRaymanJump.bmp", 30, 41, 0.04f, true);
 
 		//죽기 애니메이션 등록
-		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanDie", "Left_DarkRaymanDie.bmp", 0, 39, 0.045f, false);
-		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanDie", "RIght_DarkRaymanDie.bmp", 0, 39, 0.045f, false);
+		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanDie", "Left_DarkRaymanDie.bmp", 0, 39, 0.04f, false);
+		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanDie", "RIght_DarkRaymanDie.bmp", 0, 39, 0.04f, false);
 	}
 
 
@@ -144,6 +144,14 @@ void DarkRayman::Update(float _Delta)
 		SetChase(true);
 	}
 
+	/*if (LiveTime > 2.0f && GetChase () == false)
+	{
+		DarkRaymanRenderer->On();
+		DarkRaymanCollsion->On();
+
+		SetChase(true);
+	}*/
+
 	//레이맨 충돌시 하는 행동
 	std::vector<GameEngineCollision*> _DarkRaymanBodyCol;
 	if (true == DarkRaymanCollsion->Collision(CollisionOrder::PlayerBody, _DarkRaymanBodyCol
@@ -158,12 +166,11 @@ void DarkRayman::Update(float _Delta)
 		//std::string ChangeAni02 = Matching_RaymanAniname.at(ChangeAni01);
 		//DarkRaymanRenderer->ChangeAnimation("Left_DarkRaymanDie");
 
-		DieState();
-
-
-		ResetLiveTime();
-
+		Die();
+		
 		SetChase(false);
+		//SetRecordRayman(false);
+		ResetLiveTime();
 		Live = false;
 	}
 
@@ -171,6 +178,7 @@ void DarkRayman::Update(float _Delta)
 
 	//지금 등장해서 추적안하고 있으면 레이맨 정보만 추가, 아니면 정보를 바탕으로 레이맨 쫒음
 	bool NowChase = GetChase();
+	bool NowRecord = GetRecordRayman();
 	if (Live == true && NowChase == false)
 	{
 		AddRaymanData();
@@ -180,6 +188,20 @@ void DarkRayman::Update(float _Delta)
 		ChaseRayman();
 	}
 
+	//if (NowRecord == true && NowChase == false)
+	//{
+	//	AddRaymanData();
+	//	//RecordRaymanData();
+	//}
+	//else if (NowRecord == true == NowChase == true)
+	//{
+	//	ChaseRayman();
+	//}
+
+	if (PlayerState::Die == RaymanPtr->State)
+	{
+		DarkRaymanCollsion->Off();
+	}
 }
 
 
@@ -201,6 +223,11 @@ void DarkRayman::Render(float _Delta)
 	}
 
 }
+void DarkRayman::RecordRaymanData()
+{
+	AddRaymanData(Index_PastRaymanDatas);
+}
+
 
 //레이맨 데이터공간을 새로 만들고 저장
 void DarkRayman::AddRaymanData()
@@ -218,6 +245,7 @@ void DarkRayman::AddRaymanData()
 //레이맨 데이터를 기존 공간에 저장
 void DarkRayman::AddRaymanData(int _Index)
 {
+
 	PastRaymanDatas[_Index]->Pos = RaymanPtr->GetPos();
 	PastRaymanDatas[_Index]->AnimationName = RaymanPtr->MainRenderer->GetCurAnimation()->Name;
 	PastRaymanDatas[_Index]->AnimationCurFrame = RaymanPtr->MainRenderer->GetCurAnimation()->CurFrame;
@@ -247,7 +275,7 @@ void DarkRayman::ChaseRayman()
 }
 
 
-void DarkRayman::DieState()
+void DarkRayman::Die()
 {
 	if (RaymanPtr->GetDir() == PlayerDir::Right)
 	{
@@ -257,5 +285,28 @@ void DarkRayman::DieState()
 	{
 		DarkRaymanRenderer->ChangeAnimation("Right_DarkRaymanDie");
 	}
+	
+}
+
+
+void DarkRayman::Restart()
+{
+	//레이맨 정보기록 초기화
+	PastRaymanDatas.erase(PastRaymanDatas.begin(), PastRaymanDatas.end());
+	TotalNum_PastRaymanDatas = 0;
+	Index_PastRaymanDatas = 0;
+
+	//렌더와 충돌 초기화
+	std::string AniName = "Right_DarkRaymanJumpHold";
+	DarkRaymanRenderer->ChangeAnimation(AniName);
+	DarkRaymanCollsion->Off();
+	DarkRaymanRenderer->Off();
+	
+	//다크레이맨 상태 초기화
+	SetChase(false);
+	Live = true;
+	ResetLiveTime();
+	
+
 	
 }

@@ -40,9 +40,9 @@ void MrDark::Update(float _Delta)
 	}
 
 
-	if (GetLiveTime() > 2.0f)
+	if (true == MainRenderer->IsAnimationEnd())
 	{
-		this->Off();
+		MainRenderer->Off();
 	}
 
 	
@@ -85,4 +85,12 @@ void MrDark::Render(float _Delta)
 {
 	
 
+}
+
+
+void MrDark::Restart()
+{
+	SetPos({ 1750 , 2690 });
+	MainRenderer->On();
+	MainRenderer->ChangeAnimation("MrDarkAnimation",0,true);
 }

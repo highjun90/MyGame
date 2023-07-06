@@ -89,6 +89,8 @@ public:
 
 	float GetActorYPivot();
 
+
+
 protected:
 	void Start() override;
 
@@ -162,6 +164,11 @@ public:
 	size_t GetCurFrame() 
 	{
 		return CurAnimation->CurFrame;
+	}
+
+	void SetCurFrame(int _Frame)
+	{
+		CurAnimation->CurFrame = _Frame;
 	}
 
 	bool IsAnimationEnd() 

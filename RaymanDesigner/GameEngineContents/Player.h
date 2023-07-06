@@ -61,7 +61,7 @@ public:
 		return JumpSpeed;
 	}
 
-
+	void Restart();
 	
 
 	float DebugSpeed = 300.0f;
@@ -77,6 +77,10 @@ public:
 	int GetLife() const
 	{
 		return TotalLife;
+	}
+	void AddLife(int _Life)
+	{
+		TotalLife += _Life;
 	}
 
 	void SetLoseGame(bool _bool)
@@ -96,6 +100,10 @@ public:
 	{
 		return Dir;
 	}
+
+	PlayerState State = PlayerState::Max;
+	PlayerDir Dir = PlayerDir::Right;
+	std::string CurState = "";
 protected:
 	void StateUpdate(float _Delta);
 
@@ -129,9 +137,7 @@ protected:
 
 	void ChanageState(PlayerState State);
 
-	PlayerState State = PlayerState::Max;
-	PlayerDir Dir = PlayerDir::Right;
-	std::string CurState = "";
+	
 	//GameEngineRenderer* HPRender;
 
 	int TestValue = 0;
@@ -152,7 +158,7 @@ private:
 
 	float JumpSpeed = 300.0f;
 
-	int TotalLife = 5;
+	int TotalLife = 0;
 	bool LoseGame = false;
 	//bool VictoryGame = false;
 

@@ -210,6 +210,17 @@ void Player::Start()
 	}
 }
 
+void Player::Restart()
+{
+	SetPos(DebugStartPoint);
+	SetCameraMovement(true);
+	SetLoseGame(false);
+	ChanageState(PlayerState::JumpHold);
+	Dir = PlayerDir::Right;
+	ResetLiveTime();
+}
+
+
 void Player::Update(float _Delta)
 {
 

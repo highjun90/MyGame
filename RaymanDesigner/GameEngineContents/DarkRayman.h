@@ -43,22 +43,33 @@ public:
 		size_t AnimationCurFrame = 0;
 	};
 
+
 	void SetChase(bool _Chase)
 	{
 		Chase = _Chase;
 	}
-
 	bool GetChase()
 	{
 		return Chase;
 	}
 
+	void SetRecordRayman(bool _Record)
+	{
+		RecordRayman = _Record;
+	}
+	bool GetRecordRayman()
+	{
+		return RecordRayman;
+	}
+
+	void RecordRaymanData();
 	void AddRaymanData();
 	void AddRaymanData(int _Index);
 	void ChaseRayman();
 
-	void DieState();
-	
+	void Die();
+
+	void Restart();
 
 protected:
 
@@ -70,6 +81,7 @@ private:
 	class Player* RaymanPtr = nullptr;
 
 	bool Live = true;
+	bool RecordRayman = true;
 	bool Chase = false;
 	
 
