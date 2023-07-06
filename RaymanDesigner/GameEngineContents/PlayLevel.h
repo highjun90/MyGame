@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEnginePlatform/GameEngineSound.h>
 
@@ -76,7 +77,7 @@ public:
 
 		if (LevelEnd_Time2 - LevelEnd_Time1 > 6.0)
 		{
-		
+			GameEngineCore::ChangeLevel("EndingLevel");
 			//엔딩레벨로 넘어가야함
 		}
 	}

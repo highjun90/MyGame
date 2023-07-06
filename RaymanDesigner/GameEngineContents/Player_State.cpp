@@ -1045,7 +1045,21 @@ void Player::DebugmodeUpdate(float _Delta)
 		DebugSpeed = 0;
 	}
 
-	
+	//格见 眠啊, 格见临捞扁
+	if (true == GameEngineInput::IsDown('3'))
+	{
+		if (0 < GetTotalLife())
+		{
+			AddTotalLife(-1);
+		}
+	}
+	if (true == GameEngineInput::IsDown('4'))
+	{
+		if (9 > GetTotalLife())
+		{
+			AddTotalLife(1);
+		}
+	}
 
 	
 

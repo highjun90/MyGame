@@ -1,5 +1,5 @@
 #include "PlayLevel.h"
-#include <GameEngineCore/GameEngineCore.h>
+
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineCore/GameEngineCamera.h>
 #include <GameEngineCore/TileMap.h>
@@ -197,7 +197,7 @@ void PlayLevel::Start()
 
 void PlayLevel::Update(float _Delta)
 {
-	if (true == GameEngineInput::IsDown('P'))
+	if (true == GameEngineInput::IsDown('0'))
 	{
 		BGMPlayerToPlayLevel.Stop();
 		GameEngineCore::ChangeLevel("EndingLevel");

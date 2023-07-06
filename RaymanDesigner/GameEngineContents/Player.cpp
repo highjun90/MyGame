@@ -441,8 +441,6 @@ void Player::Update(float _Delta)
 
 	
 
-	
-
 	//무적모드
 
 	StateUpdate(_Delta);
@@ -690,22 +688,30 @@ void Player::Render(float _Delta)
 		Two_Key += "2: 테스트모드 이속 -100";
 		TextOutA(dc, 2, 200, Two_Key.c_str(), (int)Two_Key.size());
 
-		
+		std::string Three_Key = "";
+		Three_Key += "3: 목숨-1 ";
+		TextOutA(dc, 2, 220, Three_Key.c_str(), (int)Three_Key.size());
+
+		std::string four_Key = "";
+		four_Key += "4: 목숨+1 ";
+		TextOutA(dc, 2, 240, four_Key.c_str(), (int)four_Key.size());
 
 		//조작법
 		std::string WASD_Key = "";
 		WASD_Key += "WD: 이동 ";
-		TextOutA(dc, 2, 260, WASD_Key.c_str(), (int)WASD_Key.size());
+		TextOutA(dc, 2, 280, WASD_Key.c_str(), (int)WASD_Key.size());
 
 		std::string J_Key = "";
 		J_Key += "J: 달리기 ";
-		TextOutA(dc, 2, 280, J_Key.c_str(), (int)J_Key.size());
+		TextOutA(dc, 2, 300, J_Key.c_str(), (int)J_Key.size());
 
 		std::string Space_Key = "";
 		Space_Key += "Space: 점프 ";
-		TextOutA(dc, 2, 300, Space_Key.c_str(), (int)Space_Key.size());
+		TextOutA(dc, 2, 320, Space_Key.c_str(), (int)Space_Key.size());
 
-
+		std::string S_Key = "";
+		S_Key += "S: 엎드리기 ";
+		TextOutA(dc, 2, 340, S_Key.c_str(), (int)S_Key.size());
 
 
 
