@@ -81,6 +81,8 @@ public:
 
 	void SetTexture(const std::string& _Name);
 
+	void SetTexture(GameEngineWindowTexture* _Texture);
+
 	void SetMaskTexture(const std::string& _Name);
 
 	void SetRenderScaleToTexture();

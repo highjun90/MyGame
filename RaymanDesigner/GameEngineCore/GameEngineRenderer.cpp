@@ -55,6 +55,23 @@ void GameEngineRenderer::SetTexture(const std::string& _Name)
 	}
 }
 
+void GameEngineRenderer::SetTexture(GameEngineWindowTexture* _Texture)
+{
+	Texture = _Texture;
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("존재하지 않는 텍스처를 세팅하려고 했습니다. (SetTexure함수)");
+	}
+	SetCopyPos(float4::ZERO);
+	SetCopyScale(Texture->GetScale());
+
+	if (false == ScaleCheck)
+	{
+		SetRenderScaleToTexture();
+	}
+
+}
+
 void GameEngineRenderer::SetMaskTexture(const std::string& _Name)
 {
 	MaskTexture = ResourcesManager::GetInst().FindTexture(_Name);
