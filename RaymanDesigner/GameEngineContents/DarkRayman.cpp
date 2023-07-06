@@ -174,7 +174,15 @@ void DarkRayman::Update(float _Delta)
 		Live = false;
 	}
 
-	
+	//레이맨이 이겼을시
+	if (RaymanPtr->State == PlayerState::Victory)
+	{
+		Die();
+		SetChase(false);
+		Live = false;
+	}
+
+
 
 	//지금 등장해서 추적안하고 있으면 레이맨 정보만 추가, 아니면 정보를 바탕으로 레이맨 쫒음
 	bool NowChase = GetChase();

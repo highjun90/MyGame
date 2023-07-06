@@ -303,12 +303,13 @@ void Player::Update(float _Delta)
 
 
 	//디버그 모드
-	if (true == GameEngineInput::IsDown('V'))
+	if (true == GameEngineInput::IsDown('V') && State != PlayerState::Die)
 	{
+
 		if (DebugMode == false)
 		{
 			DebugMode = true;
-			BodyCollsion->Off();
+		//	BodyCollsion->Off();
 			ChanageState(PlayerState::Debugmode);
 		}
 		else if(DebugMode == true)
@@ -316,34 +317,26 @@ void Player::Update(float _Delta)
 			GravityReset();
 
 			DebugMode = false;
-			BodyCollsion->On();
+			//BodyCollsion->On();
 			ChanageState(PlayerState::JumpHold);
 		}
 		
 	}
 
 
-	// 충돌체 표시
-	if (true == GameEngineInput::IsDown(VK_F2))
-	{
-		//GameEngineWindow::MainWindow.AddDoubleBufferingCopyScaleRatio(-1.0f * _Delta);
-		GameEngineLevel::CollisionDebugRenderSwitch();
-	}
-
-
 	//시작, 종료지점 순간이동
-	if (true == GameEngineInput::IsDown(VK_F3))
+	if (true == GameEngineInput::IsDown(VK_F2))
 	{
 		SetPos(DebugStartPoint);
 	}
-	if (true == GameEngineInput::IsDown(VK_F4))
+	if (true == GameEngineInput::IsDown(VK_F3))
 	{
 		float4 EndPoint = { 13200, 2850 };
 		SetPos(EndPoint);
 	}
 
 	//골포인트 키고 끄기
-	if (true == GameEngineInput::IsDown(VK_F5))
+	if (true == GameEngineInput::IsDown(VK_F4))
 	{
 		bool GoalPointRender = GoalPoint::GetGoalPointIsRender();
 
@@ -365,7 +358,7 @@ void Player::Update(float _Delta)
 	}
 
 	//디버그점 키고 끄기
-	if (true == GameEngineInput::IsDown(VK_F6))
+	if (true == GameEngineInput::IsDown(VK_F5))
 	{
 		if (DebugPointIsRender == false)
 		{
@@ -378,7 +371,7 @@ void Player::Update(float _Delta)
 	}
 
 	//사운드 끄고 키기
-	if (true == GameEngineInput::IsDown(VK_F7))
+	if (true == GameEngineInput::IsDown(VK_F6))
 	{
 		if (SoundPlaying == false)
 		{
@@ -391,6 +384,27 @@ void Player::Update(float _Delta)
 			SoundPlaying = false;
 		}
 
+	}
+
+	// 충돌체 표시
+	if (true == GameEngineInput::IsDown(VK_F7))
+	{
+		//GameEngineWindow::MainWindow.AddDoubleBufferingCopyScaleRatio(-1.0f * _Delta);
+		GameEngineLevel::CollisionDebugRenderSwitch();
+	}
+	//충돌체 키고끄기
+	if (true == GameEngineInput::IsDown(VK_F8))
+	{
+		if (DebugRaymanCollision == true)
+		{
+			DebugRaymanCollision = false;
+			BodyCollsion->Off();
+		}
+		else if (DebugRaymanCollision == false)
+		{
+			DebugRaymanCollision = true;
+			BodyCollsion->On();
+		}
 	}
 
 	
@@ -600,20 +614,7 @@ void Player::Render(float _Delta)
 		C_Key += "C: 문자열 표시";
 		TextOutA(dc, 2, 3, C_Key.c_str(), (int)C_Key.size());
 
-		
-
-		std::string PlayerColState = "";
-		PlayerColState += "Plyaer Collision: ";
-		if (DebugMode == false)
-		{
-			PlayerColState += "(OFF)";
-		}
-		else if (DebugMode == true)
-		{
-			PlayerColState += "(ON)";
-		}
-		TextOutA(dc, 2, 23, PlayerColState.c_str(), (int)PlayerColState.size());
-		
+	
 		
 		/*std::string Text2 = "";
 		Text2 += "(키입력)";
@@ -671,53 +672,77 @@ void Player::Render(float _Delta)
 		TextOutA(dc, 1130, 30, F1_Key.c_str(), (int)F1_Key.size());
 
 		std::string F2_Key = "";
-		F2_Key += "F2: Collision표시 ";
+		F2_Key += "F2: 시작지점이동 ";
 		TextOutA(dc, 1130, 50, F2_Key.c_str(), (int)F2_Key.size());
 
 		std::string F3_Key = "";
-		F3_Key += "F3: 시작지점이동 ";
+		F3_Key += "F3: 승리지점이동 ";
 		TextOutA(dc, 1130, 70, F3_Key.c_str(), (int)F3_Key.size());
 
 		std::string F4_Key = "";
-		F4_Key += "F4: 승리지점이동 ";
-		TextOutA(dc, 1130, 90, F4_Key.c_str(), (int)F4_Key.size());
-
-		std::string F5_Key = "";
-		F5_Key += "F5: 골인표지판 ";
+		F4_Key += "F4: 골인표지판 ";
 		bool GoalPointRender = GoalPoint::GetGoalPointIsRender();
 		if (GoalPointRender == false)
 		{
-			F5_Key += "(OFF)";
+			F4_Key += "(OFF)";
 		}
 		else if (GoalPointRender == true)
+		{
+			F4_Key += "(ON)";
+		}
+		TextOutA(dc, 1130, 90, F4_Key.c_str(), (int)F4_Key.size());
+
+		std::string F5_Key = "";
+		F5_Key += "F5: 확인점 ";
+		if (DebugPointIsRender == false)
+		{
+			F5_Key += "(OFF)";
+		}
+		else if (DebugPointIsRender == true)
 		{
 			F5_Key += "(ON)";
 		}
 		TextOutA(dc, 1130, 110, F5_Key.c_str(), (int)F5_Key.size());
 
 		std::string F6_Key = "";
-		F6_Key += "F6: 확인점 ";
-		if (DebugPointIsRender == false)
+		F6_Key += "F6: BGM ";
+		if (SoundPlaying == false)
 		{
 			F6_Key += "(OFF)";
 		}
-		else if (DebugPointIsRender == true)
+		else if (SoundPlaying == true)
 		{
 			F6_Key += "(ON)";
 		}
 		TextOutA(dc, 1130, 130, F6_Key.c_str(), (int)F6_Key.size());
 
 		std::string F7_Key = "";
-		F7_Key += "F7: BGM ";
-		if (SoundPlaying == false)
-		{
-			F7_Key += "(OFF)";
-		}
-		else if (SoundPlaying == true)
-		{
-			F7_Key += "(ON)";
-		}
+		F7_Key += "F7: Collision 표시 ";
 		TextOutA(dc, 1130, 150, F7_Key.c_str(), (int)F7_Key.size());
+
+		std::string F8_Key = "";
+		F8_Key += "F8: Collision ";
+		if (DebugRaymanCollision == true)
+		{
+			F8_Key += "(On)";
+		}
+		else if (DebugRaymanCollision == false)
+		{
+			F8_Key += "(Off)";
+		}
+		TextOutA(dc, 1130, 170, F8_Key.c_str(), (int)F8_Key.size());
+
+		/*std::string PlayerColState = "";
+		PlayerColState += "Plyaer Collision: ";
+		if (DebugMode == false)
+		{
+			PlayerColState += "(OFF)";
+		}
+		else if (DebugMode == true)
+		{
+			PlayerColState += "(ON)";
+		}
+		TextOutA(dc, 2, 23, PlayerColState.c_str(), (int)PlayerColState.size());*/
 
 	/*	std::string F8_Key = "";
 		F8_Key += "F8: 도착지 삭제 ";

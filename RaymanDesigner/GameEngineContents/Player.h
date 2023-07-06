@@ -69,6 +69,7 @@ public:
 	bool DebugModeText = false;
 	float4 DebugStartPoint = float4::ZERO;
 	bool DebugPointIsRender = false;
+	bool DebugRaymanCollision = true;
 
 	void SetLife(int _Life)
 	{
