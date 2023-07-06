@@ -214,9 +214,9 @@ void Player::Restart()
 {
 	SetPos(DebugStartPoint);
 	SetCameraMovement(true);
-	SetLoseGame(false);
 	ChanageState(PlayerState::JumpHold);
 	Dir = PlayerDir::Right;
+	SetLoseGame(false);
 	ResetLiveTime();
 }
 

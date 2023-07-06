@@ -239,7 +239,6 @@ void PlayLevel::Update(float _Delta)
 		if (RestartTime1 == 0)
 		{
 			RestartTime1 = GetLiveTime();
-
 		}
 
 
@@ -273,4 +272,18 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
 
+}
+
+void PlayLevel::Restart()
+{
+	RestartTime2 = GetLiveTime();
+	if (RestartTime2 - RestartTime1 > 5.0 && FObjectRestart == true)
+	{
+		FObject->SetFade(true); //어두운데 밝아짐
+		FObject->SetValue(255.0);
+	}
+
+	//기타 초기설정 초기화
+	FObjectRestart = false;
+	RestartTime1 = 0;
 }

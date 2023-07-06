@@ -37,15 +37,29 @@ public:
 	{
 		RestartTime2 = GetLiveTime();
 
+		if (RestartTime2 - RestartTime1 > 2.0 && false == FObjectRestart)
+		{
+			FObjectRestart = true;
+
+			FObject->SetValue(0.0f);
+			FObject->SetFade(false); //밝은데 어두워짐
+		}
+
+
 		if (RestartTime2 - RestartTime1 > 5.0)
 		{
-			LevelPlayer->Restart();
+			LevelPlayer->Restart();  //이 줄이 더이상 ResetGame() 함수에 안들어오게함 
 			MrDarkPtr->Restart();
 			DarkRaymanPtr->Restart();
 
-			RestartTime1 = 0;
+			
+
+			//지금 나도 리스타트할꺼 있으면 한다
+			Restart();
 		}	
 	}
+	
+	void Restart();
 
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
@@ -77,5 +91,7 @@ private:
 	bool CreateDarkRayman = false;
 	bool CreateMrDark = true;
 	FadeObject* FObject = nullptr;
+	bool FObjectRestart = false;
+	//bool FObjectStart = true;
 };
 
