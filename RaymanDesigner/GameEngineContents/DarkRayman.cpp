@@ -61,6 +61,10 @@ void DarkRayman::Start()
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_DarkRaymanDie.bmp"), 40, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_DarkRaymanDie.bmp"), 40, 1);
 
+		//엎드리기 스프라이트 등록
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_DarkRaymanLie.bmp"), 23, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_DarkRaymanLie.bmp"), 23, 1);
+
 	}
 
 
@@ -91,6 +95,14 @@ void DarkRayman::Start()
 		//죽기 애니메이션 등록
 		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanDie", "Left_DarkRaymanDie.bmp", 0, 39, 0.04f, false);
 		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanDie", "RIght_DarkRaymanDie.bmp", 0, 39, 0.04f, false);
+
+		//엎드리고있기 애니메이션 등록
+		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanLie", "Left_DarkRaymanLie.bmp", 0, 3, 0.04f, false);
+		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanLie", "Right_DarkRaymanLie.bmp", 0, 3, 0.04f, false);
+		//엎으려서 가기 애니메이션 등록
+		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanLieMove", "Left_DarkRaymanLie.bmp", 4, 22, 0.02f, true);
+		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanLieMove", "Right_DarkRaymanLie.bmp", 4, 22, 0.02f, true);
+		
 	}
 
 
@@ -128,6 +140,13 @@ void DarkRayman::Start()
 
 	Matching_RaymanAniname.insert({ "Left_RaymanDie","Left_DarkRaymanDie" });
 	Matching_RaymanAniname.insert({ "Right_RaymanDie","Right_DarkRaymanDie" });
+
+	Matching_RaymanAniname.insert({ "Left_RaymanLie","Left_DarkRaymanLie" });
+	Matching_RaymanAniname.insert({ "Right_RaymanLie","Right_DarkRaymanLie" });
+
+	Matching_RaymanAniname.insert({ "Left_RaymanLieMove","Left_DarkRaymanLieMove" });
+	Matching_RaymanAniname.insert({ "Right_RaymanLieMove","Right_DarkRaymanLieMove" });
+
 
 }
 

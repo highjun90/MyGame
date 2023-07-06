@@ -12,6 +12,8 @@ enum class PlayerState
 	JumpHold,
 	Sprint,
 	SprintJump,
+	Lie,
+	LieMove,
 	Victory,
 	Die,
 	Debugmode,
@@ -135,6 +137,12 @@ protected:
 
 	void DieStart();
 	void DieUpdate(float _Delta);
+
+	void LieStart();
+	void LieUpdate(float _Delta);
+
+	void LieMoveStart();
+	void LieMoveUpdate(float _Delta);
 
 	void ChanageState(PlayerState State);
 

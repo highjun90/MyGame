@@ -139,14 +139,15 @@ void Player::Start()
 		MainRenderer->CreateAnimation("RaymanDieLight", "RaymanDieLight.bmp", 0, 6, 0.08f, false);
 
 		//엎드리고있기 애니메이션 등록
-		MainRenderer->CreateAnimation("Left_RaymamLieIdle", "Left_RaymanLie.bmp", 0, 3, 0.04f, false);
-		MainRenderer->CreateAnimation("Right_RaymamLieIdle", "Right_RaymanLie.bmp", 0, 3, 0.04f, false);
-
+		MainRenderer->CreateAnimation("Left_RaymanLie", "Left_RaymanLie.bmp", 0, 3, 0.04f, false);
+		MainRenderer->CreateAnimation("Right_RaymanLie", "Right_RaymanLie.bmp", 0, 3, 0.04f, false);
 		//엎으려서 가기 애니메이션 등록
-		MainRenderer->CreateAnimation("Left_RaymamLieMove", "Left_RaymanLie.bmp", 4, 22, 0.04f, true);
-		MainRenderer->CreateAnimation("Right_RaymamLieMove", "Right_RaymanLie.bmp", 4, 22, 0.04f, true);
+		MainRenderer->CreateAnimation("Left_RaymanLieMove", "Left_RaymanLie.bmp", 4, 22, 0.02f, true);
+		MainRenderer->CreateAnimation("Right_RaymanLieMove", "Right_RaymanLie.bmp", 4, 22, 0.02f, true);
 	
 		MainRenderer->SetRenderScaleToTexture();
+
+
 
 		////다크레이맨 스케일 플레이어와 같게 해주기
 		//float4 DarkRaymanScale = MainRenderer->GetRenderScale();
@@ -441,6 +442,10 @@ void Player::StateUpdate(float _Delta)
 		return SprintUpdate(_Delta);
 	case PlayerState::SprintJump:
 		return SprintJumpUpdate(_Delta);
+	case PlayerState::Lie:
+		return LieUpdate(_Delta);
+	case PlayerState::LieMove:
+		return LieMoveUpdate(_Delta);
 	case PlayerState::Victory:
 		return VictoryUpdate(_Delta);
 	case PlayerState::Die:
@@ -476,6 +481,12 @@ void Player::ChanageState(PlayerState _State)
 			break;
 		case PlayerState::SprintJump:
 			SprintJumpStart();
+			break;
+		case PlayerState::Lie:
+			LieStart();
+			break;
+		case PlayerState::LieMove:
+			LieMoveStart();
 			break;
 		case PlayerState::Victory:
 			VictoryStart();

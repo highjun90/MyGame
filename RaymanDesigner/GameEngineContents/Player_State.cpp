@@ -43,6 +43,16 @@ void Player::SprintJumpStart()
 	SetGravityVector(float4::UP * 1100.0f);
 }
 
+void Player::LieStart()
+{
+	ChangeAnimationState("RaymanLie");
+}
+
+void Player::LieMoveStart()
+{
+	ChangeAnimationState("RaymanLieMove");
+}
+
 
 void Player::VictoryStart()
 {
@@ -114,6 +124,12 @@ void Player::IdleUpdate(float _Delta)
 	if (true == GameEngineInput::IsPress(VK_SPACE))
 	{
 		ChanageState(PlayerState::Jump);
+		return;
+	}
+
+	if (true == GameEngineInput::IsPress('S'))
+	{
+		ChanageState(PlayerState::Lie);
 		return;
 	}
 
@@ -252,6 +268,13 @@ void Player::RunUpdate(float _Delta)
 
 			AddPos(MovePos);
 		}
+	}
+
+	if (true == GameEngineInput::IsDown('S'))
+	{
+		DirCheck();
+		ChanageState(PlayerState::Lie);
+
 	}
 
 	if (MovePos == float4::ZERO)
@@ -690,6 +713,203 @@ void Player::SprintJumpUpdate(float _Delta)
 		}
 	}
 
+}
+
+void Player::LieUpdate(float _Delta)
+{
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		++TestValue;
+	}
+
+	{
+		unsigned int Color = GetGroundColor(RGB(255, 255, 255), DownCheck);
+		if (RGB(255, 255, 255) == Color)
+		{
+			Gravity(_Delta);
+		}
+		else
+		{
+			unsigned int CheckColor = GetGroundColor(RGB(255, 255, 255), float4::UP);
+
+			while (CheckColor != RGB(255, 255, 255))
+			{
+				CheckColor = GetGroundColor(RGB(255, 255, 255), float4::UP);
+				AddPos(float4::UP);
+			}
+
+
+			GravityReset();
+		}
+	}
+
+
+	if (true == GameEngineInput::IsDown('A')
+		|| true == GameEngineInput::IsDown('W')
+		|| true == GameEngineInput::IsDown('S')
+		|| true == GameEngineInput::IsDown('D'))
+	{
+		DirCheck();
+		ChanageState(PlayerState::LieMove);
+		return;
+	}
+
+	if (true == GameEngineInput::IsPress('A')
+		|| true == GameEngineInput::IsPress('D'))
+	{
+		DirCheck();
+		ChanageState(PlayerState::LieMove);
+		return;
+	}
+
+	if (true == GameEngineInput::IsUp('S'))
+	{
+		DirCheck();
+		ChanageState(PlayerState::Idle);
+
+	}
+}
+
+void Player::LieMoveUpdate(float _Delta)
+{
+	// 중력 적용 
+	{
+		unsigned int Color = GetGroundColor(RGB(255, 255, 255), DownCheck);
+		if (RGB(255, 255, 255) == Color)
+		{
+			Gravity(_Delta);
+		}
+		else
+		{
+			unsigned int CheckColor = GetGroundColor(RGB(255, 255, 255), DownCheck);
+
+			while (CheckColor != RGB(255, 255, 255))
+			{
+				CheckColor = GetGroundColor(RGB(255, 255, 255), DownCheck);
+				AddPos(float4::UP);
+			}
+
+			GravityReset();
+		}
+	}
+
+	DirCheck();
+
+	float Speed = 350.0f;
+
+	float4 MovePos = float4::ZERO;
+	float4 CheckPos = float4::ZERO;
+
+
+	////걸으면서 뛰기
+	//if (true == GameEngineInput::IsPress('A') && GameEngineInput::IsPress(VK_SPACE) && Dir == PlayerDir::Left)
+	//{
+	//	DirCheck();
+	//	SetJumpSpeed(450.0f);
+	//	ChanageState(PlayerState::Jump);
+	//}
+	//else if (true == GameEngineInput::IsPress('D') && GameEngineInput::IsPress(VK_SPACE) && Dir == PlayerDir::Right)
+	//{
+	//	DirCheck();
+	//	SetJumpSpeed(450.0f);
+	//	ChanageState(PlayerState::Jump);
+	//}
+
+
+	if (true == GameEngineInput::IsPress('A') && Dir == PlayerDir::Left)
+	{
+		CheckPos = LeftCheck;
+
+		MovePos = { -Speed * _Delta, 0.0f };
+
+		// unsigned int Color = GetGroundColor(RGB(255, 255, 255));
+
+	}
+	else if (true == GameEngineInput::IsPress('D') && Dir == PlayerDir::Right)
+	{
+		CheckPos = RightCheck;
+
+		MovePos = { Speed * _Delta, 0.0f };
+	}
+
+
+
+	////달리는 키 눌렀을때 상태전환
+	//if (true == GameEngineInput::IsPress('A') && GameEngineInput::IsPress('J') && Dir == PlayerDir::Left)
+	//{
+	//	DirCheck();
+	//	ChanageState(PlayerState::Sprint);
+	//}
+	//else if (true == GameEngineInput::IsPress('D') && GameEngineInput::IsPress('J') && Dir == PlayerDir::Right)
+	//{
+	//	DirCheck();
+	//	ChanageState(PlayerState::Sprint);
+	//}
+
+
+
+	{
+		unsigned int Color = GetGroundColor(RGB(255, 255, 255), CheckPos);
+
+		if (Color == RGB(255, 255, 255))
+		{
+			// MovePos를 바꿔버리는 방법이 있을것이고.
+
+			if (RGB(255, 255, 255) == GetGroundColor(RGB(255, 255, 255), MovePos))
+			{
+				float4 XPos = float4::ZERO;
+				float4 Dir = MovePos.X <= 0.0f ? float4::RIGHT : float4::LEFT;
+
+				while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos + XPos))
+				{
+					XPos += Dir;
+
+					if (abs(XPos.X) > 50.0f)
+					{
+						break;
+					}
+				}
+
+				float4 YPos = float4::ZERO;
+				while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos + YPos))
+				{
+					YPos.Y += 1;
+
+					if (YPos.Y > 60.0f)
+					{
+						break;
+					}
+				}
+
+				if (abs(XPos.X) >= YPos.Y)
+				{
+					while (RGB(136, 136, 136) != GetGroundColor(RGB(255, 255, 255), MovePos))
+					{
+						MovePos.Y += 1;
+					}
+				}
+
+			}
+
+			// 내가 움직이려는 
+			// GetGroundColor(RGB(255, 255, 255), MovePos);
+
+			AddPos(MovePos);
+		}
+	}
+
+	if (true == GameEngineInput::IsUp('S'))
+	{
+		DirCheck();
+		ChanageState(PlayerState::Run);
+
+	}
+
+	if (MovePos == float4::ZERO)
+	{
+		DirCheck();
+		ChanageState(PlayerState::Lie);
+	}
 }
 
 void Player::VictoryUpdate(float _Delta)
