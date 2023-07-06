@@ -58,8 +58,32 @@ public:
 			Restart();
 		}	
 	}
-	
+
+	void LevelEnd()
+	{
+		LevelEnd_Time2 = GetLiveTime();
+		if (LevelEnd_Time2 - LevelEnd_Time1 > 4.0 && false == FobjectLevelEnd)
+		{
+			FobjectLevelEnd = true;
+
+			//ResetGame 어두워지는 효과 두번 겹치는거 방지 (목숨다죽은 상황)
+			if (LevelPlayer->GetTotalLife() >= 0)
+			{
+				FObject->SetValue(0.0f);
+				FObject->SetFade(false); //밝은데 어두워짐
+			}	
+		}
+
+		if (LevelEnd_Time2 - LevelEnd_Time1 > 6.0)
+		{
+		
+			//엔딩레벨로 넘어가야함
+		}
+	}
+
+
 	void Restart();
+	
 
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
@@ -83,15 +107,20 @@ private:
 
 	GameEngineSoundPlayer BGMPlayerToPlayLevel;
 
-	//레이맨 죽어서 재시작시 일정시간이후 다시 시작하는 작업하는데, Getlivetime 기록용
+	//레이맨 죽어서 재시작시 일정시간이후 다시 시작하는 작업하는데, ResetGame 함수의 Getlivetime 기록용
 	float RestartTime1 = 0;
 	float RestartTime2 = 0;
+
+	//완전승리 또는 완전패배(목숨다잃음)상황에서 쓰일 GetLiveTime
+	float LevelEnd_Time1 = 0;
+	float LevelEnd_Time2 = 0;
 
 	//임의로 추가한 멤버변수
 	bool CreateDarkRayman = false;
 	bool CreateMrDark = true;
 	FadeObject* FObject = nullptr;
 	bool FObjectRestart = false;
+	bool FobjectLevelEnd = false;
 	//bool FObjectStart = true;
 };
 

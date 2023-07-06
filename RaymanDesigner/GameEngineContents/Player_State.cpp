@@ -932,7 +932,6 @@ void Player::VictoryUpdate(float _Delta)
 	if (true == MainRenderer->IsAnimationEnd())
 	{
 		SetVictoryEnd(true);
-		SetPos({ 0,0 });
 	}
 }
 

@@ -197,6 +197,12 @@ void PlayLevel::Start()
 
 void PlayLevel::Update(float _Delta)
 {
+	if (true == GameEngineInput::IsDown('P'))
+	{
+		BGMPlayerToPlayLevel.Stop();
+		GameEngineCore::ChangeLevel("EndingLevel");
+	}
+
 	if (true == GameEngineInput::IsDown(VK_F12))
 	{
 		BGMPlayerToPlayLevel.Stop();
@@ -250,8 +256,12 @@ void PlayLevel::Update(float _Delta)
 	//레이맨 승리하거나 목숨이 0개 이하로 떨어지면 종료레벨로 바꿈
 	if (true == LevelPlayer->GetVictoryEnd() || 0 > LevelPlayer->GetTotalLife())
 	{
-		
-	
+		//재시작 맨처음 시간 기록
+		if (LevelEnd_Time1 == 0)
+		{
+			LevelEnd_Time1 = GetLiveTime();
+		}
+		LevelEnd();
 	}
 }
 
@@ -291,3 +301,4 @@ void PlayLevel::Restart()
 	FObjectRestart = false;
 	RestartTime1 = 0;
 }
+
