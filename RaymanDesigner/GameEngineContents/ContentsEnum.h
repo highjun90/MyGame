@@ -12,6 +12,7 @@ enum class RenderOrder
 	BackGround,
 	Play,
 	PlayUI,
+	Fade
 };
 
 // ÇïÅ×ÀÌÄ¿ 

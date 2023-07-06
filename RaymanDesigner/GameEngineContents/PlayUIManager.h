@@ -23,8 +23,19 @@ public:
 	PlayUIManager& operator=(const PlayUIManager& _Other) = delete;
 	PlayUIManager& operator=(PlayUIManager&& _Other) noexcept = delete;
 
+	void SetRaymanPtr(Player* _RaymanPtr)
+	{
+		Ui_RaymanPtr = _RaymanPtr;
+	}
+
+	Player* GetRaymanPtr()
+	{
+		return Ui_RaymanPtr;
+	}
+
 protected:
 	void Start() override;
+	void Update(float _Delta) override;
 
 private:
 	GameEngineRenderer* UI_LifeAndHp = nullptr;

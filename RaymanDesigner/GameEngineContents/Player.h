@@ -73,15 +73,15 @@ public:
 	bool DebugPointIsRender = false;
 	bool DebugRaymanCollision = true;
 
-	void SetLife(int _Life)
+	void SetTotalLife(int _Life)
 	{
 		TotalLife = _Life;
 	}
-	int GetLife() const
+	int GetTotalLife() const
 	{
 		return TotalLife;
 	}
-	void AddLife(int _Life)
+	void AddTotalLife(int _Life)
 	{
 		TotalLife += _Life;
 	}
@@ -107,6 +107,15 @@ public:
 	float4 GetLieRenderPoint()
 	{
 		return LieRenderPoint;
+	}
+
+	void SetVictoryEnd(bool _bool)
+	{
+		VictoryEnd = _bool;
+	}
+	bool GetVictoryEnd()
+	{
+		return VictoryEnd;
 	}
 
 	void SwitchToLieCollision();
@@ -178,8 +187,9 @@ private:
 	float JumpSpeed = 300.0f;
 	float4 LieRenderPoint = { 0, 60 };
 
-	int TotalLife = 0;
-	bool LoseGame = false;
+	int TotalLife = 5;
+	bool LoseGame = false;  //목숨1번 잃었을때
+	bool VictoryEnd = false;//표지판까지 도달했을때
 	//bool VictoryGame = false;
 
 

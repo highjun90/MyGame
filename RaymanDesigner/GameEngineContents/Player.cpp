@@ -285,6 +285,7 @@ void Player::Update(float _Delta)
 		, CollisionType::Rect // 상대도 사각형으로 봐줘
 	))
 	{
+		AddTotalLife(-1);
 		ChanageState(PlayerState::Die);
 	}
 	if (true == LieCollsion->Collision(CollisionOrder::DarkRayManBody, _DarkRaymanBodyCol
@@ -292,6 +293,7 @@ void Player::Update(float _Delta)
 		, CollisionType::Rect // 상대도 사각형으로 봐줘
 	))
 	{
+		AddTotalLife(-1);
 		ChanageState(PlayerState::Die);
 	}
 

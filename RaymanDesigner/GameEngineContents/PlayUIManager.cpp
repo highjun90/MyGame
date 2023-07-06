@@ -69,7 +69,7 @@ void PlayUIManager::Start()
 		float4 UISCale = { 70,30 };
 		UISCale *= 3.0f;
 
-		UI_LifeAndHp = CreateUIRenderer("UI_LifeAndHp.bmp", 1000);
+		UI_LifeAndHp = CreateUIRenderer("UI_LifeAndHp.bmp", RenderOrder::PlayUI);
 		UI_LifeAndHp->SetRenderPos({ 140, 70 });
 		UI_LifeAndHp->SetRenderScale(UISCale);
 	//	UI_LifeAndHp->SetTexture("UI_LifeAndHp.bmp");
@@ -92,12 +92,12 @@ void PlayUIManager::Start()
 		float4 UISCale = { 63,22 };
 		UISCale *= 3.0f;
 
-		UI_Marble = CreateUIRenderer("UI_Marble.bmp", 1000);
+		UI_Marble = CreateUIRenderer("UI_Marble.bmp", RenderOrder::PlayUI);
 		UI_Marble->SetRenderPos({ 140, 720 });
 		UI_Marble->SetRenderScale(UISCale);
 	}
 
-	// UI숫자 등록
+	// UI숫자 등록 + 숫자 렌더러들 초기화
 	{
 		if (false == ResourcesManager::GetInst().IsLoadTexture("UI_NumberOne.bmp"))
 		{
@@ -119,22 +119,23 @@ void PlayUIManager::Start()
 		}
 
 		//GameEngineWindowTexture* Texture = ResourcesManager::GetInst().FindTexture("Ui_NumberZero.bmp");
-		UI_LifeNumber1 = CreateUIRenderer("Ui_NumberZero.bmp", 1000);
+
+		UI_LifeNumber1 = CreateUIRenderer("Ui_NumberZero.bmp", RenderOrder::PlayUI);
 		float4 _Scale = UI_LifeNumber1->GetRenderScale();
 		_Scale.X *= 3;
 		_Scale.Y *= 3;
 		UI_LifeNumber1->SetRenderScale(_Scale);
 		UI_LifeNumber1->SetRenderPos({ 180, 60 });
 
-		UI_LifeNumber2 = CreateUIRenderer("Ui_NumberZero.bmp", 1000);
+		UI_LifeNumber2 = CreateUIRenderer("Ui_NumberZero.bmp", RenderOrder::PlayUI);
 		UI_LifeNumber2->SetRenderScale(_Scale);
 		UI_LifeNumber2->SetRenderPos({ 220, 60 });
 
-		UI_MarbleNumber1 = CreateUIRenderer("Ui_NumberZero.bmp", 1000);
+		UI_MarbleNumber1 = CreateUIRenderer("Ui_NumberZero.bmp", RenderOrder::PlayUI);
 		UI_MarbleNumber1->SetRenderScale(_Scale);
 		UI_MarbleNumber1->SetRenderPos({ 170, 720 });
 
-		UI_MarbleNumber2 = CreateUIRenderer("Ui_NumberZero.bmp", 1000);
+		UI_MarbleNumber2 = CreateUIRenderer("Ui_NumberZero.bmp", RenderOrder::PlayUI);
 		UI_MarbleNumber2->SetRenderScale(_Scale);
 		UI_MarbleNumber2->SetRenderPos({ 210, 720 });
 	}
@@ -158,5 +159,62 @@ void PlayUIManager::Start()
 
 	//}
 
+
+}
+
+void PlayUIManager::Update(float _Delta)
+{
+	//목숨 숫자 표기
+	int RaymanLife = 0;
+	if (Ui_RaymanPtr == nullptr)
+	{
+		MsgBoxAssert("UI 매니저가 Rayman을 모릅니다 (Update함수)");
+	}
+	else
+	{
+		RaymanLife = Ui_RaymanPtr->GetTotalLife();
+
+		if (RaymanLife < 10)
+		{
+			UI_LifeNumber1->SetTexture("Ui_NumberZero.bmp");
+
+			switch (RaymanLife)
+			{
+			case 0:
+				UI_LifeNumber2->SetTexture("Ui_NumberZero.bmp");
+				break;
+			case 1:
+				UI_LifeNumber2->SetTexture("Ui_NumberOne.bmp");
+				break;
+			case 2:
+				UI_LifeNumber2->SetTexture("Ui_NumberTwo.bmp");
+				break;
+			case 3:
+				UI_LifeNumber2->SetTexture("Ui_NumberThree.bmp");
+				break;
+			case 4:
+				UI_LifeNumber2->SetTexture("Ui_NumberFour.bmp");
+				break;
+			case 5:
+				UI_LifeNumber2->SetTexture("Ui_NumberFive.bmp");
+				break;
+			case 6:
+				UI_LifeNumber2->SetTexture("Ui_NumberSix.bmp");
+				break;
+			case 7:
+				UI_LifeNumber2->SetTexture("Ui_NumberSeven.bmp");
+				break;
+			case 8:
+				UI_LifeNumber2->SetTexture("Ui_NumberEight.bmp");
+				break;
+			case 9:
+				UI_LifeNumber2->SetTexture("Ui_NumberNine.bmp");
+				break;
+			default:
+				break;
+
+			}
+		}
+	}
 
 }

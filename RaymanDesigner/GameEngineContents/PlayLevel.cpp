@@ -184,6 +184,8 @@ void PlayLevel::Start()
 	}
 
 	PlayUIManagerPtr = CreateActor<PlayUIManager>();
+	PlayUIManagerPtr->SetRaymanPtr(LevelPlayer);
+
 	MrDarkPtr = CreateActor<MrDark>();
 
 	DarkRaymanPtr = CreateActor<DarkRayman>();
@@ -243,15 +245,10 @@ void PlayLevel::Update(float _Delta)
 
 
 		ResetGame();
-
-		if (0 > LevelPlayer->GetLife())
-		{
-
-		}
 	}
 	
-	//레이맨 승리하면 하는 행동
-	if (LevelPlayer->State == PlayerState::Victory)
+	//레이맨 승리하거나 목숨이 0개 이하로 떨어지면 종료레벨로 바꿈
+	if (true == LevelPlayer->GetVictoryEnd() || 0 > LevelPlayer->GetTotalLife())
 	{
 		
 	

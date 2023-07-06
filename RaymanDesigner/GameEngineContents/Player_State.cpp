@@ -929,7 +929,11 @@ void Player::LieMoveUpdate(float _Delta)
 
 void Player::VictoryUpdate(float _Delta)
 {
-
+	if (true == MainRenderer->IsAnimationEnd())
+	{
+		SetVictoryEnd(true);
+		SetPos({ 0,0 });
+	}
 }
 
 void Player::DieUpdate(float _Delta)
