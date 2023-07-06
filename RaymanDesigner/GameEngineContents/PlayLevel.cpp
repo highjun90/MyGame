@@ -30,66 +30,7 @@ PlayLevel::~PlayLevel()
 
 void PlayLevel::Start() 
 {
-	//원본 
-	////사운드세팅
-	//if (nullptr == GameEngineSound::FindSound("CandyChateauBGM.ogg"))
-	//{
-	//	GameEnginePath FilePath;
-	//	FilePath.SetCurrentPath();
-	//	FilePath.MoveParentToExistsChild("ContentsResources");
-	//	FilePath.MoveChild("ContentsResources\\Sound\\");
-
-	//	GameEngineSound::SoundLoad(FilePath.PlusFilePath("CandyChateauBGM.ogg"));
-	//}
-
-	////레드컬러맵세팅 원본
-	//if (false == ResourcesManager::GetInst().IsLoadTexture("MapRedColor.Bmp"))
-	//{
-	//	GameEnginePath FilePath;
-	//	FilePath.SetCurrentPath();
-	//	FilePath.MoveParentToExistsChild("ContentsResources");
-
-	//	GameEnginePath FolderPath = FilePath;
-
-	//	FilePath.MoveChild("ContentsResources\\Texture\\");
-	//	ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("MapRedColor.bmp"));
-
-	//	//배경이 타일맵 일때
-	//	//ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Tile.bmp"));
-	//	//ResourcesManager::GetInst().CreateSpriteSheet("Tile.bmp", 24, 40);
-	//}
-
-
-
-	////배경이미지
-	//BackGroundImagePtr = CreateActor<BackGroundImage>();
-	//BackGroundImagePtr->Init("CandyChateau1200x800.Bmp");
-
-	////배경타일
-	//BackGroundPtr = CreateActor<BackGround>();
-	//BackGroundPtr->Init("CandyChateauTile.Bmp", "MapRedColor.bmp");
-
-	//// 카메라 오버 막는데 필요한 데이터인 맵스케일 등록. 맵을 바꾸면 그 맵에 맞춰서 카메라가 나가지 않음
-	//GameEngineWindowTexture* Ptr = ResourcesManager::GetInst().FindTexture("CandyChateauTile.Bmp");
-	//if (nullptr == Ptr)
-	//{
-	//	MsgBoxAssert("맵 텍스처를 알수가 없습니다.");
-	//}
-	//GlobalValue::MapScale = Ptr->GetScale();
-
-	//
-	//LevelPlayer = CreateActor<Player>();
-	//LevelPlayer->SetGroundTexture("MapRedColor.bmp");
-
-	//{
-	//	FadeObject* FObject = CreateActor<FadeObject>();
-	//}
-
-	//CreateActor<PlayUIManager>();
-	//CreateActor<MrDark>();
-	//CreateActor<GoalPoint>();
-
-	// 컬러맵 테스트용 코드
+	
 	
 	//사운드세팅
 	if (nullptr == GameEngineSound::FindSound("CandyChateauBGM.ogg"))
@@ -194,6 +135,33 @@ void PlayLevel::Start()
 	GoalPointPtr = CreateActor<GoalPoint>();
 
 	CreateActor<MapDeathArea>();
+
+	//구슬 초기화
+	BlueMarble* MarblePtr1 = CreateActor<BlueMarble>();
+	MarblePtr1->SetPos({ 1700,2700 });
+
+	BlueMarble* MarblePtr2 = CreateActor<BlueMarble>();
+	MarblePtr2->SetPos({ 1600, 2700 });
+
+	BlueMarble* MarblePtr3 = CreateActor<BlueMarble>();
+	MarblePtr3->SetPos({ 900, 2700 });
+
+	BlueMarble* MarblePtr4 = CreateActor<BlueMarble>();
+	MarblePtr4->SetPos({ 300, 2300 });
+
+	BlueMarble* MarblePtr5 = CreateActor<BlueMarble>();
+	MarblePtr5->SetPos({ 500, 2100 });
+
+	BlueMarble* MarblePtr6 = CreateActor<BlueMarble>();
+	MarblePtr6->SetPos({ 1700, 1700 });
+
+	BlueMarble* MarblePtr7 = CreateActor<BlueMarble>();
+	MarblePtr7->SetPos({ 780, 1450 });
+
+	BlueMarble* MarblePtr8 = CreateActor<BlueMarble>();
+	MarblePtr8->SetPos({ 182, 1236 });
+
+
 }
 
 
@@ -270,7 +238,7 @@ void PlayLevel::Update(float _Delta)
 	{
 		FObject->SetFade(true); //어두운데 밝아짐
 		FObject->SetValue(255.0);
-		RecallLevel == false;
+		RecallLevel = false;
 	}
 }
 

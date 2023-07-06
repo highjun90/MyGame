@@ -52,6 +52,7 @@ public:
 	Player& operator=(Player&& _Other) noexcept = delete;
 
 	GameEngineRenderer* MainRenderer = nullptr;
+	
 
 	void SetJumpSpeed(float _Speed)
 	{
@@ -121,6 +122,8 @@ public:
 	void SwitchToLieCollision();
 	void SwitchToBodyCollsion();
 
+	
+
 
 	PlayerState State = PlayerState::Max;
 	PlayerDir Dir = PlayerDir::Right;
@@ -185,6 +188,8 @@ private:
 	void Update(float _Delta) override;
 	void Render(float _Delta) override;
 
+
+	
 	float JumpSpeed = 300.0f;
 	float4 LieRenderPoint = { 0, 60 };
 

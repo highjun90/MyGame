@@ -8,6 +8,7 @@
 #include "MrDark.h"
 #include "DarkRayman.h"
 #include "GoalPoint.h"
+#include "BlueMarble.h"
 
 // Ό³Έν :
 class DarkRayman;
@@ -100,6 +101,20 @@ public:
 
 	void Restart();
 	
+
+
+	std::vector<BlueMarble* > Marbles;
+	int RemainedMarble = 8;
+
+	void AddRemainedMarble(int _num)
+	{
+		RemainedMarble += _num;
+	}
+	int GetRemainedMarble()
+	{
+		return RemainedMarble;
+	}
+
 
 protected:
 	void LevelStart(GameEngineLevel* _PrevLevel) override;

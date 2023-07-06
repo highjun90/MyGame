@@ -301,6 +301,16 @@ void Player::Update(float _Delta)
 		
 	}
 
+	////±¸½½Ãæµ¹
+	//std::vector<GameEngineCollision*> _MarbleColCheck;
+	//if (true == BodyCollsion->Collision(CollisionOrder::BlueMarble, _MarbleColCheck
+	//	, CollisionType::Rect // ³ª¸¦ »ç°¢ÇüÀ¸·Î ºÁÁà
+	//	, CollisionType::CirCle
+	//))
+	//{
+	//	AddRemainedMarble(-1);
+	//}
+
 	//³«»çÃ¼Å©
 	std::vector<GameEngineCollision*> _DeathAreaCheck;
 	if (true == BodyCollsion->Collision(CollisionOrder::DeathArea, _DeathAreaCheck
@@ -731,6 +741,22 @@ void Player::Render(float _Delta)
 		S_Key += "S: ¾þµå¸®±â ";
 		TextOutA(dc, 2, 340, S_Key.c_str(), (int)S_Key.size());
 
+		std::string Pos_X = "";
+		Pos_X += "XÁÂÇ¥: ";
+		Pos_X += std::to_string((int)GetPos().X);
+		TextOutA(dc, 2, 360, Pos_X.c_str(), (int)Pos_X.size());
+		std::string Pos_Y = "";
+		Pos_Y += "YÁÂÇ¥: ";
+		Pos_Y += std::to_string((int)GetPos().Y);
+		TextOutA(dc, 2, 380, Pos_Y.c_str(), (int)Pos_Y.size());
+
+
+		PlayLevel* NowLevel = dynamic_cast<PlayLevel*>(GetLevel());
+		int RemainedMarble = NowLevel->GetRemainedMarble();
+		std::string Marble = "";
+		Marble += "³²Àº±¸½½: ";
+		Marble += std::to_string(RemainedMarble);
+		TextOutA(dc, 2, 400, Marble.c_str(), (int)Marble.size());
 
 
 		std::string F1_Key = "";

@@ -10,6 +10,7 @@ enum class RenderOrder
 {
 	BackGroundImage,
 	BackGround,
+	PlayObject,
 	Play,
 	PlayUI,
 	Fade
@@ -22,6 +23,7 @@ enum class CollisionOrder
 	Potal,
 	PlayerBody,
 	PlayerLie,
+	BlueMarble,
 	MonsterBody,
 	DarkRayManBody,
 	GoalPoint,
