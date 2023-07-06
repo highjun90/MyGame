@@ -104,7 +104,7 @@ public:
 
 
 	std::vector<BlueMarble* > Marbles;
-	int RemainedMarble = 8;
+	int RemainedMarble = 50;
 
 	void AddRemainedMarble(int _num)
 	{

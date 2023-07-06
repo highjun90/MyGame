@@ -161,6 +161,132 @@ void PlayLevel::Start()
 	BlueMarble* MarblePtr8 = CreateActor<BlueMarble>();
 	MarblePtr8->SetPos({ 182, 1236 });
 
+	BlueMarble* MarblePtr9 = CreateActor<BlueMarble>();
+	MarblePtr9->SetPos({ 1161, 927 });
+
+	BlueMarble* MarblePtr10 = CreateActor<BlueMarble>();
+	MarblePtr10->SetPos({ 2227, 779 });
+
+	BlueMarble* MarblePtr11 = CreateActor<BlueMarble>();
+	MarblePtr11->SetPos({ 3088, 949 });
+
+	BlueMarble* MarblePtr12 = CreateActor<BlueMarble>();
+	MarblePtr12->SetPos({ 3598, 950 });
+
+	BlueMarble* MarblePtr13 = CreateActor<BlueMarble>();
+	MarblePtr13->SetPos({ 4106, 950 });
+
+	BlueMarble* MarblePtr14 = CreateActor<BlueMarble>();
+	MarblePtr14->SetPos({ 2423, 1389 });
+
+	BlueMarble* MarblePtr15 = CreateActor<BlueMarble>();
+	MarblePtr15->SetPos({ 3736, 1415 });
+
+	BlueMarble* MarblePtr16 = CreateActor<BlueMarble>();
+	MarblePtr16->SetPos({ 3925, 1460 });
+
+	BlueMarble* MarblePtr17 = CreateActor<BlueMarble>();
+	MarblePtr17->SetPos({ 4119, 1577 });
+
+	BlueMarble* MarblePtr18 = CreateActor<BlueMarble>();
+	MarblePtr18->SetPos({ 6263, 1277 });
+
+	BlueMarble* MarblePtr19 = CreateActor<BlueMarble>();
+	MarblePtr19->SetPos({ 7156, 1207 });
+
+	BlueMarble* MarblePtr20 = CreateActor<BlueMarble>();
+	MarblePtr20->SetPos({ 7295, 1915 });
+
+	BlueMarble* MarblePtr21 = CreateActor<BlueMarble>();
+	MarblePtr21->SetPos({ 3598, 2451 });
+
+	BlueMarble* MarblePtr22 = CreateActor<BlueMarble>();
+	MarblePtr22->SetPos({ 2427, 2683 });
+
+	BlueMarble* MarblePtr23 = CreateActor<BlueMarble>();
+	MarblePtr23->SetPos({ 2427, 2520 });
+
+	BlueMarble* MarblePtr24 = CreateActor<BlueMarble>();
+	MarblePtr24->SetPos({ 4037, 3023 });
+
+	BlueMarble* MarblePtr25 = CreateActor<BlueMarble>();
+	MarblePtr25->SetPos({ 4193, 3023 });
+
+	BlueMarble* MarblePtr26 = CreateActor<BlueMarble>();
+	MarblePtr26->SetPos({ 4402, 3023 });
+
+	BlueMarble* MarblePtr27 = CreateActor<BlueMarble>();
+	MarblePtr27->SetPos({ 5870, 3079 });
+
+	BlueMarble* MarblePtr28 = CreateActor<BlueMarble>();
+	MarblePtr28->SetPos({ 7001, 3415 });
+
+	BlueMarble* MarblePtr29 = CreateActor<BlueMarble>();
+	MarblePtr29->SetPos({ 7774, 3270 });
+
+	BlueMarble* MarblePtr30 = CreateActor<BlueMarble>();
+	MarblePtr30->SetPos({ 8840, 2957 });
+
+	BlueMarble* MarblePtr31 = CreateActor<BlueMarble>();
+	MarblePtr31->SetPos({ 7690, 1924 });
+
+	BlueMarble* MarblePtr32 = CreateActor<BlueMarble>();
+	MarblePtr32->SetPos({ 8754, 1428 });
+
+	BlueMarble* MarblePtr33 = CreateActor<BlueMarble>();
+	MarblePtr33->SetPos({ 9680, 1341 });
+
+	BlueMarble* MarblePtr34 = CreateActor<BlueMarble>();
+	MarblePtr34->SetPos({ 10906, 950 });
+
+	BlueMarble* MarblePtr35 = CreateActor<BlueMarble>();
+	MarblePtr35->SetPos({ 10335, 1426 });
+
+	BlueMarble* MarblePtr36 = CreateActor<BlueMarble>();
+	MarblePtr36->SetPos({ 11281, 1360 });
+
+	BlueMarble* MarblePtr37 = CreateActor<BlueMarble>();
+	MarblePtr37->SetPos({ 11813, 1613 });
+
+	BlueMarble* MarblePtr38 = CreateActor<BlueMarble>();
+	MarblePtr38->SetPos({ 12207, 1465 });
+
+	//
+	BlueMarble* MarblePtr39 = CreateActor<BlueMarble>();
+	MarblePtr39->SetPos({ 11501, 2315 });
+
+	BlueMarble* MarblePtr40 = CreateActor<BlueMarble>();
+	MarblePtr40->SetPos({ 12181, 2280 });
+
+	BlueMarble* MarblePtr41 = CreateActor<BlueMarble>();
+	MarblePtr41->SetPos({ 11968, 2539 });
+
+	BlueMarble* MarblePtr42 = CreateActor<BlueMarble>();
+	MarblePtr42->SetPos({ 11758, 2929 });
+
+	BlueMarble* MarblePtr43 = CreateActor<BlueMarble>();
+	MarblePtr43->SetPos({ 12192, 3226 });
+
+	BlueMarble* MarblePtr44 = CreateActor<BlueMarble>();
+	MarblePtr44->SetPos({ 11967, 3226 });
+
+	BlueMarble* MarblePtr45 = CreateActor<BlueMarble>();
+	MarblePtr45->SetPos({ 11161, 3623 });
+
+	BlueMarble* MarblePtr46 = CreateActor<BlueMarble>();
+	MarblePtr46->SetPos({ 11752, 3682 });
+
+	BlueMarble* MarblePtr47 = CreateActor<BlueMarble>();
+	MarblePtr47->SetPos({ 11949, 3617 });
+
+	BlueMarble* MarblePtr48 = CreateActor<BlueMarble>();
+	MarblePtr48->SetPos({ 12145, 3711 });
+
+	BlueMarble* MarblePtr49 = CreateActor<BlueMarble>();
+	MarblePtr49->SetPos({ 13329, 3352 });
+
+	BlueMarble* MarblePtr50 = CreateActor<BlueMarble>();
+	MarblePtr50->SetPos({ 13159, 2866 });
 
 }
 

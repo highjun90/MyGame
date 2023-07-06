@@ -4,6 +4,7 @@
 
 #include <GameEngineBase/GameEnginePath.h>
 #include <GameEngineCore/ResourcesManager.h>
+#include "PlayLevel.h"
 
 
 PlayUIManager* PlayUIManager::UI = nullptr;
@@ -215,6 +216,88 @@ void PlayUIManager::Update(float _Delta)
 
 			}
 		}
+	}
+
+	//구슬표기
+	PlayLevel* NowLevel = dynamic_cast<PlayLevel*>(GetLevel());
+	int RemainedMarble = NowLevel->GetRemainedMarble();
+
+	
+	int Render1Num = RemainedMarble / 10;
+	int Render2Num = RemainedMarble % 10;
+	
+	switch (Render1Num)
+	{
+	case 0:
+		UI_MarbleNumber1->SetTexture("Ui_NumberZero.bmp");
+		break;
+	case 1:
+		UI_MarbleNumber1->SetTexture("Ui_NumberOne.bmp");
+		break;
+	case 2:
+		UI_MarbleNumber1->SetTexture("Ui_NumberTwo.bmp");
+		break;
+	case 3:
+		UI_MarbleNumber1->SetTexture("Ui_NumberThree.bmp");
+		break;
+	case 4:
+		UI_MarbleNumber1->SetTexture("Ui_NumberFour.bmp");
+		break;
+	case 5:
+		UI_MarbleNumber1->SetTexture("Ui_NumberFive.bmp");
+		break;
+	case 6:
+		UI_MarbleNumber1->SetTexture("Ui_NumberSix.bmp");
+		break;
+	case 7:
+		UI_MarbleNumber1->SetTexture("Ui_NumberSeven.bmp");
+		break;
+	case 8:
+		UI_MarbleNumber1->SetTexture("Ui_NumberEight.bmp");
+		break;
+	case 9:
+		UI_MarbleNumber1->SetTexture("Ui_NumberNine.bmp");
+		break;
+	default:
+		break;
+
+	}
+
+	switch (Render2Num)
+	{
+	case 0:
+		UI_MarbleNumber2->SetTexture("Ui_NumberZero.bmp");
+		break;
+	case 1:
+		UI_MarbleNumber2->SetTexture("Ui_NumberOne.bmp");
+		break;
+	case 2:
+		UI_MarbleNumber2->SetTexture("Ui_NumberTwo.bmp");
+		break;
+	case 3:
+		UI_MarbleNumber2->SetTexture("Ui_NumberThree.bmp");
+		break;
+	case 4:
+		UI_MarbleNumber2->SetTexture("Ui_NumberFour.bmp");
+		break;
+	case 5:
+		UI_MarbleNumber2->SetTexture("Ui_NumberFive.bmp");
+		break;
+	case 6:
+		UI_MarbleNumber2->SetTexture("Ui_NumberSix.bmp");
+		break;
+	case 7:
+		UI_MarbleNumber2->SetTexture("Ui_NumberSeven.bmp");
+		break;
+	case 8:
+		UI_MarbleNumber2->SetTexture("Ui_NumberEight.bmp");
+		break;
+	case 9:
+		UI_MarbleNumber2->SetTexture("Ui_NumberNine.bmp");
+		break;
+	default:
+		break;
+
 	}
 
 }
