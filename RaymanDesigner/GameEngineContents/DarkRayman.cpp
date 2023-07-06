@@ -205,8 +205,8 @@ void DarkRayman::Update(float _Delta)
 		Live = false;
 	}
 
-	//레이맨이 이겼을시
-	if (RaymanPtr->State == PlayerState::Victory)
+	//레이맨이 이겼거나 죽었을때 죽음
+	if (RaymanPtr->State == PlayerState::Victory || RaymanPtr->State == PlayerState::Die)
 	{
 		Die();
 		SetChase(false);

@@ -293,10 +293,28 @@ void Player::Update(float _Delta)
 		, CollisionType::Rect // 상대도 사각형으로 봐줘
 	))
 	{
-		AddTotalLife(-1);
-		ChanageState(PlayerState::Die);
+		if (State != PlayerState::Die)
+		{
+			AddTotalLife(-1);
+			ChanageState(PlayerState::Die);
+		}
+		
 	}
 
+	//낙사체크
+	std::vector<GameEngineCollision*> _DeathAreaCheck;
+	if (true == BodyCollsion->Collision(CollisionOrder::DeathArea, _DeathAreaCheck
+		, CollisionType::Rect // 나를 사각형으로 봐줘
+		, CollisionType::Rect // 상대도 사각형으로 봐줘
+	))
+	{
+		if (State != PlayerState::Die)
+		{
+			AddTotalLife(-1);
+			ChanageState(PlayerState::Die);
+		}
+		
+	}
 
 
 	if (true == GameEngineInput::IsPress('L'))

@@ -55,6 +55,9 @@
     <ClInclude Include="FadeObjectReverse.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="MapDeathArea.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TitleLevel.cpp">
@@ -108,6 +111,9 @@
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="FadeObjectReverse.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="MapDeathArea.cpp">
       <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>

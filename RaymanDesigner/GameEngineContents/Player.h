@@ -172,6 +172,7 @@ protected:
 	GameEngineCollision* BodyCollsion = nullptr;
 	GameEngineCollision* LieCollsion = nullptr;
 
+
 	void DirCheck();
 
 	void ChangeAnimationState(const std::string& _StateName);

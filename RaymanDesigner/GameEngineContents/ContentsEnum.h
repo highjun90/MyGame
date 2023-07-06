@@ -24,5 +24,6 @@ enum class CollisionOrder
 	PlayerLie,
 	MonsterBody,
 	DarkRayManBody,
-	GoalPoint
+	GoalPoint,
+	DeathArea,
 };

@@ -2,6 +2,8 @@
 #include <GameEngineCore/ResourcesManager.h>
 #include <GameEngineBase/GameEnginePath.h>
 #include <GameEnginePlatform/GameEngineSound.h>
+#include <GameEnginePlatform/GameEngineInput.h>
+#include <GameEngineCore/GameEngineCore.h>
 
 #include "BackGround.h"
 EndingLevel::EndingLevel() 
@@ -41,7 +43,10 @@ void EndingLevel::Start()
 
 void EndingLevel::Update(float _DeltaTime)
 {
-	
+	if (true == GameEngineInput::IsDown('P'))
+	{
+		GameEngineCore::ChangeLevel("TitleLevel");
+	}
 }
 
 

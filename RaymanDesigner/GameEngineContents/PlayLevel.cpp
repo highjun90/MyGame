@@ -12,7 +12,7 @@
 #include "BackGround.h"
 #include "BackGroundImage.h"
 #include "GlobalValue.h"
-
+#include "MapDeathArea.h"
 
 PlayLevel::PlayLevel()
 {
@@ -192,6 +192,8 @@ void PlayLevel::Start()
 	DarkRaymanPtr->SetRaymanPtr(LevelPlayer);
 
 	GoalPointPtr = CreateActor<GoalPoint>();
+
+	CreateActor<MapDeathArea>();
 }
 
 
@@ -262,6 +264,13 @@ void PlayLevel::Update(float _Delta)
 			LevelEnd_Time1 = GetLiveTime();
 		}
 		LevelEnd();
+	}
+
+	if (RecallLevel == true)
+	{
+		FObject->SetFade(true); //¾îµÎ¿îµ¥ ¹à¾ÆÁü
+		FObject->SetValue(255.0);
+		RecallLevel == false;
 	}
 }
 

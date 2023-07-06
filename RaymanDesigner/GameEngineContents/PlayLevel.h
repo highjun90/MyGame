@@ -24,6 +24,9 @@ public:
 	PlayLevel& operator=(const PlayLevel& _Other) = delete;
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
 
+	//레벨 끝났는데 다시 호출했는지
+	bool RecallLevel = false;
+
 	GameEngineSoundPlayer* GetBGMPlayerToPlayLevel()
 	{
 		return &BGMPlayerToPlayLevel;
@@ -77,6 +80,18 @@ public:
 
 		if (LevelEnd_Time2 - LevelEnd_Time1 > 6.0)
 		{
+			//음악끄고 모든요소 초기화
+			BGMPlayerToPlayLevel.Stop();
+
+			LevelPlayer->Restart();
+			MrDarkPtr->Restart();
+			DarkRaymanPtr->Restart();
+
+			LevelPlayer->SetVictoryEnd(false);
+			LevelPlayer->SetTotalLife(5);
+			LevelEnd_Time1 = 0;
+
+			RecallLevel = true;
 			GameEngineCore::ChangeLevel("EndingLevel");
 			//엔딩레벨로 넘어가야함
 		}
@@ -122,6 +137,8 @@ private:
 	FadeObject* FObject = nullptr;
 	bool FObjectRestart = false;
 	bool FobjectLevelEnd = false;
+
+	
 	//bool FObjectStart = true;
 };
 
