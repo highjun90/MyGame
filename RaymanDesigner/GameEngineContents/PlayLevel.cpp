@@ -250,6 +250,12 @@ void PlayLevel::Update(float _Delta)
 		}
 	}
 	
+	//레이맨 승리하면 하는 행동
+	if (LevelPlayer->State == PlayerState::Victory)
+	{
+		
+	
+	}
 }
 
 
@@ -271,7 +277,8 @@ void PlayLevel::LevelStart(GameEngineLevel* _PrevLevel)
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 {
-
+	FObject->SetValue(0.0f);
+	FObject->SetFade(false); //밝은데 어두워짐
 }
 
 void PlayLevel::Restart()

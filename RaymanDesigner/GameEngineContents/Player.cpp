@@ -81,19 +81,16 @@ void Player::Start()
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_RaymanDie.bmp"), 10, 1);
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_RaymanDie.bmp"), 10, 1);
 
-		//죽기 빛 스트라이트 등록
+		//죽기 빛 스프라이트 등록
 		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("RaymanDieLight.bmp"), 7, 1);
+
+		//엎드리기 스프라이트 등록
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Left_RaymanLie.bmp"), 23, 1);
+		ResourcesManager::GetInst().CreateSpriteSheet(FilePath.PlusFilePath("Right_RaymanLie.bmp"), 23, 1);
 
 		//UI 등록
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("UI_LifeAndHp.bmp"));
 		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("UI_LeftDownMarble.bmp"));
-
-		//선생님코드
-	/*	FolderPath.MoveChild("ContentsResources\\Texture\\");
-		ResourcesManager::GetInst().CreateSpriteFolder("FolderPlayer", FolderPath.PlusFilePath("FolderPlayer"));
-
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("Test.bmp"));
-		ResourcesManager::GetInst().TextureLoad(FilePath.PlusFilePath("HPBar.bmp"));*/
 	}
 
 	{
@@ -141,6 +138,13 @@ void Player::Start()
 		//죽기 빛 애니메이션 등록
 		MainRenderer->CreateAnimation("RaymanDieLight", "RaymanDieLight.bmp", 0, 6, 0.08f, false);
 
+		//엎드리고있기 애니메이션 등록
+		MainRenderer->CreateAnimation("Left_RaymamLieIdle", "Left_RaymanLie.bmp", 0, 3, 0.04f, false);
+		MainRenderer->CreateAnimation("Right_RaymamLieIdle", "Right_RaymanLie.bmp", 0, 3, 0.04f, false);
+
+		//엎으려서 가기 애니메이션 등록
+		MainRenderer->CreateAnimation("Left_RaymamLieMove", "Left_RaymanLie.bmp", 4, 22, 0.04f, true);
+		MainRenderer->CreateAnimation("Right_RaymamLieMove", "Right_RaymanLie.bmp", 4, 22, 0.04f, true);
 	
 		MainRenderer->SetRenderScaleToTexture();
 
@@ -303,7 +307,7 @@ void Player::Update(float _Delta)
 
 
 	//디버그 모드
-	if (true == GameEngineInput::IsDown('V') && State != PlayerState::Die)
+	if (true == GameEngineInput::IsDown('V') && State != PlayerState::Die && State != PlayerState::Victory)
 	{
 
 		if (DebugMode == false)
