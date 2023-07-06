@@ -45,11 +45,13 @@ void Player::SprintJumpStart()
 
 void Player::LieStart()
 {
+	SwitchToLieCollision();
 	ChangeAnimationState("RaymanLie");
 }
 
 void Player::LieMoveStart()
 {
+	SwitchToLieCollision();
 	ChangeAnimationState("RaymanLieMove");
 }
 
@@ -69,6 +71,7 @@ void Player::VictoryStart()
 
 void Player::DieStart()
 {
+	MainRenderer->SetRenderPos({ 0,0 });
 	GameEngineSound::SoundPlay("RaymanDie.mp3");
 	ChangeAnimationState("RaymanDie");
 }
@@ -722,6 +725,9 @@ void Player::LieUpdate(float _Delta)
 		++TestValue;
 	}
 
+	MainRenderer->SetRenderPos(LieRenderPoint);
+
+
 	{
 		unsigned int Color = GetGroundColor(RGB(255, 255, 255), DownCheck);
 		if (RGB(255, 255, 255) == Color)
@@ -765,6 +771,9 @@ void Player::LieUpdate(float _Delta)
 	if (true == GameEngineInput::IsUp('S'))
 	{
 		DirCheck();
+
+		MainRenderer->SetRenderPos({ 0,0 });
+		SwitchToBodyCollsion();
 		ChanageState(PlayerState::Idle);
 
 	}
@@ -818,7 +827,7 @@ void Player::LieMoveUpdate(float _Delta)
 
 	if (true == GameEngineInput::IsPress('A') && Dir == PlayerDir::Left)
 	{
-		CheckPos = LeftCheck;
+		CheckPos = LeftCheck_Lie;
 
 		MovePos = { -Speed * _Delta, 0.0f };
 
@@ -827,13 +836,17 @@ void Player::LieMoveUpdate(float _Delta)
 	}
 	else if (true == GameEngineInput::IsPress('D') && Dir == PlayerDir::Right)
 	{
-		CheckPos = RightCheck;
+		CheckPos = RightCheck_Lie;
 
 		MovePos = { Speed * _Delta, 0.0f };
 	}
 
 
-
+	if (true == GameEngineInput::IsUp('A') || true == GameEngineInput::IsUp('D'))
+	{
+		DirCheck();
+		ChanageState(PlayerState::Lie);
+	}
 	////달리는 키 눌렀을때 상태전환
 	//if (true == GameEngineInput::IsPress('A') && GameEngineInput::IsPress('J') && Dir == PlayerDir::Left)
 	//{
@@ -901,7 +914,9 @@ void Player::LieMoveUpdate(float _Delta)
 	if (true == GameEngineInput::IsUp('S'))
 	{
 		DirCheck();
-		ChanageState(PlayerState::Run);
+		MainRenderer->SetRenderPos({ 0,0 });
+		SwitchToBodyCollsion();
+		ChanageState(PlayerState::Idle);
 
 	}
 

@@ -21,7 +21,7 @@ void DarkRayman::Start()
 	float4 StartPoint = { 1300,2500 };
 	SetPos(StartPoint);
 	DarkRaymanRenderer = CreateRenderer(190);
-	
+
 
 	if (false == ResourcesManager::GetInst().IsLoadTexture("Left_DarkRaymanIdle.bmp"))
 	{
@@ -97,12 +97,12 @@ void DarkRayman::Start()
 		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanDie", "RIght_DarkRaymanDie.bmp", 0, 39, 0.04f, false);
 
 		//엎드리고있기 애니메이션 등록
-		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanLie", "Left_DarkRaymanLie.bmp", 0, 3, 0.04f, false);
-		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanLie", "Right_DarkRaymanLie.bmp", 0, 3, 0.04f, false);
+		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanLie", "Left_DarkRaymanLie.bmp", 2, 3, 0.04f, false);
+		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanLie", "Right_DarkRaymanLie.bmp", 2, 3, 0.04f, false);
 		//엎으려서 가기 애니메이션 등록
-		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanLieMove", "Left_DarkRaymanLie.bmp", 4, 22, 0.02f, true);
-		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanLieMove", "Right_DarkRaymanLie.bmp", 4, 22, 0.02f, true);
-		
+		DarkRaymanRenderer->CreateAnimation("Left_DarkRaymanLieMove", "Left_DarkRaymanLie.bmp", 3, 22, 0.02f, true);
+		DarkRaymanRenderer->CreateAnimation("Right_DarkRaymanLieMove", "Right_DarkRaymanLie.bmp", 3, 22, 0.02f, true);
+
 	}
 
 
@@ -110,6 +110,12 @@ void DarkRayman::Start()
 	DarkRaymanCollsion->SetCollisionScale({ 50, 110 });
 	DarkRaymanCollsion->SetCollisionType(CollisionType::Rect);
 	DarkRaymanCollsion->Off();
+
+	DarkRaymanLieCollsion = CreateCollision(CollisionOrder::DarkRayManBody);
+	DarkRaymanLieCollsion->SetCollisionScale({ 60, 60 });
+	DarkRaymanLieCollsion->SetCollisionType(CollisionType::Rect);
+	DarkRaymanLieCollsion->SetCollisionPos({ 0,60 });
+	DarkRaymanLieCollsion->Off();
 
 	DarkRaymanRenderer->SetRenderScaleToTexture();
 
@@ -159,6 +165,7 @@ void DarkRayman::Update(float _Delta)
 	{
 		DarkRaymanRenderer->On();
 		DarkRaymanCollsion->On();
+		//DarkRaymanLieCollsion->On();
 
 		SetChase(true);
 	}
@@ -171,6 +178,7 @@ void DarkRayman::Update(float _Delta)
 		SetChase(true);
 	}*/
 
+	
 	//레이맨 충돌시 하는 행동
 	std::vector<GameEngineCollision*> _DarkRaymanBodyCol;
 	if (true == DarkRaymanCollsion->Collision(CollisionOrder::PlayerBody, _DarkRaymanBodyCol
@@ -178,17 +186,21 @@ void DarkRayman::Update(float _Delta)
 		, CollisionType::Rect // 상대도 사각형으로 봐줘
 	))
 	{
-		//DarkRaymanRenderer->Off();
-		//DarkRaymanCollsion->Off();
-
-		//std::string ChangeAni01 = PastRaymanDatas[Index_PastRaymanDatas]->AnimationName;
-		//std::string ChangeAni02 = Matching_RaymanAniname.at(ChangeAni01);
-		//DarkRaymanRenderer->ChangeAnimation("Left_DarkRaymanDie");
-
 		Die();
 		
 		SetChase(false);
-		//SetRecordRayman(false);
+		ResetLiveTime();
+		Live = false;
+	}
+
+	if (true == DarkRaymanLieCollsion->Collision(CollisionOrder::PlayerBody, _DarkRaymanBodyCol
+		, CollisionType::Rect // 나를 사각형으로 봐줘
+		, CollisionType::Rect // 상대도 사각형으로 봐줘
+	))
+	{
+
+		Die();
+		SetChase(false);
 		ResetLiveTime();
 		Live = false;
 	}
@@ -213,6 +225,19 @@ void DarkRayman::Update(float _Delta)
 	else if(Live == true && NowChase == true)
 	{
 		ChaseRayman();
+
+		//엎드리기 일땐 충돌체, 렌더링 위치를 바꿔준다
+		std::string LieCheck = DarkRaymanRenderer->GetCurAnimationName();
+		if (LieCheck == "Left_DarkRaymanLie" || LieCheck == "Left_DarkRaymanLieMove" || LieCheck == "Right_DarkRaymanLie" || LieCheck == "Right_DarkRaymanLieMove")
+		{
+			DarkRaymanRenderer->SetRenderPos(RaymanPtr->GetLieRenderPoint());
+			SwitchToLieCollsion();
+		}
+		else
+		{
+			DarkRaymanRenderer->SetRenderPos({ 0,0 });
+			SwitchToBodyCollsion();
+		}
 	}
 
 	//if (NowRecord == true && NowChase == false)
@@ -225,10 +250,16 @@ void DarkRayman::Update(float _Delta)
 	//	ChaseRayman();
 	//}
 
+	
+	
+
 	if (PlayerState::Die == RaymanPtr->State)
 	{
 		DarkRaymanCollsion->Off();
+		DarkRaymanLieCollsion->Off();
 	}
+
+	
 }
 
 
@@ -248,6 +279,8 @@ void DarkRayman::Render(float _Delta)
 		float4 DarkRaymanScale = RaymanPtr->MainRenderer->GetRenderScale();
 		DarkRaymanRenderer->SetRenderScale(DarkRaymanScale);
 	}
+
+	
 
 }
 void DarkRayman::RecordRaymanData()
@@ -327,6 +360,7 @@ void DarkRayman::Restart()
 	std::string AniName = "Right_DarkRaymanJumpHold";
 	DarkRaymanRenderer->ChangeAnimation(AniName);
 	DarkRaymanCollsion->Off();
+	DarkRaymanLieCollsion->Off();
 	DarkRaymanRenderer->Off();
 	
 	//다크레이맨 상태 초기화
@@ -336,4 +370,16 @@ void DarkRayman::Restart()
 	
 
 	
+}
+
+void DarkRayman::SwitchToBodyCollsion()
+{
+	DarkRaymanCollsion->On();
+	DarkRaymanLieCollsion->Off();
+}
+
+void DarkRayman::SwitchToLieCollsion()
+{
+	DarkRaymanCollsion->Off();
+	DarkRaymanLieCollsion->On();
 }

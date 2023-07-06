@@ -104,6 +104,15 @@ public:
 		return Dir;
 	}
 
+	float4 GetLieRenderPoint()
+	{
+		return LieRenderPoint;
+	}
+
+	void SwitchToLieCollision();
+	void SwitchToBodyCollsion();
+
+
 	PlayerState State = PlayerState::Max;
 	PlayerDir Dir = PlayerDir::Right;
 	std::string CurState = "";
@@ -152,6 +161,7 @@ protected:
 	int TestValue = 0;
 
 	GameEngineCollision* BodyCollsion = nullptr;
+	GameEngineCollision* LieCollsion = nullptr;
 
 	void DirCheck();
 
@@ -166,6 +176,7 @@ private:
 	void Render(float _Delta) override;
 
 	float JumpSpeed = 300.0f;
+	float4 LieRenderPoint = { 0, 60 };
 
 	int TotalLife = 0;
 	bool LoseGame = false;
@@ -181,6 +192,7 @@ private:
 	float4 RightCheck = { 50.0f, -50.0f };
 	float4 DownCheck = { 0, 90.0f };
 
-
+	float4 LeftCheck_Lie = { -50.0f, 20.0f };
+	float4 RightCheck_Lie = { 50.0f, 20.0f };
 };
 

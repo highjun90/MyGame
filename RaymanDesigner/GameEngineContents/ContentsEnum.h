@@ -20,6 +20,7 @@ enum class CollisionOrder
 	Map,
 	Potal,
 	PlayerBody,
+	PlayerLie,
 	MonsterBody,
 	DarkRayManBody,
 	GoalPoint

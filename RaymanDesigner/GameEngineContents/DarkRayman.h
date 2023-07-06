@@ -23,6 +23,7 @@ public:
 
 	GameEngineRenderer* DarkRaymanRenderer = nullptr;
 	GameEngineCollision* DarkRaymanCollsion = nullptr;
+	GameEngineCollision* DarkRaymanLieCollsion = nullptr;
 
 	void SetRaymanPtr(Player* _RaymanPtr) 
 	{
@@ -62,6 +63,9 @@ public:
 		return RecordRayman;
 	}
 
+	void SwitchToBodyCollsion();
+	void SwitchToLieCollsion();
+
 	void RecordRaymanData();
 	void AddRaymanData();
 	void AddRaymanData(int _Index);
@@ -91,4 +95,6 @@ private:
 
 
 	std::map<std::string, std::string> Matching_RaymanAniname;
+
+	float4 LieRenderPoint = { 0, 60 };
 };  

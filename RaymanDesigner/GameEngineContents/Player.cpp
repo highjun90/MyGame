@@ -139,11 +139,11 @@ void Player::Start()
 		MainRenderer->CreateAnimation("RaymanDieLight", "RaymanDieLight.bmp", 0, 6, 0.08f, false);
 
 		//엎드리고있기 애니메이션 등록
-		MainRenderer->CreateAnimation("Left_RaymanLie", "Left_RaymanLie.bmp", 0, 3, 0.04f, false);
-		MainRenderer->CreateAnimation("Right_RaymanLie", "Right_RaymanLie.bmp", 0, 3, 0.04f, false);
+		MainRenderer->CreateAnimation("Left_RaymanLie", "Left_RaymanLie.bmp", 2, 3, 0.04f, false);
+		MainRenderer->CreateAnimation("Right_RaymanLie", "Right_RaymanLie.bmp", 2, 3, 0.04f, false);
 		//엎으려서 가기 애니메이션 등록
-		MainRenderer->CreateAnimation("Left_RaymanLieMove", "Left_RaymanLie.bmp", 4, 22, 0.02f, true);
-		MainRenderer->CreateAnimation("Right_RaymanLieMove", "Right_RaymanLie.bmp", 4, 22, 0.02f, true);
+		MainRenderer->CreateAnimation("Left_RaymanLieMove", "Left_RaymanLie.bmp", 3, 22, 0.02f, true);
+		MainRenderer->CreateAnimation("Right_RaymanLieMove", "Right_RaymanLie.bmp", 3, 22, 0.02f, true);
 	
 		MainRenderer->SetRenderScaleToTexture();
 
@@ -179,7 +179,15 @@ void Player::Start()
 		BodyCollsion = CreateCollision(CollisionOrder::PlayerBody);
 		BodyCollsion->SetCollisionScale({ 60, 120 });
 		BodyCollsion->SetCollisionType(CollisionType::Rect);
+
+		LieCollsion = CreateCollision(CollisionOrder::PlayerBody);
+		LieCollsion->SetCollisionScale({ 60, 60 });
+		LieCollsion->SetCollisionType(CollisionType::Rect);
+		LieCollsion->SetCollisionPos(LieRenderPoint);
+		LieCollsion->Off();
 	}
+
+
 
 	//ChanageState(PlayerState::Idle);
 	ChanageState(PlayerState::JumpHold);
@@ -222,6 +230,7 @@ void Player::Restart()
 	ChanageState(PlayerState::JumpHold);
 	Dir = PlayerDir::Right;
 	SetLoseGame(false);
+	MainRenderer->SetRenderPos({ 0,0 });
 	ResetLiveTime();
 }
 
@@ -272,6 +281,13 @@ void Player::Update(float _Delta)
 	//다크레이맨 몸 충돌체크
 	std::vector<GameEngineCollision*> _DarkRaymanBodyCol;
 	if (true == BodyCollsion->Collision(CollisionOrder::DarkRayManBody, _DarkRaymanBodyCol
+		, CollisionType::Rect // 나를 사각형으로 봐줘
+		, CollisionType::Rect // 상대도 사각형으로 봐줘
+	))
+	{
+		ChanageState(PlayerState::Die);
+	}
+	if (true == LieCollsion->Collision(CollisionOrder::DarkRayManBody, _DarkRaymanBodyCol
 		, CollisionType::Rect // 나를 사각형으로 봐줘
 		, CollisionType::Rect // 상대도 사각형으로 봐줘
 	))
@@ -404,11 +420,20 @@ void Player::Update(float _Delta)
 		{
 			DebugRaymanCollision = false;
 			BodyCollsion->Off();
+			LieCollsion->Off();
 		}
 		else if (DebugRaymanCollision == false)
 		{
 			DebugRaymanCollision = true;
-			BodyCollsion->On();
+
+			if (State == PlayerState::Lie || State == PlayerState::LieMove)
+			{
+				LieCollsion->On();
+			}
+			else
+			{
+				BodyCollsion->On();
+			}
 		}
 	}
 
@@ -799,7 +824,36 @@ void Player::Render(float _Delta)
 		//아래점
 		Data.Pos = ActorCameraPos() + DownCheck;
 		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		//왼쪽점(엎드렸을때 사용)
+		Data.Pos = ActorCameraPos() + LeftCheck_Lie;
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
+		//오른쪽점(엎드렸을때 사용)
+		Data.Pos = ActorCameraPos() + RightCheck_Lie;
+		Rectangle(dc, Data.iLeft(), Data.iTop(), Data.iRight(), Data.iBot());
+
 	}
 
 
+}
+
+void Player::SwitchToLieCollision()
+{
+	if (DebugRaymanCollision == false)
+	{
+		return;
+	}
+	BodyCollsion->Off();
+	LieCollsion->On();
+}
+
+void Player::SwitchToBodyCollsion()
+{
+	if (DebugRaymanCollision == false)
+	{
+		return;
+	}
+	BodyCollsion->On();
+	LieCollsion->Off();
 }
